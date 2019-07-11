@@ -9,9 +9,9 @@ import {
     Watch,
     h
 } from '@stencil/core'
-import { ComboItem, ComboPosition, KetchupComboEvent } from './kup-combo-declarations';
+import { ComboItem, KetchupComboEvent } from './kup-combo-declarations';
 import { eventFromElement } from "../../utils/utils";
-import { getElementOffset } from "../../utils/offset";
+import {ElementAlignment, getElementAlignment, getElementOffset} from "../../utils/offset";
 import {GenericObject} from "../../types/GenericTypes";
 
 /*
@@ -88,7 +88,7 @@ export class KupCombo {
     // Holds reference to the comboText
     comboText!: HTMLInputElement;
     // Determines the position on which the menu will be open
-    comboPosition: ComboPosition = {
+    comboPosition: ElementAlignment = {
         isRight: false,
         isTop: false
     };
@@ -132,7 +132,7 @@ export class KupCombo {
      */
     @Method()
     async openCombo() {
-        this.comboPosition = this.calcBoxPosition();
+        this.comboPosition = getElementAlignment(this.comboText);
         this.isOpen = true;
     }
 
@@ -150,17 +150,6 @@ export class KupCombo {
     @Watch('valueField')
     reflectValueField(newValue: string) {
         this.value = this.selected ? this.selected[newValue] : '';
-    }
-
-    // Calculates where the box must be positioned according to the position the text input is placed
-    calcBoxPosition() {
-        const windowX = document.documentElement.clientWidth;
-        const windowY = document.documentElement.clientHeight;
-        const {height, left, top, width} = this.comboText.getBoundingClientRect();
-        return {
-            isRight: left + width / 2 > windowX / 2,
-            isTop: top + height / 2 > windowY / 2
-        };
     }
 
     //---- Events and handlers ----

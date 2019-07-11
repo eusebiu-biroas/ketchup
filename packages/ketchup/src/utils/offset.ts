@@ -1,6 +1,25 @@
 /**
+ * Interface for aligning elements
+ */
+export interface ElementAlignment {
+    isRight: boolean;
+    isTop: boolean;
+}
+
+// Calculates where the box must be positioned according to the position the text input is placed
+export function getElementAlignment(element: HTMLElement): ElementAlignment {
+    const windowX = document.documentElement.clientWidth;
+    const windowY = document.documentElement.clientHeight;
+    const {height, left, top, width} = element.getBoundingClientRect();
+    return {
+        isRight: left + width / 2 > windowX / 2,
+        isTop: top + height / 2 > windowY / 2
+    };
+}
+
+/**
  * Offset Interface
- **/
+ */
 export interface ElementOffset {
     bottom?: number;
     left?: number;
