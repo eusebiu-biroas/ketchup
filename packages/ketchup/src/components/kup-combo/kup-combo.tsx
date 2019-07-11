@@ -11,7 +11,11 @@ import {
 } from '@stencil/core'
 import { ComboItem, KetchupComboEvent } from './kup-combo-declarations';
 import { eventFromElement } from "../../utils/utils";
-import {ElementAlignment, getElementAlignment, getElementOffset} from "../../utils/offset";
+import {
+    ElementAlignment,
+    getElementAlignment,
+    getElementOffset
+} from "../../utils/offset";
 import {GenericObject} from "../../types/GenericTypes";
 
 /*
