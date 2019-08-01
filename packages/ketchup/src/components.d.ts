@@ -52,6 +52,9 @@ import {
   Badge,
 } from './components/kup-image/kup-image-declarations';
 import {
+  PaginatorMode,
+} from './components/kup-paginator/kup-paginator-declarations';
+import {
   JSX,
 } from '@stencil/core';
 import {
@@ -391,6 +394,7 @@ export namespace Components {
   interface KupPaginator {
     'currentPage': number;
     'max': number;
+    'mode': PaginatorMode;
     'perPage': number;
     'selectedPerPage': number;
   }
@@ -1102,6 +1106,7 @@ declare namespace LocalJSX {
   interface KupPaginator extends JSXBase.HTMLAttributes<HTMLKupPaginatorElement> {
     'currentPage'?: number;
     'max'?: number;
+    'mode'?: PaginatorMode;
     /**
     * When the current page change
     */

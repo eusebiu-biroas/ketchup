@@ -1,25 +1,39 @@
 @import url(https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css);
 
 /**
-* @prop --int_text-color, --kup-paginator_text-color: Set color of text
-* @prop --int_font-size, --kup-paginator_font-size: Set size of the font
+* @prop --paginator_text-color, --kup-paginator_text-color: Set color of text
+* @prop --paginator_font-size, --kup-paginator_font-size: Set size of the font
 */
 
 :host {
   // variables
-  --int_text-color: var(--kup-paginator_text-color, $mainTextColor);
-  --int_font-size: var(--kup-paginator_font-size, 1rem);
+  --paginator_text-color: var(--kup-paginator_text-color, #{$mainTextColor});
+  --paginator_font-size: var(--kup-paginator_font-size, 1rem);
+  --paginator_active-font-size: var(--kup-paginator_active-font-size, 1.1rem);
 }
 
-#paginator {
-  color: var(--int_text-color);
+#paginator,
+#simple-paginator {
+  color: var(--paginator_text-color);
   margin: 0.5rem 0;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  font-size: var(--int_font-size);
+  box-sizing: border-box;
+  outline: none;
+  font-size: var(--paginator_font-size);
+}
 
-  icon {
+#paginator {
+  justify-content: space-between;
+
+  select,
+  .nextPageGroup {
+    margin: 0 0.5rem;
+  }
+
+  .prev-page,
+  .next-page {
+    margin: 0 0.25rem;
     cursor: pointer;
     opacity: 1;
     transition: opacity 0.1s ease-in-out;
@@ -34,17 +48,55 @@
     }
   }
 
-  select,
-  .nextPageGroup {
-    margin: 0 0.5rem;
-  }
-
-  .prev-page,
-  .next-page {
-    margin: 0 0.25rem;
-  }
-
   .nextPageGroup {
     padding-right: 1.5rem;
+  }
+}
+
+#simple-paginator {
+  justify-content: center;
+  align-items: center;
+
+  > div {
+    display: flex;
+
+    svg {
+      fill: var(--paginator_text-color);
+    }
+
+    &:hover:not(.disabled) {
+      opacity: 0.75;
+    }
+
+    &.disabled {
+      cursor: default;
+      opacity: 0.3;
+    }
+  }
+
+  .page-number {
+    color: var(--paginator_text-color);
+    cursor: pointer;
+    padding: 1px 5px;
+    border-bottom: 1px solid transparent;
+    opacity: 1;
+    transition: opacity 250ms ease-in;
+    height: 26px;
+    width: 26px;
+    line-height: 26px;
+    box-sizing: border-box;
+    justify-content: center;
+    margin: 0 3px;
+
+    &:hover {
+      transition: opacity 250ms ease-out;
+      opacity: 0.75;
+      border-bottom: 1px solid var(--paginator_text-color);
+    }
+
+    &.active {
+      border-bottom: 1px solid var(--paginator_text-color);
+      font-size: var(--paginator_active-font-size);
+    }
   }
 }

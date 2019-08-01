@@ -7,12 +7,13 @@
 
 ## Properties
 
-| Property          | Attribute           | Description | Type     | Default |
-| ----------------- | ------------------- | ----------- | -------- | ------- |
-| `currentPage`     | `current-page`      |             | `number` | `1`     |
-| `max`             | `max`               |             | `number` | `0`     |
-| `perPage`         | `per-page`          |             | `number` | `10`    |
-| `selectedPerPage` | `selected-per-page` |             | `number` | `10`    |
+| Property          | Attribute           | Description | Type                                         | Default                |
+| ----------------- | ------------------- | ----------- | -------------------------------------------- | ---------------------- |
+| `currentPage`     | `current-page`      |             | `number`                                     | `1`                    |
+| `max`             | `max`               |             | `number`                                     | `0`                    |
+| `mode`            | `mode`              |             | `PaginatorMode.FULL \| PaginatorMode.SIMPLE` | `PaginatorMode.SIMPLE` |
+| `perPage`         | `per-page`          |             | `number`                                     | `10`                   |
+| `selectedPerPage` | `selected-per-page` |             | `number`                                     | `10`                   |
 
 
 ## Events
@@ -25,10 +26,10 @@
 
 ## CSS Custom Properties
 
-| Name                                           | Description          |
-| ---------------------------------------------- | -------------------- |
-| `--int_font-size, --kup-paginator_font-size`   | Set size of the font |
-| `--int_text-color, --kup-paginator_text-color` | Set color of text    |
+| Name                                                 | Description          |
+| ---------------------------------------------------- | -------------------- |
+| `--paginator_font-size, --kup-paginator_font-size`   | Set size of the font |
+| `--paginator_text-color, --kup-paginator_text-color` | Set color of text    |
 
 
 ## Dependencies
