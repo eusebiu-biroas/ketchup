@@ -108,6 +108,12 @@ export default {
             },
           },
           {
+            title: 'Pagination',
+            to: {
+              name: 'boxPagination',
+            },
+          },
+          {
             title: 'Selection',
             to: {
               name: 'boxSel',
@@ -288,14 +294,14 @@ export default {
           {
             title: 'Button Cell (J4btn)',
             to: {
-              name: 'dtButtonCell'
-            }
+              name: 'dtButtonCell',
+            },
           },
           {
             title: 'Checkbox Cell',
             to: {
-              name: 'dtCheckboxCell'
-            }
+              name: 'dtCheckboxCell',
+            },
           },
         ],
       },

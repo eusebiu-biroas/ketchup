@@ -28,7 +28,7 @@ export class KupPaginator {
     currentPage = 1;
 
     @Prop({ reflect: true })
-    mode: PaginatorMode = PaginatorMode.SIMPLE;
+    mode: PaginatorMode = PaginatorMode.FULL;
 
     /**
      * When the current page change
@@ -242,6 +242,7 @@ export class KupPaginator {
                     aria-label="First page"
                     onClick={() => this.onFirstPage()}
                     class={{
+                        'first-page': true,
                         disabled: this.isPrevPageDisabled(),
                     }}
                 >
@@ -259,6 +260,7 @@ export class KupPaginator {
                     aria-label="Previous page"
                     onClick={() => this.onPrevPage()}
                     class={{
+                        'prev-page': true,
                         disabled: this.isPrevPageDisabled(),
                     }}
                 >
@@ -278,6 +280,7 @@ export class KupPaginator {
                     aria-label="Next page"
                     onClick={() => this.onNextPage()}
                     class={{
+                        'next-page': true,
                         disabled: this.isNextPageDisabled(),
                     }}
                 >
@@ -295,6 +298,7 @@ export class KupPaginator {
                     aria-label="Last page"
                     onClick={() => this.onLastPage()}
                     class={{
+                        'last-page': true,
                         disabled: this.isNextPageDisabled(),
                     }}
                 >

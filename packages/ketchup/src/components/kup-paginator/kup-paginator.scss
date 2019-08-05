@@ -16,14 +16,14 @@
 #simple-paginator {
   color: var(--paginator_text-color);
   margin: 0.5rem 0;
-  display: flex;
-  flex-wrap: wrap;
   box-sizing: border-box;
   outline: none;
   font-size: var(--paginator_font-size);
 }
 
 #paginator {
+  display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
 
   select,
@@ -54,11 +54,18 @@
 }
 
 #simple-paginator {
-  justify-content: center;
-  align-items: center;
+  // justify-content: center;
+  // align-items: center;
+  border: 1px solid #{$gray-e0};
+  border-radius: 3px;
+  display: inline-flex;
 
   > div {
-    display: flex;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
 
     svg {
       fill: var(--paginator_text-color);
@@ -72,31 +79,36 @@
       cursor: default;
       opacity: 0.3;
     }
-  }
 
-  .page-number {
-    color: var(--paginator_text-color);
-    cursor: pointer;
-    padding: 1px 5px;
-    border-bottom: 1px solid transparent;
-    opacity: 1;
-    transition: opacity 250ms ease-in;
-    height: 26px;
-    width: 26px;
-    line-height: 26px;
-    box-sizing: border-box;
-    justify-content: center;
-    margin: 0 3px;
+    &.page-number {
+      color: var(--paginator_text-color);
+      padding: 1px 5px;
+      opacity: 1;
+      transition: opacity 250ms ease-in;
+      height: 26px;
+      width: 26px;
+      line-height: 26px;
+      box-sizing: border-box;
 
-    &:hover {
-      transition: opacity 250ms ease-out;
-      opacity: 0.75;
-      border-bottom: 1px solid var(--paginator_text-color);
-    }
+      &:hover {
+        transition: opacity 250ms ease-out;
+        opacity: 0.75;
+      }
 
-    &.active {
-      border-bottom: 1px solid var(--paginator_text-color);
-      font-size: var(--paginator_active-font-size);
+      &.active,
+      &:hover {
+        background-color: #{$smeup-primary};
+        color: white;
+      }
     }
   }
+
+  > div:not(:last-child) {
+    border-right: 1px solid #{$gray-e0};
+  }
+}
+
+:host([mode='simple']) {
+  display: flex;
+  justify-content: center;
 }

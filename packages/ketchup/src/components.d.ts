@@ -101,6 +101,14 @@ export namespace Components {
     */
     'multiSelection': boolean;
     /**
+    * Number of boxes per page
+    */
+    'pageSize': number;
+    /**
+    * Enables pagination
+    */
+    'pagination': boolean;
+    /**
     * Automatically selects the box at the specified index
     */
     'selectBox': number;
@@ -739,6 +747,14 @@ declare namespace LocalJSX {
     'onKupRowActionMenuClicked'?: (event: CustomEvent<{
       row: BoxRow;
     }>) => void;
+    /**
+    * Number of boxes per page
+    */
+    'pageSize'?: number;
+    /**
+    * Enables pagination
+    */
+    'pagination'?: boolean;
     /**
     * Automatically selects the box at the specified index
     */
