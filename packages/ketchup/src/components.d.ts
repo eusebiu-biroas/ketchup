@@ -71,6 +71,10 @@ export namespace Components {
     'position': BadgePosition;
     'text': string;
   }
+  interface KupBlb {
+    'name': string;
+    'value': boolean;
+  }
   interface KupBox {
     /**
     * Number of columns
@@ -527,6 +531,12 @@ declare global {
     new (): HTMLKupBadgeElement;
   };
 
+  interface HTMLKupBlbElement extends Components.KupBlb, HTMLStencilElement {}
+  var HTMLKupBlbElement: {
+    prototype: HTMLKupBlbElement;
+    new (): HTMLKupBlbElement;
+  };
+
   interface HTMLKupBoxElement extends Components.KupBox, HTMLStencilElement {}
   var HTMLKupBoxElement: {
     prototype: HTMLKupBoxElement;
@@ -648,6 +658,7 @@ declare global {
   };
   interface HTMLElementTagNameMap {
     'kup-badge': HTMLKupBadgeElement;
+    'kup-blb': HTMLKupBlbElement;
     'kup-box': HTMLKupBoxElement;
     'kup-btn': HTMLKupBtnElement;
     'kup-button': HTMLKupButtonElement;
@@ -676,6 +687,10 @@ declare namespace LocalJSX {
     'icon'?: string;
     'position'?: BadgePosition;
     'text'?: string;
+  }
+  interface KupBlb extends JSXBase.HTMLAttributes<HTMLKupBlbElement> {
+    'name'?: string;
+    'value'?: boolean;
   }
   interface KupBox extends JSXBase.HTMLAttributes<HTMLKupBoxElement> {
     /**
@@ -1250,6 +1265,7 @@ declare namespace LocalJSX {
 
   interface IntrinsicElements {
     'kup-badge': KupBadge;
+    'kup-blb': KupBlb;
     'kup-box': KupBox;
     'kup-btn': KupBtn;
     'kup-button': KupButton;
