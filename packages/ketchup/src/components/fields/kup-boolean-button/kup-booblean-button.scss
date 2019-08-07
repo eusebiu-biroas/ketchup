@@ -1,0 +1,11 @@
+button {
+  background: red;
+  border: none;
+  padding: 8px;
+  border-radius: 4px;
+  color: white;
+  //quando è value.vero metto active ma non posso scivere classi quiù
+  &.active {
+    background: green;
+  }
+}

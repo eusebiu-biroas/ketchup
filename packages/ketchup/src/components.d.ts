@@ -690,6 +690,7 @@ declare namespace LocalJSX {
   }
   interface KupBlb extends JSXBase.HTMLAttributes<HTMLKupBlbElement> {
     'name'?: string;
+    'onKupBlbChanged'?: (event: CustomEvent<boolean>) => void;
     'value'?: boolean;
   }
   interface KupBox extends JSXBase.HTMLAttributes<HTMLKupBoxElement> {
