@@ -1,11 +1,25 @@
+/**
+ * @prop --blb_background, --kup-blb_background: Sets the background color
+ * @prop --blb_text-color, --kup-blb_text-color: Sets the text color
+*/
+
+:host {
+  --blb_color: var(--kup-blb_color, white);
+  --blb_background: var(--kup-blb_background, black);
+}
+
 button {
   background: red;
+  background: var(--blb_background);
   border: none;
   padding: 8px;
   border-radius: 4px;
-  color: white;
-  //quando è value.vero metto active ma non posso scivere classi quiù
+  color: black;
+  color: var(--blb_color);
   &.active {
     background: green;
+    background: var(--blb_background);
+    color: black;
+    color: var(--blb_color);
   }
 }

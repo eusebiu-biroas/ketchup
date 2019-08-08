@@ -716,11 +716,12 @@
 
         <br />
 
-        <!-- <kup-blb value="true" color="green"></kup-blb>
-        <kup-blb value="false" color="red"></kup-blb>
-          <kup-blb> <button>Change color</button> </kup-blb> -->
-        <kup-blb id="blb-1"> </kup-blb>
-
+        <!--  <kup-blb internalValue="true" color="green"></kup-blb>
+        <kup-blb internalValue="false" color="red"></kup-blb>
+        <kup-blb> <button>Change color</button> </kup-blb>-->
+        <kup-blb id="blb-1" color="green"> </kup-blb>
+        <kup-blb color="green" nolabel="NO" yeslabel="YES"> </kup-blb>
+        <!--blb_background="red"-->
         <script>
             const firstHtm = document.querySelector('#htm-1');
             firstHtm.addEventListener('ketchupHtmlLoaded', () => {
@@ -728,6 +729,7 @@
             });
             const kupblb = document.querySelector('#blb-1');
             kupblb.value = true;
+            //  document.getElementById('#blb-1').style.backgroundColor = 'red';
             kupblb.addEventListener('kupBlbChanged', () => {
                 console.log('kupBlbChanged success');
             });

@@ -73,7 +73,9 @@ export namespace Components {
   }
   interface KupBlb {
     'name': string;
+    'nolabel': string;
     'value': boolean;
+    'yeslabel': string;
   }
   interface KupBox {
     /**
@@ -690,8 +692,10 @@ declare namespace LocalJSX {
   }
   interface KupBlb extends JSXBase.HTMLAttributes<HTMLKupBlbElement> {
     'name'?: string;
+    'nolabel'?: string;
     'onKupBlbChanged'?: (event: CustomEvent<boolean>) => void;
     'value'?: boolean;
+    'yeslabel'?: string;
   }
   interface KupBox extends JSXBase.HTMLAttributes<HTMLKupBoxElement> {
     /**

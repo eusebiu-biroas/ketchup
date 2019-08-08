@@ -8,7 +8,8 @@ import { Component, Event, Prop, State, h, EventEmitter } from '@stencil/core';
 export class KupBooleanButton {
     @Prop() name: string;
     @Prop() value: boolean = false;
-    //  @Prop() color: string;  da fare in css
+    @Prop({ reflect: true }) yeslabel: string = 'SI';
+    @Prop({ reflect: true }) nolabel: string = 'NO';
     @State() internalValue: boolean = false;
     @Event() /**( {
         eventName: 'kupBlbChanged',
@@ -19,31 +20,20 @@ export class KupBooleanButton {
     kupBlbChanged: EventEmitter<boolean>;
 
     handleClick() {
-        // alert('Received the button click!');
-        //  <div> {this.value ? <p>Si {this.value}</p> : <p>NO</p>} </div>;
-        //  this.value = !this.value; //= di assegnazione
         this.internalValue = !this.internalValue;
         this.kupBlbChanged.emit(this.internalValue);
     }
-    /***
-     * creare var con state da usare quando utente clicca internalValue
-     * evento che mi dice che ho cliccato sul bottone
-     */
-    // creare un lifecycle
     componentWillLoad() {
         this.internalValue = this.value;
     }
     render() {
         return (
-            // <p>mi chiamo {this.name}</p>;
-
             <button
                 class={this.internalValue ? 'active' : ''}
                 onClick={this.handleClick.bind(this)}
             >
-                {this.internalValue ? 'SI' : 'NO'}
+                {this.internalValue ? this.yeslabel : this.nolabel}
             </button>
-            //   <div> {this.value ? <p>Si {this.value}</p> : <p>NO</p>} </div>
         );
     }
 }
