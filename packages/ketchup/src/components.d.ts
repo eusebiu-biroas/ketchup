@@ -154,6 +154,14 @@ export namespace Components {
     'textmode': string;
     'transparent': boolean;
   }
+  interface KupCalendar {
+    'data': DataTable;
+    'dateCol': string;
+    'descrCol': string;
+    'hideNavigation': boolean;
+    'styleCol': string;
+    'weekView': boolean;
+  }
   interface KupChart {
     'asp': ChartAspect;
     'axis': string;
@@ -646,6 +654,12 @@ declare global {
     new (): HTMLKupButtonElement;
   };
 
+  interface HTMLKupCalendarElement extends Components.KupCalendar, HTMLStencilElement {}
+  var HTMLKupCalendarElement: {
+    prototype: HTMLKupCalendarElement;
+    new (): HTMLKupCalendarElement;
+  };
+
   interface HTMLKupChartElement extends Components.KupChart, HTMLStencilElement {}
   var HTMLKupChartElement: {
     prototype: HTMLKupChartElement;
@@ -770,6 +784,7 @@ declare global {
     'kup-box': HTMLKupBoxElement;
     'kup-btn': HTMLKupBtnElement;
     'kup-button': HTMLKupButtonElement;
+    'kup-calendar': HTMLKupCalendarElement;
     'kup-chart': HTMLKupChartElement;
     'kup-checkbox': HTMLKupCheckboxElement;
     'kup-chip': HTMLKupChipElement;
@@ -902,6 +917,14 @@ declare namespace LocalJSX {
     'showtext'?: boolean;
     'textmode'?: string;
     'transparent'?: boolean;
+  }
+  interface KupCalendar extends JSXBase.HTMLAttributes<HTMLKupCalendarElement> {
+    'data'?: DataTable;
+    'dateCol'?: string;
+    'descrCol'?: string;
+    'hideNavigation'?: boolean;
+    'styleCol'?: string;
+    'weekView'?: boolean;
   }
   interface KupChart extends JSXBase.HTMLAttributes<HTMLKupChartElement> {
     'asp'?: ChartAspect;
@@ -1498,6 +1521,7 @@ declare namespace LocalJSX {
     'kup-box': KupBox;
     'kup-btn': KupBtn;
     'kup-button': KupButton;
+    'kup-calendar': KupCalendar;
     'kup-chart': KupChart;
     'kup-checkbox': KupCheckbox;
     'kup-chip': KupChip;

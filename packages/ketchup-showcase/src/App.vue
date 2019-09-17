@@ -134,6 +134,23 @@ export default {
         ],
       },
       {
+        title: 'Calendar',
+        routes: [
+          {
+            title: 'Basic',
+            to: {
+              name: 'calendarBasic',
+            },
+          },
+          {
+            title: 'Style',
+            to: {
+              name: 'calendarStyle',
+            },
+          },
+        ],
+      },
+      {
         title: 'Chart',
         routes: [
           {
