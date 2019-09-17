@@ -154,6 +154,14 @@ export namespace Components {
     'textmode': string;
     'transparent': boolean;
   }
+  interface KupCalendar {
+    'data': DataTable;
+    'dateCol': string;
+    'descrCol': string;
+    'hideNavigation': boolean;
+    'styleCol': string;
+    'weekView': boolean;
+  }
   interface KupChart {
     'asp': ChartAspect;
     'axis': string;
@@ -199,6 +207,7 @@ export namespace Components {
   interface KupCombo {
     /**
     * Programmatically close the combo box
+    * @method closeCombo
     */
     'closeCombo': () => Promise<void>;
     /**
@@ -231,10 +240,12 @@ export namespace Components {
     'obj'?: GenericObject;
     /**
     * Programmatically opens the combo box
+    * @method openCombo
     */
     'openCombo': () => Promise<void>;
     /**
     * If true, the combobox uses a Stencil portal to create the menu. Please use this feature carefully, only if needed.
+    * @see kup-portal readme for more details.
     */
     'usePortal': boolean;
     /**
@@ -263,6 +274,10 @@ export namespace Components {
     'groups': Array<GroupObject>;
     /**
     * If table header is visible and this prop is set to true, the header will be visible while scrolling the table. To make this work, it must be configured together with the data-table CSS property --kup-data-table_header-offset. It uses CSS position: sticky.
+    * @version 1.0
+    * @namespace KupDataTable.headerIsPersistent
+    * @see KupDataTable.showHeader
+    * @see https://caniuse.com/#feat=css-sticky
     */
     'headerIsPersistent': boolean;
     /**
@@ -271,10 +286,14 @@ export namespace Components {
     'loadMoreLimit': number;
     /**
     * Establish the modality of how many new records will be downloaded.  This property is regulated also by loadMoreStep.
+    * @see loadMoreStep
+    * @see loadMoreLimit
     */
     'loadMoreMode': LoadMoreMode;
     /**
     * The number of records which will be requested to be downloaded when clicking on the load more button.  This property is regulated also by loadMoreMode.
+    * @see loadMoreMode
+    * @see loadMoreLimit
     */
     'loadMoreStep': number;
     'multiSelection': boolean;
@@ -286,6 +305,7 @@ export namespace Components {
     'showGrid': ShowGrid;
     /**
     * Enables rendering of the table header.
+    * @namespace KupDataTable.showHeader
     */
     'showHeader': boolean;
     /**
@@ -311,12 +331,16 @@ export namespace Components {
     'data': any;
     /**
     * Provides an interface to get the current value programmatically
+    * @method getCurrentValue
+    * @returns
     */
     'getCurrentValue': () => Promise<string | object>;
   }
   interface KupGauge {
     /**
     * Sets how much the arc of the gauge should be thick.
+    * @namespace kup-gauge.arcThickness
+    * @see kup-gauge.size
     */
     'arcThickness': number;
     /**
@@ -373,6 +397,8 @@ export namespace Components {
     'showValue': boolean;
     /**
     * Con be used change the viewbox of the SVG. By manipulating this value, some customizations of the aspect of the gauge is achievable.
+    * @namespace kup-gauge.size
+    * @see kup-gauge.arcThickness
     */
     'size': number;
     /**
@@ -558,6 +584,7 @@ export namespace Components {
     'placeholder': string;
     /**
     * Triggers the focus event on the input text
+    * @method triggerFocus
     */
     'triggerFocus': () => Promise<void>;
   }
@@ -586,6 +613,7 @@ export namespace Components {
     'data': TreeNode[];
     /**
     * Function that gets invoked when a new set of nodes must be loaded as children of a node. Used in combination with showObjectNavigation.  When useDynamicExpansion is set, the tree component will have two different behaviors depending on the value of this prop. 1 - If this prop is set to null, no callback to download data is available:     the component will emit an event requiring the parent to load the children of the given node. 2 - If this prop is set to have a callback, then the component will automatically make requests to load children of     a given node. After the load has been completed, a different event will be fired to alert the parent of the change.
+    * @see useDynamicExpansion
     */
     'dynamicExpansionCallback': (treeNodeToExpand: TreeNode, treeNodePath: TreeNodePath) => Promise<TreeNode[]> | undefined;
     /**
@@ -602,6 +630,7 @@ export namespace Components {
     'showColumns': boolean;
     /**
     * Flag: shows the header of the tree when the tree is displayed as a table.
+    * @see showColumns
     */
     'showHeader': boolean;
     /**
@@ -614,6 +643,7 @@ export namespace Components {
     'showObjectNavigation': boolean;
     /**
     * When the component must use the dynamic expansion feature to open its nodes, it means that not all the nodes of the tree have been passed inside the data property.  Therefore, when expanding a node, the tree must emit an event (or run a given callback) and wait for the child nodes to be downloaded from the server.  For more information:
+    * @see dynamicExpansionCallback
     */
     'useDynamicExpansion': boolean;
   }
@@ -644,6 +674,12 @@ declare global {
   var HTMLKupButtonElement: {
     prototype: HTMLKupButtonElement;
     new (): HTMLKupButtonElement;
+  };
+
+  interface HTMLKupCalendarElement extends Components.KupCalendar, HTMLStencilElement {}
+  var HTMLKupCalendarElement: {
+    prototype: HTMLKupCalendarElement;
+    new (): HTMLKupCalendarElement;
   };
 
   interface HTMLKupChartElement extends Components.KupChart, HTMLStencilElement {}
@@ -770,6 +806,7 @@ declare global {
     'kup-box': HTMLKupBoxElement;
     'kup-btn': HTMLKupBtnElement;
     'kup-button': HTMLKupButtonElement;
+    'kup-calendar': HTMLKupCalendarElement;
     'kup-chart': HTMLKupChartElement;
     'kup-checkbox': HTMLKupCheckboxElement;
     'kup-chip': HTMLKupChipElement;
@@ -903,6 +940,14 @@ declare namespace LocalJSX {
     'textmode'?: string;
     'transparent'?: boolean;
   }
+  interface KupCalendar extends JSXBase.HTMLAttributes<HTMLKupCalendarElement> {
+    'data'?: DataTable;
+    'dateCol'?: string;
+    'descrCol'?: string;
+    'hideNavigation'?: boolean;
+    'styleCol'?: string;
+    'weekView'?: boolean;
+  }
   interface KupChart extends JSXBase.HTMLAttributes<HTMLKupChartElement> {
     'asp'?: ChartAspect;
     'axis'?: string;
@@ -1003,6 +1048,7 @@ declare namespace LocalJSX {
     'onKetchupComboSelected'?: (event: CustomEvent<KetchupComboEvent>) => void;
     /**
     * If true, the combobox uses a Stencil portal to create the menu. Please use this feature carefully, only if needed.
+    * @see kup-portal readme for more details.
     */
     'usePortal'?: boolean;
     /**
@@ -1032,6 +1078,10 @@ declare namespace LocalJSX {
     'groups'?: Array<GroupObject>;
     /**
     * If table header is visible and this prop is set to true, the header will be visible while scrolling the table. To make this work, it must be configured together with the data-table CSS property --kup-data-table_header-offset. It uses CSS position: sticky.
+    * @version 1.0
+    * @namespace KupDataTable.headerIsPersistent
+    * @see KupDataTable.showHeader
+    * @see https://caniuse.com/#feat=css-sticky
     */
     'headerIsPersistent'?: boolean;
     /**
@@ -1040,10 +1090,14 @@ declare namespace LocalJSX {
     'loadMoreLimit'?: number;
     /**
     * Establish the modality of how many new records will be downloaded.  This property is regulated also by loadMoreStep.
+    * @see loadMoreStep
+    * @see loadMoreLimit
     */
     'loadMoreMode'?: LoadMoreMode;
     /**
     * The number of records which will be requested to be downloaded when clicking on the load more button.  This property is regulated also by loadMoreMode.
+    * @see loadMoreMode
+    * @see loadMoreLimit
     */
     'loadMoreStep'?: number;
     'multiSelection'?: boolean;
@@ -1093,6 +1147,7 @@ declare namespace LocalJSX {
     'showGrid'?: ShowGrid;
     /**
     * Enables rendering of the table header.
+    * @namespace KupDataTable.showHeader
     */
     'showHeader'?: boolean;
     /**
@@ -1128,6 +1183,8 @@ declare namespace LocalJSX {
   interface KupGauge extends JSXBase.HTMLAttributes<HTMLKupGaugeElement> {
     /**
     * Sets how much the arc of the gauge should be thick.
+    * @namespace kup-gauge.arcThickness
+    * @see kup-gauge.size
     */
     'arcThickness'?: number;
     /**
@@ -1184,6 +1241,8 @@ declare namespace LocalJSX {
     'showValue'?: boolean;
     /**
     * Con be used change the viewbox of the SVG. By manipulating this value, some customizations of the aspect of the gauge is achievable.
+    * @namespace kup-gauge.size
+    * @see kup-gauge.arcThickness
     */
     'size'?: number;
     /**
@@ -1430,6 +1489,7 @@ declare namespace LocalJSX {
     'data'?: TreeNode[];
     /**
     * Function that gets invoked when a new set of nodes must be loaded as children of a node. Used in combination with showObjectNavigation.  When useDynamicExpansion is set, the tree component will have two different behaviors depending on the value of this prop. 1 - If this prop is set to null, no callback to download data is available:     the component will emit an event requiring the parent to load the children of the given node. 2 - If this prop is set to have a callback, then the component will automatically make requests to load children of     a given node. After the load has been completed, a different event will be fired to alert the parent of the change.
+    * @see useDynamicExpansion
     */
     'dynamicExpansionCallback'?: (treeNodeToExpand: TreeNode, treeNodePath: TreeNodePath) => Promise<TreeNode[]> | undefined;
     /**
@@ -1453,6 +1513,15 @@ declare namespace LocalJSX {
     }>) => void;
     /**
     * Fired when a node expansion ion has been triggered. Contains additional data when the tree is using the dynamicExpansion feature.
+    * @event kupTreeNodeExpand
+    * @type {object}
+    * @property {TreeNodePath} treeNodePath - The array of indexes to retrieve the current treeNode inside the data prop.
+    * @property {TreeNode} treeNode - Reference to the TreeNode data object which is being expanded (passed through the data prop).
+    * @property {boolean} usesDynamicExpansion - Flag to notify that the component is running in dynamicExpansion mode.
+    * @property {boolean} dynamicExpansionRequireChildren - Flag to notify that the current dynamicExpansion event requires the parent component to add TreeNode children to the given TreeNode.
+    * @see useDynamicExpansion
+    * @see dynamicExpansionCallback
+    * @since 1.0.0
     */
     'onKupTreeNodeExpand'?: (event: CustomEvent<{
       treeNodePath: TreeNodePath;
@@ -1477,6 +1546,7 @@ declare namespace LocalJSX {
     'showColumns'?: boolean;
     /**
     * Flag: shows the header of the tree when the tree is displayed as a table.
+    * @see showColumns
     */
     'showHeader'?: boolean;
     /**
@@ -1489,6 +1559,7 @@ declare namespace LocalJSX {
     'showObjectNavigation'?: boolean;
     /**
     * When the component must use the dynamic expansion feature to open its nodes, it means that not all the nodes of the tree have been passed inside the data property.  Therefore, when expanding a node, the tree must emit an event (or run a given callback) and wait for the child nodes to be downloaded from the server.  For more information:
+    * @see dynamicExpansionCallback
     */
     'useDynamicExpansion'?: boolean;
   }
@@ -1498,6 +1569,7 @@ declare namespace LocalJSX {
     'kup-box': KupBox;
     'kup-btn': KupBtn;
     'kup-button': KupButton;
+    'kup-calendar': KupCalendar;
     'kup-chart': KupChart;
     'kup-checkbox': KupCheckbox;
     'kup-chip': KupChip;

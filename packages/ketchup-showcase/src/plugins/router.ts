@@ -6,7 +6,8 @@ import dataTableRoutes from './router/dataTable';
 import chartRoutes from './router/chart';
 import fldRoutes from './router/fldRoutes';
 import easterRoutes from './router/easterRoutes';
-import treeRoutes from "./router/treeRoutes";
+import treeRoutes from './router/treeRoutes';
+import calendarRoutes from './router/calendar';
 
 import Home from '@/views/Home.vue';
 import chart from './router/chart';
@@ -84,6 +85,7 @@ const routes = [
   ...easterRoutes,
   ...simpleRoutes,
   ...treeRoutes,
+  ...calendarRoutes,
 ];
 
 export default new Router({
