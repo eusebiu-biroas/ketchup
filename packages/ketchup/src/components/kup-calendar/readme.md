@@ -13,6 +13,7 @@
 | `dateCol`        | `date-col`        |             | `string`    | `undefined` |
 | `descrCol`       | `descr-col`       |             | `string`    | `undefined` |
 | `hideNavigation` | `hide-navigation` |             | `boolean`   | `false`     |
+| `initialDate`    | `initial-date`    |             | `string`    | `undefined` |
 | `styleCol`       | `style-col`       |             | `string`    | `undefined` |
 | `weekView`       | `week-view`       |             | `boolean`   | `false`     |
 

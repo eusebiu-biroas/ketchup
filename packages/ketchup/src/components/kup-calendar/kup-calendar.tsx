@@ -1,5 +1,5 @@
 import { Component, h, Prop } from '@stencil/core';
-import { Calendar } from '@fullcalendar/core';
+import { Calendar, OptionsInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { DataTable, Row } from '../kup-data-table/kup-data-table-declarations';
@@ -17,6 +17,7 @@ export class KupCalendar {
     @Prop({ reflect: true }) styleCol: string;
     @Prop({ reflect: true }) weekView = false;
     @Prop({ reflect: true }) hideNavigation = false;
+    @Prop({ reflect: true }) initialDate: string;
 
     private calendar: Calendar;
 
@@ -42,13 +43,6 @@ export class KupCalendar {
                 extendedProps: {
                     row,
                 },
-
-                // title: row.cells[this.descrCol].value,
-                // category: 'allday',
-                // isAllDay: true,
-                // start: date.toISOString(),
-                // end: date.toISOString(),
-                // raw: { ...row },
             };
         });
     }
@@ -73,7 +67,7 @@ export class KupCalendar {
             plugins.push(dayGridPlugin);
         }
 
-        this.calendar = new Calendar(this.calendarContainer, {
+        const options: OptionsInput = {
             plugins,
             events: this.getEvents(),
             header: {
@@ -82,6 +76,7 @@ export class KupCalendar {
                 right: '',
             },
             defaultView: this.weekView ? 'timeGridWeek' : 'dayGridMonth',
+            defaultDate: this.initialDate ? this.initialDate : null,
             eventRender: (info) => {
                 if (this.styleCol) {
                     const row: Row = info.event.extendedProps.row;
@@ -93,7 +88,13 @@ export class KupCalendar {
                     }
                 }
             },
-        });
+        };
+
+        // if (this.initialDate) {
+        //     options.defaultDate = this.initialDate;
+        // }
+
+        this.calendar = new Calendar(this.calendarContainer, options);
 
         this.calendar.render();
     }

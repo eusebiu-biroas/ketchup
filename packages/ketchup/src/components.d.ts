@@ -159,6 +159,7 @@ export namespace Components {
     'dateCol': string;
     'descrCol': string;
     'hideNavigation': boolean;
+    'initialDate': string;
     'styleCol': string;
     'weekView': boolean;
   }
@@ -923,6 +924,7 @@ declare namespace LocalJSX {
     'dateCol'?: string;
     'descrCol'?: string;
     'hideNavigation'?: boolean;
+    'initialDate'?: string;
     'styleCol'?: string;
     'weekView'?: boolean;
   }

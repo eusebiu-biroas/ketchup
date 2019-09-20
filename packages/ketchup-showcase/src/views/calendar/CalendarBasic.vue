@@ -22,6 +22,14 @@
       descr-col="descr"
       hide-navigation
     ></kup-calendar>
+
+    <h3>Initial Date (2019-01-01)</h3>
+    <kup-calendar
+      :data.prop="basicData"
+      date-col="date"
+      descr-col="descr"
+      initial-date="2019-01-01"
+    ></kup-calendar>
   </div>
 </template>
 
