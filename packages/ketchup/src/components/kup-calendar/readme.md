@@ -17,6 +17,19 @@
 | `weekView`       | `week-view`       |             | `boolean`   | `false`     |
 
 
+## Dependencies
+
+### Depends on
+
+- [kup-button](../kup-button)
+
+### Graph
+```mermaid
+graph TD;
+  kup-calendar --> kup-button
+  style kup-calendar fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

@@ -1,6 +1,7 @@
 import { Component, h, Prop } from '@stencil/core';
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
 import { DataTable, Row } from '../kup-data-table/kup-data-table-declarations';
 import { formatToMomentDate } from '../../utils/cell-formatter';
 
@@ -38,6 +39,9 @@ export class KupCalendar {
                 title: row.cells[this.descrCol].value,
                 allDay: true,
                 start: date.toISOString(),
+                extendedProps: {
+                    row,
+                },
 
                 // title: row.cells[this.descrCol].value,
                 // category: 'allday',
@@ -46,33 +50,48 @@ export class KupCalendar {
                 // end: date.toISOString(),
                 // raw: { ...row },
             };
-
-            // if (this.styleCol) {
-            //     const cell = row.cells[this.styleCol];
-            //     if (cell && cell.style) {
-            //         const { style } = cell;
-
-            //         if (style.color) {
-            //             schedule.color = style.color;
-            //         }
-
-            //         if (style.background) {
-            //             schedule.bgColor = style.background;
-            //         }
-            //     }
-            // }
         });
+    }
+    private onPrev() {
+        this.calendar.prev();
+    }
+
+    private onNext() {
+        this.calendar.next();
+    }
+
+    private onToday() {
+        this.calendar.today();
     }
 
     // ---- Lifecycle ----
     componentDidLoad() {
+        const plugins = [];
+        if (this.weekView) {
+            plugins.push(timeGridPlugin);
+        } else {
+            plugins.push(dayGridPlugin);
+        }
+
         this.calendar = new Calendar(this.calendarContainer, {
-            plugins: [dayGridPlugin],
+            plugins,
             events: this.getEvents(),
             header: {
                 left: '',
                 center: 'title',
                 right: '',
+            },
+            defaultView: this.weekView ? 'timeGridWeek' : 'dayGridMonth',
+            eventRender: (info) => {
+                if (this.styleCol) {
+                    const row: Row = info.event.extendedProps.row;
+                    const cell = row.cells[this.styleCol];
+                    if (cell && cell.style) {
+                        Object.keys(cell.style).forEach(
+                            (k) => (info.el.style[k] = cell.style[k])
+                        );
+                    }
+                }
             },
         });
 
@@ -88,6 +107,22 @@ export class KupCalendar {
     render() {
         return (
             <div id="kup-calendar">
+                {this.hideNavigation ? null : (
+                    <div id="kup-calendar__menu">
+                        <kup-button
+                            iconClass="mdi mdi-chevron-left"
+                            onKupButtonClicked={() => this.onPrev()}
+                        ></kup-button>
+                        <kup-button
+                            iconClass="mdi mdi-chevron-right"
+                            onKupButtonClicked={() => this.onNext()}
+                        ></kup-button>
+                        <kup-button
+                            iconClass="mdi mdi-calendar-today"
+                            onKupButtonClicked={() => this.onToday()}
+                        ></kup-button>
+                    </div>
+                )}
                 <div ref={(el) => (this.calendarContainer = el)}></div>
             </div>
         );

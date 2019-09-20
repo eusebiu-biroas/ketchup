@@ -1,2 +1,15 @@
 @import '../../../node_modules/@fullcalendar/core/main.min.css';
 @import '../../../node_modules/@fullcalendar/daygrid/main.min.css';
+@import '../../../node_modules/@fullcalendar/timegrid/main.min.css';
+
+#kup-calendar {
+  &__menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    kup-button {
+      margin: 0 0.5rem;
+    }
+  }
+}
