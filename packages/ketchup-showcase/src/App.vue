@@ -143,6 +143,12 @@ export default {
             },
           },
           {
+            title: 'Icons',
+            to: {
+              name: 'calendarIcons',
+            },
+          },
+          {
             title: 'Style',
             to: {
               name: 'calendarStyle',

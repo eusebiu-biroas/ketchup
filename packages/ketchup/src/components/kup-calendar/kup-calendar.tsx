@@ -1,5 +1,5 @@
 import { Component, h, Prop } from '@stencil/core';
-import { Calendar, OptionsInput } from '@fullcalendar/core';
+import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { DataTable, Row } from '../kup-data-table/kup-data-table-declarations';
@@ -15,6 +15,7 @@ export class KupCalendar {
     @Prop({ reflect: true }) dateCol: string;
     @Prop({ reflect: true }) descrCol: string;
     @Prop({ reflect: true }) styleCol: string;
+    @Prop({ reflect: true }) iconCol: string;
     @Prop({ reflect: true }) weekView = false;
     @Prop({ reflect: true }) hideNavigation = false;
     @Prop({ reflect: true }) initialDate: string;
@@ -67,7 +68,7 @@ export class KupCalendar {
             plugins.push(dayGridPlugin);
         }
 
-        const options: OptionsInput = {
+        this.calendar = new Calendar(this.calendarContainer, {
             plugins,
             events: this.getEvents(),
             header: {
@@ -87,14 +88,25 @@ export class KupCalendar {
                         );
                     }
                 }
+
+                if (this.iconCol) {
+                    const row: Row = info.event.extendedProps.row;
+                    const cell = row.cells[this.iconCol];
+                    if (cell && cell.value) {
+                        const wrapper = document.createElement('div');
+                        wrapper.classList.add('icon-wrapper');
+
+                        cell.value.split(';').forEach((icon) => {
+                            const span = document.createElement('span');
+                            span.className = icon;
+                            wrapper.appendChild(span);
+                        });
+
+                        info.el.appendChild(wrapper);
+                    }
+                }
             },
-        };
-
-        // if (this.initialDate) {
-        //     options.defaultDate = this.initialDate;
-        // }
-
-        this.calendar = new Calendar(this.calendarContainer, options);
+        });
 
         this.calendar.render();
     }
