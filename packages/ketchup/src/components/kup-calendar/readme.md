@@ -12,9 +12,11 @@
 | `data`           | --                |             | `DataTable` | `undefined` |
 | `dateCol`        | `date-col`        |             | `string`    | `undefined` |
 | `descrCol`       | `descr-col`       |             | `string`    | `undefined` |
+| `endCol`         | `end-col`         |             | `string`    | `undefined` |
 | `hideNavigation` | `hide-navigation` |             | `boolean`   | `false`     |
 | `iconCol`        | `icon-col`        |             | `string`    | `undefined` |
 | `initialDate`    | `initial-date`    |             | `string`    | `undefined` |
+| `startCol`       | `start-col`       |             | `string`    | `undefined` |
 | `styleCol`       | `style-col`       |             | `string`    | `undefined` |
 | `weekView`       | `week-view`       |             | `boolean`   | `false`     |
 

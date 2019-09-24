@@ -158,9 +158,11 @@ export namespace Components {
     'data': DataTable;
     'dateCol': string;
     'descrCol': string;
+    'endCol': string;
     'hideNavigation': boolean;
     'iconCol': string;
     'initialDate': string;
+    'startCol': string;
     'styleCol': string;
     'weekView': boolean;
   }
@@ -924,9 +926,11 @@ declare namespace LocalJSX {
     'data'?: DataTable;
     'dateCol'?: string;
     'descrCol'?: string;
+    'endCol'?: string;
     'hideNavigation'?: boolean;
     'iconCol'?: string;
     'initialDate'?: string;
+    'startCol'?: string;
     'styleCol'?: string;
     'weekView'?: boolean;
   }

@@ -2,8 +2,14 @@ import { Component, h, Prop } from '@stencil/core';
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { DataTable, Row } from '../kup-data-table/kup-data-table-declarations';
+import {
+    DataTable,
+    Row,
+    Column,
+} from '../kup-data-table/kup-data-table-declarations';
 import { formatToMomentDate } from '../../utils/cell-formatter';
+import { getColumnByName } from '../kup-data-table/kup-data-table-helper';
+import moment from 'moment';
 
 @Component({
     tag: 'kup-calendar',
@@ -16,6 +22,8 @@ export class KupCalendar {
     @Prop({ reflect: true }) descrCol: string;
     @Prop({ reflect: true }) styleCol: string;
     @Prop({ reflect: true }) iconCol: string;
+    @Prop({ reflect: true }) startCol: string;
+    @Prop({ reflect: true }) endCol: string;
     @Prop({ reflect: true }) weekView = false;
     @Prop({ reflect: true }) hideNavigation = false;
     @Prop({ reflect: true }) initialDate: string;
@@ -25,6 +33,14 @@ export class KupCalendar {
     private calendarContainer: HTMLDivElement = null;
 
     // ---- Private methods ----
+    private getColumns(): Column[] {
+        if (this.data && this.data.rows) {
+            return this.data.columns;
+        }
+
+        return [];
+    }
+
     private getRows(): Row[] {
         if (this.data && this.data.rows) {
             return this.data.rows;
@@ -34,13 +50,41 @@ export class KupCalendar {
     }
 
     private getEvents() {
+        const isHourRange =
+            this.startCol &&
+            this.endCol &&
+            getColumnByName(this.getColumns(), this.startCol) &&
+            getColumnByName(this.getColumns(), this.endCol);
+
         return this.getRows().map((row) => {
-            const date = formatToMomentDate(row.cells[this.dateCol]);
+            const startDate = formatToMomentDate(row.cells[this.dateCol]);
+            const endDate = formatToMomentDate(row.cells[this.dateCol]);
+
+            if (isHourRange) {
+                const startCell = row.cells[this.startCol];
+                const endCell = row.cells[this.endCol];
+
+                if (startCell && endCell) {
+                    const momentStart = moment(startCell.value, 'HH:mm:ss');
+                    const momentEnd = moment(endCell.value, 'HH:mm:ss');
+
+                    startDate.hours(momentStart.hours());
+                    startDate.minutes(momentStart.minutes());
+                    startDate.seconds(momentStart.seconds());
+
+                    endDate.hours(momentEnd.hours());
+                    endDate.minutes(momentEnd.minutes());
+                    endDate.seconds(momentEnd.seconds());
+                }
+            }
+
+            const allDay = !isHourRange;
 
             return {
                 title: row.cells[this.descrCol].value,
-                allDay: true,
-                start: date.toISOString(),
+                allDay,
+                start: startDate.toISOString(),
+                end: endDate.toISOString(),
                 extendedProps: {
                     row,
                 },
