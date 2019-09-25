@@ -15,6 +15,7 @@
 | `endCol`         | `end-col`         |             | `string`    | `undefined` |
 | `hideNavigation` | `hide-navigation` |             | `boolean`   | `false`     |
 | `iconCol`        | `icon-col`        |             | `string`    | `undefined` |
+| `imageCol`       | `image-col`       |             | `string`    | `undefined` |
 | `initialDate`    | `initial-date`    |             | `string`    | `undefined` |
 | `startCol`       | `start-col`       |             | `string`    | `undefined` |
 | `styleCol`       | `style-col`       |             | `string`    | `undefined` |

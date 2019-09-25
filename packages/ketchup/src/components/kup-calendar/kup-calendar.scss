@@ -19,4 +19,15 @@
     justify-content: flex-end;
     flex-wrap: wrap;
   }
+
+  .image-wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
 }

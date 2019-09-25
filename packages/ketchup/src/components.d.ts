@@ -161,6 +161,7 @@ export namespace Components {
     'endCol': string;
     'hideNavigation': boolean;
     'iconCol': string;
+    'imageCol': string;
     'initialDate': string;
     'startCol': string;
     'styleCol': string;
@@ -929,6 +930,7 @@ declare namespace LocalJSX {
     'endCol'?: string;
     'hideNavigation'?: boolean;
     'iconCol'?: string;
+    'imageCol'?: string;
     'initialDate'?: string;
     /**
     * When a date is clicked

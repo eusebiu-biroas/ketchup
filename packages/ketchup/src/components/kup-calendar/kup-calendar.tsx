@@ -23,6 +23,7 @@ export class KupCalendar {
     @Prop({ reflect: true }) descrCol: string;
     @Prop({ reflect: true }) styleCol: string;
     @Prop({ reflect: true }) iconCol: string;
+    @Prop({ reflect: true }) imageCol: string;
     @Prop({ reflect: true }) startCol: string;
     @Prop({ reflect: true }) endCol: string;
     @Prop({ reflect: true }) weekView = false;
@@ -216,6 +217,23 @@ export class KupCalendar {
                             const span = document.createElement('span');
                             span.className = icon;
                             wrapper.appendChild(span);
+                        });
+
+                        info.el.appendChild(wrapper);
+                    }
+                }
+
+                if (this.imageCol) {
+                    const row: Row = info.event.extendedProps.row;
+                    const cell = row.cells[this.imageCol];
+                    if (cell && cell.value) {
+                        const wrapper = document.createElement('div');
+                        wrapper.classList.add('image-wrapper');
+
+                        cell.value.split(';').forEach((icon) => {
+                            const img = document.createElement('img');
+                            img.src = icon;
+                            wrapper.appendChild(img);
                         });
 
                         info.el.appendChild(wrapper);
