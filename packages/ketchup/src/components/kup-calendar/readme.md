@@ -23,11 +23,12 @@
 
 ## Events
 
-| Event                     | Description              | Type                                                                                           |
-| ------------------------- | ------------------------ | ---------------------------------------------------------------------------------------------- |
-| `kupCalendarDateClicked`  | When a date is clicked   | `CustomEvent<Date>`                                                                            |
-| `kupCalendarEventClicked` | When an event is clicked | `CustomEvent<Row>`                                                                             |
-| `kupCalendarEventDropped` | When a date is dropped   | `CustomEvent<{ fromDate: { start: Date; end: Date; }; toDate: { start: Date; end: Date; }; }>` |
+| Event                     | Description                | Type                                                                                           |
+| ------------------------- | -------------------------- | ---------------------------------------------------------------------------------------------- |
+| `kupCalendarDateClicked`  | When a date is clicked     | `CustomEvent<Date>`                                                                            |
+| `kupCalendarEventClicked` | When an event is clicked   | `CustomEvent<Row>`                                                                             |
+| `kupCalendarEventDropped` | When a date is dropped     | `CustomEvent<{ fromDate: { start: Date; end: Date; }; toDate: { start: Date; end: Date; }; }>` |
+| `kupCalendarViewChanged`  | When the navigation change | `CustomEvent<{ from: Date; to: Date; }>`                                                       |
 
 
 ## Dependencies

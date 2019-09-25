@@ -8,9 +8,11 @@
         date-col="date"
         descr-col="descr"
         initial-date="2019-09-19"
+        week-view
         @kupCalendarEventClicked="onEventClicked"
         @kupCalendarEventDropped="onEventDropped"
         @kupCalendarDateClicked="onDateClicked"
+        @kupCalendarViewChanged="onViewChanged"
       ></kup-calendar>
 
       <div class="selection">
@@ -31,6 +33,13 @@
         <h4>Selected date</h4>
         <p v-if="selectedDate">{{ selectedDate }}</p>
         <hr />
+
+        <h4>Current view</h4>
+        <div v-if="currentView">
+          <p>From date: {{ currentView.from }}</p>
+          <p>To date: {{ currentView.to }}</p>
+        </div>
+        <hr />
       </div>
     </div>
   </div>
@@ -44,6 +53,7 @@ export default {
       selectedEvent: null,
       droppedEvent: null,
       selectedDate: null,
+      currentView: null,
 
       basicData: {
         columns: [
@@ -155,6 +165,9 @@ export default {
     },
     onDateClicked({ detail }) {
       this.selectedDate = detail;
+    },
+    onViewChanged({ detail }) {
+      this.currentView = detail;
     },
   },
 };

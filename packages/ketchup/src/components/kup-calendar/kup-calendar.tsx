@@ -71,6 +71,20 @@ export class KupCalendar {
         };
     }>;
 
+    /**
+     * When the navigation change
+     */
+    @Event({
+        eventName: 'kupCalendarViewChanged',
+        composed: true,
+        cancelable: false,
+        bubbles: true,
+    })
+    kupCalendarViewChanged: EventEmitter<{
+        from: Date;
+        to: Date;
+    }>;
+
     private calendar: Calendar;
 
     private calendarContainer: HTMLDivElement = null;
@@ -136,10 +150,24 @@ export class KupCalendar {
     }
     private onPrev() {
         this.calendar.prev();
+        this.emitNavEvent();
     }
 
     private onNext() {
         this.calendar.next();
+        this.emitNavEvent();
+    }
+
+    private emitNavEvent() {
+        // see https://fullcalendar.io/docs/view-object
+        const to: Date = moment(this.calendar.view.currentEnd)
+            .subtract(1, 'day')
+            .toDate();
+
+        this.kupCalendarViewChanged.emit({
+            from: this.calendar.view.currentStart,
+            to,
+        });
     }
 
     private onToday() {

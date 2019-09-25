@@ -951,6 +951,13 @@ declare namespace LocalJSX {
         end: Date;
       };
     }>) => void;
+    /**
+    * When the navigation change
+    */
+    'onKupCalendarViewChanged'?: (event: CustomEvent<{
+      from: Date;
+      to: Date;
+    }>) => void;
     'startCol'?: string;
     'styleCol'?: string;
     'weekView'?: boolean;
