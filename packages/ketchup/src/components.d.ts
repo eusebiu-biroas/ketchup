@@ -930,6 +930,27 @@ declare namespace LocalJSX {
     'hideNavigation'?: boolean;
     'iconCol'?: string;
     'initialDate'?: string;
+    /**
+    * When a date is clicked
+    */
+    'onKupCalendarDateClicked'?: (event: CustomEvent<Date>) => void;
+    /**
+    * When an event is clicked
+    */
+    'onKupCalendarEventClicked'?: (event: CustomEvent<Row>) => void;
+    /**
+    * When a date is dropped
+    */
+    'onKupCalendarEventDropped'?: (event: CustomEvent<{
+      fromDate: {
+        start: Date;
+        end: Date;
+      };
+      toDate: {
+        start: Date;
+        end: Date;
+      };
+    }>) => void;
     'startCol'?: string;
     'styleCol'?: string;
     'weekView'?: boolean;

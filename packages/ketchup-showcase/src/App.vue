@@ -143,6 +143,12 @@ export default {
             },
           },
           {
+            title: 'Events',
+            to: {
+              name: 'calendarEvents',
+            },
+          },
+          {
             title: 'Icons',
             to: {
               name: 'calendarIcons',

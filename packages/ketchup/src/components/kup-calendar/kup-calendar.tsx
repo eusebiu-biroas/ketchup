@@ -1,7 +1,8 @@
-import { Component, h, Prop } from '@stencil/core';
+import { Component, h, Prop, Event, EventEmitter } from '@stencil/core';
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import {
     DataTable,
     Row,
@@ -27,6 +28,48 @@ export class KupCalendar {
     @Prop({ reflect: true }) weekView = false;
     @Prop({ reflect: true }) hideNavigation = false;
     @Prop({ reflect: true }) initialDate: string;
+
+    /**
+     * When an event is clicked
+     */
+    @Event({
+        eventName: 'kupCalendarEventClicked',
+        composed: true,
+        cancelable: false,
+        bubbles: true,
+    })
+    kupCalendarEventClicked: EventEmitter<Row>;
+
+    /**
+     * When a date is clicked
+     */
+    @Event({
+        eventName: 'kupCalendarDateClicked',
+        composed: true,
+        cancelable: false,
+        bubbles: true,
+    })
+    kupCalendarDateClicked: EventEmitter<Date>;
+
+    /**
+     * When a date is dropped
+     */
+    @Event({
+        eventName: 'kupCalendarEventDropped',
+        composed: true,
+        cancelable: false,
+        bubbles: true,
+    })
+    kupCalendarEventDropped: EventEmitter<{
+        fromDate: {
+            start: Date;
+            end: Date;
+        };
+        toDate: {
+            start: Date;
+            end: Date;
+        };
+    }>;
 
     private calendar: Calendar;
 
@@ -105,7 +148,7 @@ export class KupCalendar {
 
     // ---- Lifecycle ----
     componentDidLoad() {
-        const plugins = [];
+        const plugins = [interactionPlugin];
         if (this.weekView) {
             plugins.push(timeGridPlugin);
         } else {
@@ -122,6 +165,7 @@ export class KupCalendar {
             },
             defaultView: this.weekView ? 'timeGridWeek' : 'dayGridMonth',
             defaultDate: this.initialDate ? this.initialDate : null,
+            editable: true,
             eventRender: (info) => {
                 if (this.styleCol) {
                     const row: Row = info.event.extendedProps.row;
@@ -149,6 +193,27 @@ export class KupCalendar {
                         info.el.appendChild(wrapper);
                     }
                 }
+            },
+            eventClick: ({ event }) => {
+                // see https://fullcalendar.io/docs/eventClick
+                this.kupCalendarEventClicked.emit(event.extendedProps.row);
+            },
+            eventDrop: ({ event, oldEvent }) => {
+                // https://fullcalendar.io/docs/eventDrop
+                this.kupCalendarEventDropped.emit({
+                    fromDate: {
+                        start: oldEvent.start,
+                        end: oldEvent.end,
+                    },
+                    toDate: {
+                        start: event.start,
+                        end: event.end,
+                    },
+                });
+            },
+            dateClick: ({ date }) => {
+                // see https://fullcalendar.io/docs/dateClick
+                this.kupCalendarDateClicked.emit(date);
             },
         });
 

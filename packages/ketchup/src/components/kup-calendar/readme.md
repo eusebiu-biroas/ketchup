@@ -21,6 +21,15 @@
 | `weekView`       | `week-view`       |             | `boolean`   | `false`     |
 
 
+## Events
+
+| Event                     | Description              | Type                                                                                           |
+| ------------------------- | ------------------------ | ---------------------------------------------------------------------------------------------- |
+| `kupCalendarDateClicked`  | When a date is clicked   | `CustomEvent<Date>`                                                                            |
+| `kupCalendarEventClicked` | When an event is clicked | `CustomEvent<Row>`                                                                             |
+| `kupCalendarEventDropped` | When a date is dropped   | `CustomEvent<{ fromDate: { start: Date; end: Date; }; toDate: { start: Date; end: Date; }; }>` |
+
+
 ## Dependencies
 
 ### Depends on
