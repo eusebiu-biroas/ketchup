@@ -956,22 +956,22 @@ export const cellStyleDataTable2 = {
   columns: [
     {
       name: 'FLD1',
-      title: 'Column A',
+      title: 'Software',
       size: '',
     },
     {
       name: 'FLD2',
-      title: 'Column B',
+      title: 'Working License',
       size: 10,
     },
     {
       name: 'FLD3',
-      title: 'Column C',
+      title: 'Price',
       size: 10,
     },
     {
       name: 'FLD4',
-      title: 'Column D',
+      title: 'Expiring Date',
       size: 10,
     },
   ],
@@ -980,15 +980,12 @@ export const cellStyleDataTable2 = {
       cells: {
         FLD1: {
           obj: {
-            t: 'CN',
-            p: 'COL',
-            k: 'CASFRA',
+            t: 'TA',
+            p: 'B£AMO',
+            k: 'Customers module',
           },
-          value: 'CASFRA',
+          value: 'Customers module',
           style: {
-            backgroundColor: 'blue',
-            color: '#FFF',
-            borderRadius: '50px',
             writingMode: 'vertical-lr'
           },
         },
@@ -996,13 +993,9 @@ export const cellStyleDataTable2 = {
           obj: {
             t: 'NR',
             p: '',
-            k: '10',
+            k: '1',
           },
-          value: '10',
-          style: {
-            backgroundColor: 'blue',
-            color: '#FFF',
-          },
+          value: '1',
         },
         FLD3: {
           obj: {
@@ -1011,25 +1004,14 @@ export const cellStyleDataTable2 = {
             k: '100.60',
           },
           value: '100.60',
-          style: {
-            backgroundColor: 'blue',
-            color: '#FFF',
-            borderRadius: '50px',
-            padding: '3px',
-          },
         },
         FLD4: {
           obj: {
             t: 'D8',
             p: '*YYMD',
-            k: '20180101',
+            k: '20200101',
           },
-          value: '01/01/2018',
-          style: {
-            backgroundColor: 'blue',
-            color: 'yellow',
-            fontWeight: 'bold',
-          },
+          value: '01/01/2020',
         },
       },
     },
@@ -1037,26 +1019,19 @@ export const cellStyleDataTable2 = {
       cells: {
         FLD1: {
           obj: {
-            t: 'CN',
-            p: 'COL',
-            k: 'DELGIO',
+            t: 'TA',
+            p: 'B£AMO',
+            k: 'Commerce module',
           },
-          value: 'DELGIO',
-          style: {
-            fontWeight: 'bold',
-          },
+          value: 'Commerce module',
         },
         FLD2: {
           obj: {
             t: 'NR',
             p: '',
-            k: '6',
+            k: '2',
           },
-          value: '6',
-          style: {
-            fontStyle: 'italic',
-            textAlign: 'center',
-          },
+          value: '2',
         },
         FLD3: {
           obj: {
@@ -1065,21 +1040,14 @@ export const cellStyleDataTable2 = {
             k: '67.8',
           },
           value: '67.8',
-          style: {
-            backgroundColor: 'blue',
-            color: '#FFF',
-          },
         },
         FLD4: {
           obj: {
             t: 'D8',
             p: '*YYMD',
-            k: '20180102',
+            k: '20200404',
           },
-          value: '02/01/2018',
-          style: {
-            fontSize: '30px',
-          },
+          value: '04/04/2020',
         },
       },
     },
@@ -1087,19 +1055,19 @@ export const cellStyleDataTable2 = {
       cells: {
         FLD1: {
           obj: {
-            t: 'CN',
-            p: 'COL',
-            k: 'PARFRA',
+            t: 'TA',
+            p: 'B£AMO',
+            k: 'Marketing module',
           },
-          value: 'PARFRA',
+          value: 'Marketing module',
         },
         FLD2: {
           obj: {
             t: 'NR',
             p: '',
-            k: '5',
+            k: '1',
           },
-          value: '5',
+          value: '1',
         },
         FLD3: {
           obj: {
@@ -1113,9 +1081,9 @@ export const cellStyleDataTable2 = {
           obj: {
             t: 'D8',
             p: '*YYMD',
-            k: '20180103',
+            k: '20200303',
           },
-          value: '03/01/2018',
+          value: '03/03/2020',
         },
       },
     },
