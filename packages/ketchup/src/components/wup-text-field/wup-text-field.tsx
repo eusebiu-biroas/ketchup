@@ -1,4 +1,4 @@
-import { Component, Prop, Element, Host, h } from '@stencil/core';
+import {Component, Prop, Element, Host, h, Event, EventEmitter, State} from '@stencil/core';
 import { MDCTextField } from '@material/textfield';
 import { MDCFormField } from '@material/form-field';
 import { MDCTextFieldHelperText } from '@material/textfield/helper-text';
@@ -70,7 +70,29 @@ export class WupTextField {
 
     @Element() rootElement: HTMLElement;
 
+    @State() value: string = "";
+
     //---- Methods ----
+
+    /**
+     * When the input text value gets updated
+     */
+    @Event({
+        eventName: 'ketchupTextInputUpdated',
+        composed: true,
+        cancelable: false,
+        bubbles: true,
+    })
+    ketchupTextInputUpdated: EventEmitter<{value: string}>;
+
+    onInputUpdated(event: UIEvent & { target: HTMLInputElement }) {
+        const { target } = event;
+        this.ketchupTextInputUpdated.emit({
+            value: target.value,
+        });
+        this.value = target.value;
+    }
+
 
     //---- Lifecycle hooks ----
 
@@ -261,7 +283,9 @@ export class WupTextField {
                     class="mdc-text-field__input"
                     disabled={this.disabled}
                     maxlength={this.maxlength}
-                ></textarea>
+                    value={this.value}
+                    onInput={this.onInputUpdated.bind(this)}
+                />
             );
         } else {
             inputEl = (
@@ -272,7 +296,9 @@ export class WupTextField {
                     placeholder={placeholderLabel}
                     disabled={this.disabled}
                     maxlength={this.maxlength}
-                ></input>
+                    value={this.value}
+                    onInput={this.onInputUpdated.bind(this)}
+                />
             );
         }
 
@@ -318,7 +344,9 @@ export class WupTextField {
                     disabled={this.disabled}
                     placeholder={placeholderLabel}
                     maxlength={this.maxlength}
-                ></input>
+                    value={this.value}
+                    onInput={this.onInputUpdated.bind(this)}
+                />
                 {trailingIconEl}
                 {labelEl}
                 <div class="mdc-line-ripple"></div>

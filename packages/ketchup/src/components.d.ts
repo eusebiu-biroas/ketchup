@@ -2291,6 +2291,10 @@ declare namespace LocalJSX {
     */
     'maxlength'?: number;
     /**
+    * When the input text value gets updated
+    */
+    'onKetchupTextInputUpdated'?: (event: CustomEvent<{value: string}>) => void;
+    /**
     * Defaults at false. When set to true, the component will be rendered as an outlined field.
     */
     'outlined'?: boolean;

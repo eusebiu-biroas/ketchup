@@ -25,6 +25,13 @@
 | `trailingicon`    | `trailingicon`    | Defaults at null. When set, the icon will be shown after the text.                        | `boolean` | `false` |
 
 
+## Events
+
+| Event                     | Description                            | Type                              |
+| ------------------------- | -------------------------------------- | --------------------------------- |
+| `ketchupTextInputUpdated` | When the input text value gets updated | `CustomEvent<{ value: string; }>` |
+
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*
