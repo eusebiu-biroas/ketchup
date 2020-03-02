@@ -20,11 +20,6 @@ export const defaultData = {
       title: 'Delivery date',
       size: 10,
     },
-    {
-      name: 'FLD5',
-      title: 'HTML',
-      size: 50,
-    },
   ],
   rows: [
     {
@@ -1127,11 +1122,6 @@ export const shapeData = {
       title: 'Progress',
       size: 10,
     },
-    {
-      name: 'FLD4',
-      title: 'Html',
-      size: 10,
-    },
   ],
   rows: [
     {
@@ -1245,8 +1235,20 @@ export const shapeData = {
         },
       },
     },
+  ],
+};
+
+export const htmlData = {
+  columns: [
     {
-      id: '3',
+      name: 'FLD1',
+      title: 'Html',
+      size: 10,
+    },
+  ],
+  rows: [
+    {
+      id: '1',
       cells: {
         FLD1: {
           obj: {
@@ -1254,7 +1256,7 @@ export const shapeData = {
             p: 'ART',
             k: 'myhtml',
           },
-          value: '<div>HTML VALIDO con <i>corsivo</i> e <b>grassetto</b> e immagine <img src="https://picsum.photos/100/50"/></div>  <div>HTML NON VALIDO con <i>corsivo e <b>grassetto</b><div>',
+          value: '<div>HTML VALIDO con <i>corsivo</i>, <b>grassetto</b> e immagine <img src="https://picsum.photos/100/50"/></div><div>HTML NON VALIDO con <i>corsivo e <b>grassetto</b><div>',
         },
 
       },
@@ -1275,6 +1277,7 @@ export const shapeData = {
     }
   ],
 };
+
 
 export function createData(rows: number) {
   const data: any = {

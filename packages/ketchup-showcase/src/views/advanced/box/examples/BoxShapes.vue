@@ -3,17 +3,22 @@
     <h3>Shapes</h3>
     <p>Images and progress bars</p>
     <kup-box :data.prop="shapeData" :layout.prop="layout5"></kup-box>
+    <p>&nbsp;</p>
+    <p>HTML viewer</p>
+    <kup-box :data.prop="htmlData" :layout.prop="layout6"></kup-box>
   </div>
 </template>
 
 
 <script>
 import { shapeData } from '@/mock/box';
+import { htmlData } from '@/mock/box';
 
 export default {
   data() {
     return {
       shapeData: shapeData,
+      htmlData: htmlData,
       layout5: {
         sections: [
           {
@@ -38,15 +43,24 @@ export default {
                   { content: [{ column: 'FLD3', shape: 'PGB' }] },
                 ],
               },
+            ],
+          },
+        ],
+      },
+      layout6: {
+        sections: [
+          {
+            horizontal: true,
+            sections: [
               {
                 sections: [
-                  { content: [{ column: 'FLD4', shape: 'EDT' }] }
+                  { content: [{ column: 'FLD1', shape: 'EDT' }] }
                 ],
               }
             ],
           },
         ],
-      },
+      },      
     };
   },
 };
