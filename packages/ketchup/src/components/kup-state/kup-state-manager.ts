@@ -1,8 +1,6 @@
 import { KupStateEvent } from './kup-state-event';
 import { KupStateModel } from './kup-state-model';
-
-// TODO: I'd probably put this in a separate, specialized, package.
-import { KupStateRedux } from './kup-state-redux';
+import { KupState } from './kup-state';
 
 // TODO: cannot enforce generic here, as Typescript singleton pattern is poorly defined.
 // KupStateManager decouples components from state management.
@@ -13,16 +11,16 @@ export class KupStateManager {
     // (XXX: this line seems ignored by the build pipeline, so I had to disable it
     // globally, excercise for the reader is to re-enable the global `noUnusedLocal`).
     // tslint:disable-next-line
-    private _store: KupStateRedux; // make sure class extends this one
+    private _store: KupState; // make sure class extends this one
 
     // This is a singleton.
     private constructor() {
-        console.log("Inited KupStateManager");
+        console.log('Inited KupStateManager');
     }
 
     // Get an instance.
     // TODO: maybe allow a dynamic injection of the "_store"
-    public static getInstance(): KupStateManager {
+    public static getInstance(store: KupState): KupStateManager {
         if (!KupStateManager.instance) {
             // TODO: make sure to only init with kup-state derived classes.
             // We must enforce type checking here as typescript does not support generics
@@ -31,7 +29,7 @@ export class KupStateManager {
 
             // TODO: we can do better here to support dynamic instantiation
             // e.g. using a registry.
-            KupStateManager.instance._store = new KupStateRedux();
+            KupStateManager.instance._store = store;
         }
 
         return KupStateManager.instance;
@@ -41,10 +39,16 @@ export class KupStateManager {
     public registerListener(event: KupStateEvent<any>) {
         console.log(`Registered event: ${event.getEventName()}`);
 
-        window.addEventListener(event.getEventName(), (ev: CustomEvent<KupStateModel>) => {
-            console.log(`Received an event(${event.getEventName()}): ` + ev.detail.toDebugString());
-            this._store.persist(ev.detail);
-        });
+        window.addEventListener(
+            event.getEventName(),
+            (ev: CustomEvent<KupStateModel>) => {
+                console.log(
+                    `Received an event(${event.getEventName()}): ` +
+                        ev.detail.toDebugString()
+                );
+                this._store.persist(ev.detail);
+            }
+        );
     }
 
     // Retrieve the store state.

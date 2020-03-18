@@ -21,13 +21,14 @@ import {
     KupStateEvent,
     KupStateModel,
 } from '../kup-state';
+import { KupState } from '../kup-state/kup-state';
 
 // This class models our component state.
 class ComponentState extends KupStateModel {
     // TODO: define common attributes
-    public name:string = "Ale";
+    public name: string = 'Ale';
 
-    public toDebugString() {
+    public toDebugString() {
         return `name=${this.name}`;
     }
 }
@@ -38,7 +39,6 @@ class ComponentState extends KupStateModel {
     shadow: true,
 })
 export class KupTextInput implements KupStatePersisted<ComponentState> {
-
     //////////////////////////////
     // Begin state management
     // NOTE: I'd have loved to avoid this level of verbosity in Stencil.js
@@ -57,18 +57,20 @@ export class KupTextInput implements KupStatePersisted<ComponentState> {
     // outside of Stencil components.
     // @Event() stateChange: EventEmitter<ComponentState>; // Would be null for ksm.registerEvent()
 
-    stateChange: KupStateEvent<ComponentState> = new KupStateEvent<ComponentState>(ComponentState);
+    stateChange: KupStateEvent<ComponentState> = new KupStateEvent<
+        ComponentState
+    >(ComponentState);
 
     // Get a singleton instance, register our custom event emitter to start
     // a listener.
     registerState() {
-        const ksm = KupStateManager.getInstance();
+        const ksm = KupStateManager.getInstance(this.store);
         ksm.registerListener(this.stateChange);
     }
 
     getValue() {
-        const ksm = KupStateManager.getInstance();
-        console.log("store contains: ");
+        const ksm = KupStateManager.getInstance(this.store);
+        console.log('store contains: ');
         console.log(ksm.getStore());
     }
 
@@ -81,7 +83,7 @@ export class KupTextInput implements KupStatePersisted<ComponentState> {
     // This method cannot be abstracted started in stencil 0.12 as @Component
     // annotated components cannot derive from abstracted classes.
     stateChanged() {
-        console.log("state changed:", this.state);
+        console.log('state changed:', this.state);
         this.stateChange.emit(this.state);
 
         // simulate a delay to retrieve the values from the store
@@ -90,6 +92,11 @@ export class KupTextInput implements KupStatePersisted<ComponentState> {
             this.getValue();
         }, 2000);
     }
+
+    /**
+     * Marks the field as clearable, allowing an icon to delete its content
+     */
+    @Prop() store: KupState;
 
     //////////////////////////////
     // End state management
@@ -202,7 +209,7 @@ export class KupTextInput implements KupStatePersisted<ComponentState> {
                     value: newValue,
                     oldValue: this.value,
                     info: {
-                      obj: this.obj,
+                        obj: this.obj,
                     },
                 });
             }
@@ -414,7 +421,7 @@ export class KupTextInput implements KupStatePersisted<ComponentState> {
                         placeholder={this.placeholder}
                     />
 
-                  <slot name="right"/>
+                    <slot name="right" />
 
                     {this.isClearable ? (
                         <button

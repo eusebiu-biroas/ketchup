@@ -70,6 +70,23 @@ import {
     isCheckbox,
 } from '../../utils/object-utils';
 
+import {
+    KupStatePersisted,
+    KupStateManager,
+    KupStateEvent,
+    KupStateModel,
+} from '../kup-state';
+
+// This class models our component state.
+class ComponentState extends KupStateModel {
+    public filters: GenericMap = {};
+    public groups: Array<GroupObject> = [];
+
+    public toDebugString() {
+        return `filters=${this.filters}&groups=${this.groups}`;
+    }
+}
+
 @Component({
     tag: 'kup-data-table',
     styleUrl: 'kup-data-table.scss',
