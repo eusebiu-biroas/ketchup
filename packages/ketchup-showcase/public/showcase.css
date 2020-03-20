@@ -73,13 +73,14 @@ h3 {
 }
 
 .page-nav-element {
-  max-height: 22px;
-  margin-top: 8px;
+  color: var(--kup-text-color);
   display: block;
+  margin-top: 8px;
+  max-height: 22px;
   padding-left: 15px;
   padding-top: 7.5px;
   transition: all 0.2s ease-in;
-  color: var(--kup-text-color);
+  white-space: pre;
 }
 
 .page-nav-element.active {
@@ -138,7 +139,6 @@ i.v-icon.material-icons {
 }
 
 .demo-container {
-  max-width: 80%;
   text-align: center;
   margin: auto;
 }
@@ -153,7 +153,9 @@ i.v-icon.material-icons {
 
 .kup-container {
   display: inline-flex;
-  margin: 30px 0;
+  margin: 2rem 1.5rem;
+  max-width: 100%;
+  flex-wrap: wrap;
 }
 
 .kup-container-fw {
@@ -565,6 +567,10 @@ table.instruction-table th {
   right: 0;
 }
 
+#view-splitter {
+  display: table;
+}
+
 #menu-trigger {
   position: absolute;
   top: 0;
@@ -583,7 +589,9 @@ table.instruction-table th {
 }
 
 #json-setter,
-#json-setter-opener {
+#json-setter-opener,
+#css-setter,
+#css-setter-opener {
   position: absolute;
   z-index: 1;
   display: none;
@@ -593,18 +601,22 @@ table.instruction-table th {
   animation: fadeInFromNone 0.25s ease-out;
 }
 
-#json-setter {
+#json-setter,
+#css-setter {
   top: 10px;
   left: 10px;
 }
 
-#json-setter-opener {
+#json-setter-opener,
+#css-setter-opener {
   bottom: 10px;
   right: 10px;
 }
 
 #json-setter.shown,
-#json-setter-opener.shown {
+#json-setter-opener.shown,
+#css-setter.shown,
+#css-setter-opener.shown {
   display: block;
 }
 
@@ -714,7 +726,8 @@ table.instruction-table th {
   animation: fadeInFromNone 0.25s ease-out;
 }
 
-#json-tab.padded {
+#json-tab.padded,
+#css-tab.padded {
   padding-top: 75px;
 }
 
@@ -742,7 +755,30 @@ table.instruction-table th {
   background-color: var(--kup-disabled-background-color);
 }
 
+.icon-wrapper {
+  height: 120px;
+  width: 120px;
+  padding: 0.25rem;
+  margin: auto;
+}
+
+.icon-label {
+  margin-top: 0.4rem;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: pre;
+}
+
+.kup-container wup-icon {
+  margin: auto;
+}
+
 @media screen and (max-width: 767px) {
+  .demo-container {
+    max-width: 80%;
+  }
+
   #view-swapper,
   #menu-trigger {
     display: none;

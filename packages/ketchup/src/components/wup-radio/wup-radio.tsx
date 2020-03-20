@@ -18,6 +18,15 @@ import { ComponentRadioElement } from './wup-radio-declarations';
 })
 export class WupRadio {
     @Element() rootElement: HTMLElement;
+
+    /**
+     * Custom style to be passed to the component.
+     */
+    @Prop({ reflect: true }) customStyle: string = undefined;
+    /**
+     * List of elements.
+     */
+    @Prop() data: ComponentRadioElement[] = [];
     /**
      * Defaults at null. It's the name that binds the radio buttons together.
      */
@@ -30,10 +39,6 @@ export class WupRadio {
      * Defaults at false. When set to true, the label will be on the left of the component.
      */
     @Prop({ reflect: true }) leadingLabel: boolean = false;
-    /**
-     * List of elements.
-     */
-    @Prop() data: ComponentRadioElement[] = [];
 
     @Event({
         eventName: 'kupRadioBlur',
@@ -43,6 +48,7 @@ export class WupRadio {
     })
     kupBlur: EventEmitter<{
         value: string;
+        checked: boolean;
     }>;
 
     @Event({
@@ -53,6 +59,7 @@ export class WupRadio {
     })
     kupChange: EventEmitter<{
         value: string;
+        checked: boolean;
     }>;
 
     @Event({
@@ -63,6 +70,7 @@ export class WupRadio {
     })
     kupClick: EventEmitter<{
         value: string;
+        checked: boolean;
     }>;
 
     @Event({
@@ -73,6 +81,7 @@ export class WupRadio {
     })
     kupFocus: EventEmitter<{
         value: string;
+        checked: boolean;
     }>;
 
     @Event({
@@ -83,6 +92,7 @@ export class WupRadio {
     })
     kupInput: EventEmitter<{
         value: string;
+        checked: boolean;
     }>;
 
     //---- Methods ----
@@ -91,6 +101,7 @@ export class WupRadio {
         const { target } = event;
         this.kupBlur.emit({
             value: target.value,
+            checked: target.checked,
         });
     }
 
@@ -98,6 +109,7 @@ export class WupRadio {
         const { target } = event;
         this.kupChange.emit({
             value: target.value,
+            checked: target.checked,
         });
     }
 
@@ -105,6 +117,7 @@ export class WupRadio {
         const { target } = event;
         this.kupClick.emit({
             value: target.value,
+            checked: target.checked,
         });
     }
 
@@ -112,6 +125,7 @@ export class WupRadio {
         const { target } = event;
         this.kupFocus.emit({
             value: target.value,
+            checked: target.checked,
         });
     }
 
@@ -119,6 +133,7 @@ export class WupRadio {
         const { target } = event;
         this.kupInput.emit({
             value: target.value,
+            checked: target.checked,
         });
     }
 
@@ -145,6 +160,10 @@ export class WupRadio {
         let componentLabel: string = '';
         let radioList: Array<HTMLElement> = [];
         let radioEl: HTMLElement;
+        let customStyle = undefined;
+        if (this.customStyle) {
+            customStyle = <style>{this.customStyle}</style>;
+        }
 
         if (this.disabled) {
             componentClass += ' mdc-radio--disabled';
@@ -192,6 +211,7 @@ export class WupRadio {
 
         return (
             <Host>
+                {customStyle}
                 <div id="kup-component">{radioList}</div>
             </Host>
         );

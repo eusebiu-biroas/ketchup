@@ -278,9 +278,39 @@ export default {
             },
           },
           {
+            title: `Chip`,
+            to: {
+              name: 'chip',
+            },
+          },
+          {
+            title: `Combobox`,
+            to: {
+              name: 'combobox',
+            },
+          },
+          {
+            title: `Icon`,
+            to: {
+              name: 'icon',
+            },
+          },
+          {
+            title: `List`,
+            to: {
+              name: 'list',
+            },
+          },
+          {
             title: `Radio`,
             to: {
               name: 'radio',
+            },
+          },
+          {
+            title: `Spinner`,
+            to: {
+              name: 'spinner',
             },
           },
           {
@@ -306,6 +336,12 @@ export default {
       {
         title: 'Javascript',
         javascriptItems: [
+          {
+            title: 'Error logging',
+            to: {
+              name: 'errorlogging',
+            },
+          },
           {
             title: 'Scroll on hover',
             to: {
