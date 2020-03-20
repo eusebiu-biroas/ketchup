@@ -15,30 +15,18 @@ import { GenericObject } from '../../types/GenericTypes';
 
 import { debounceEvent } from '../../utils/helpers';
 
-import {
-    KupStatePersisted,
-    KupStateManager,
-    KupStateEvent,
-    KupStateModel,
-} from '../kup-state';
-import { KupState } from '../kup-state/kup-state';
+import { KupStatePersisted, KupStateEvent } from '../kup-state';
+
+import { TextInputState } from './textInputState';
 
 // This class models our component state.
-class ComponentState extends KupStateModel {
-    // TODO: define common attributes
-    public name: string = 'Ale';
-
-    public toDebugString() {
-        return `name=${this.name}`;
-    }
-}
 
 @Component({
     tag: 'kup-text-input',
     styleUrl: 'kup-text-input.scss',
     shadow: true,
 })
-export class KupTextInput implements KupStatePersisted<ComponentState> {
+export class KupTextInput implements KupStatePersisted<TextInputState> {
     //////////////////////////////
     // Begin state management
     // NOTE: I'd have loved to avoid this level of verbosity in Stencil.js
@@ -51,52 +39,56 @@ export class KupTextInput implements KupStatePersisted<ComponentState> {
     // as that hack would only be needed by the stencil build pipeline.
     //////////////////////////////
 
-    state: ComponentState = new ComponentState();
+    state: TextInputState = new TextInputState();
     // Cannot use stencil built-in @Event or EventEmitter
     // as they break our KupStateManager registration being
     // outside of Stencil components.
-    // @Event() stateChange: EventEmitter<ComponentState>; // Would be null for ksm.registerEvent()
+    // @Event() stateChange: EventEmitter<TextInputState>; // Would be null for ksm.registerEvent()
 
-    stateChange: KupStateEvent<ComponentState> = new KupStateEvent<
-        ComponentState
-    >(ComponentState);
+    stateChange: KupStateEvent<TextInputState> = new KupStateEvent<
+        TextInputState
+    >(TextInputState);
 
     // Get a singleton instance, register our custom event emitter to start
     // a listener.
-    registerState() {
-        const ksm = KupStateManager.getInstance(this.store);
-        ksm.registerListener(this.stateChange);
-    }
 
-    getValue() {
-        const ksm = KupStateManager.getInstance(this.store);
-        console.log('store contains: ');
-        console.log(ksm.getStore());
+    registerState() {
+        /*
+        console.log('State', this.store);
+        var ksm1 = KupStateManager.getInstance(this.store);
+        ksm1.registerListener(this.stateChange); */
     }
+    /*
+    getValue() {
+        console.log('State', this.store);
+        var ksm2 = KupStateManager.getInstance(this.store);
+        console.log('store contains: ');
+        console.log(ksm2.getStore());
+    }*/
 
     // NOTE: with live-reload this might be triggered multiple time
     // TODO: exercise for the reader is to ensure this gets called only once.
     constructor() {
-        this.registerState();
+        // this.registerState();
     }
 
     // This method cannot be abstracted started in stencil 0.12 as @Component
     // annotated components cannot derive from abstracted classes.
     stateChanged() {
-        console.log('state changed:', this.state);
-        this.stateChange.emit(this.state);
-
+        //console.log('state changed:', this.state);
+        //this.stateChange.emit(this.state);
         // simulate a delay to retrieve the values from the store
         // TODO: remove me
+        /*
         setTimeout(() => {
             this.getValue();
-        }, 2000);
+        }, 2000); */
     }
 
     /**
      * Marks the field as clearable, allowing an icon to delete its content
      */
-    @Prop() store: KupState;
+    // @Prop() store: KupState;
 
     //////////////////////////////
     // End state management
@@ -357,12 +349,13 @@ export class KupTextInput implements KupStatePersisted<ComponentState> {
         //////////////////////////////
 
         // Update the model and trigger a stateChanged event.
-        this.state.name = target.value;
+        /* this.state.name = target.value; */
         // By using this trigger you can effectively trigger a
         // state change from everywhere in the lifecycle of your
         // component, even using custom logic to detect
         // whether to trigger it or not.
-        this.stateChanged();
+
+        /* this.stateChanged(); */
 
         //////////////////////////////
         // End state change

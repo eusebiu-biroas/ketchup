@@ -11,14 +11,13 @@
 | -------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- | ----------- |
 | `debounce`     | `debounce`      | Set the amount of time, in milliseconds, to wait to trigger the `ketchupTextInputUpdated` event after each keystroke.                                                                       | `number`        | `400`       |
 | `disabled`     | `disabled`      | Sets the input to be disabled                                                                                                                                                               | `boolean`       | `false`     |
-| `initialValue` | `initial-value` | Marks the field as clearable, allowing an icon to delete its content                                                                                                                        | `string`        | `''`        |
+| `initialValue` | `initial-value` | Marks the field as clearable, allowing an icon to delete its content Marks the field as clearable, allowing an icon to delete its content                                                   | `string`        | `''`        |
 | `inputType`    | `input-type`    | Specify the type of input. Allowed values: password, text.                                                                                                                                  | `string`        | `'text'`    |
 | `isClearable`  | `is-clearable`  | Marks the field as clearable, allowing an icon to delete its content                                                                                                                        | `boolean`       | `false`     |
 | `label`        | `label`         | Label to describe the text-input clear button group                                                                                                                                         | `string`        | `''`        |
 | `maxLength`    | `max-length`    | The max length of the text field. Default value copied from here: https://www.w3schools.com/tags/att_input_maxlength.asp                                                                    | `number`        | `524288`    |
 | `obj`          | --              | A generic object which can be passed to the component. Once this object is set, it will always be returned inside the info field of the ketchupTextInputUpdated and ketchupTextInputSubmit. | `GenericObject` | `undefined` |
 | `placeholder`  | `placeholder`   | text for input placeholder                                                                                                                                                                  | `string`        | `''`        |
-| `store`        | --              | Marks the field as clearable, allowing an icon to delete its content                                                                                                                        | `KupState`      | `undefined` |
 
 
 ## Events

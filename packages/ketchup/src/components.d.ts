@@ -101,9 +101,6 @@ import {
   KetchupRadioElement,
 } from './components/kup-radio/kup-radio-declarations';
 import {
-  KupState,
-} from './components/kup-state/kup-state';
-import {
   KetchupTextInputEvent,
 } from './components/kup-text-input/kup-text-input-declarations';
 import {
@@ -1029,7 +1026,7 @@ export namespace Components {
     */
     'disabled': boolean;
     /**
-    * Marks the field as clearable, allowing an icon to delete its content
+    * Marks the field as clearable, allowing an icon to delete its content Marks the field as clearable, allowing an icon to delete its content
     */
     'initialValue': string;
     /**
@@ -1056,10 +1053,6 @@ export namespace Components {
     * text for input placeholder
     */
     'placeholder': string;
-    /**
-    * Marks the field as clearable, allowing an icon to delete its content
-    */
-    'store': KupState;
     /**
     * Triggers the focus event on the input text
     */
@@ -2900,7 +2893,7 @@ declare namespace LocalJSX {
     */
     'disabled'?: boolean;
     /**
-    * Marks the field as clearable, allowing an icon to delete its content
+    * Marks the field as clearable, allowing an icon to delete its content Marks the field as clearable, allowing an icon to delete its content
     */
     'initialValue'?: string;
     /**
@@ -2947,10 +2940,6 @@ declare namespace LocalJSX {
     * text for input placeholder
     */
     'placeholder'?: string;
-    /**
-    * Marks the field as clearable, allowing an icon to delete its content
-    */
-    'store'?: KupState;
   }
   interface KupTooltip extends JSXBase.HTMLAttributes<HTMLKupTooltipElement> {
     /**
