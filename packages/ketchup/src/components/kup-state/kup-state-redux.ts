@@ -1,13 +1,9 @@
 // A concrete implementation of the kup-state using redux.
-import {
-    KupState
-} from './kup-state';
+import { KupState } from './kup-state';
 
-import {
-    KupStateModel
-} from './kup-state-model';
+import { KupStateModel } from './kup-state-model';
 
-import { createStore } from 'redux';
+// import { createStore } from 'redux';
 
 // TODO: This is the actual store implementation (fictional, for
 // example purposes, you probably want a better structured store).
@@ -32,12 +28,14 @@ export class KupStateRedux extends KupState {
         super('stateId');
 
         // Init your backend store, in this case it's redux.
-        this.store = createStore(reduxStore);
+        //this.store = createStore(reduxStore);
     }
 
     // Redux specific persist implementation.
     persist(newState: KupStateModel): void {
-        console.log(`Persisting in ${this.stateId}: ${newState.toDebugString()}`);
+        console.log(
+            `Persisting in ${this.stateId}: ${newState.toDebugString()}`
+        );
         this.store.dispatch({ type: 'STORE', payload: newState });
     }
 
