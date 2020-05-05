@@ -1,3 +1,5 @@
+import { KupState } from '../../utils/kup-state-utils';
+
 export interface DataTable {
     columns?: Array<Column>;
     rows?: Array<Row>;
@@ -154,7 +156,7 @@ export enum GroupLabelDisplayMode {
     VALUE = 'value',
 }
 
-export interface KupDataTableState {
+export interface KupDataTableState extends KupState {
     filters?: GenericMap;
     groups?: Array<GroupObject>;
     data?: TableData;
