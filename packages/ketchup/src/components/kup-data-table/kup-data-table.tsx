@@ -33,6 +33,7 @@ import {
     SortObject,
     TableData,
     TotalsMap,
+    KupDataTableState,
 } from './kup-data-table-declarations';
 
 import {
@@ -496,6 +497,41 @@ export class KupDataTable {
         tooltip: EventTarget;
     }>;
 
+    //////////////////////////////
+    // Begin state stuff
+    //////////////////////////////
+
+    @Prop()
+    initialState: KupDataTableState;
+
+    @Method()
+    async getState(): Promise<KupDataTableState> {
+        return {
+            groups: this.groups,
+            filters: this.filters,
+            data: this.data,
+        };
+    }
+
+    initWithState(): void {
+        if (this.initialState) {
+            console.log('Init with state');
+            if (this.initialState.filters) {
+                this.filters = this.initialState.filters;
+            }
+            if (this.initialState.groups) {
+                this.groups = this.initialState.groups;
+            }
+            if (this.initialState.data) {
+                this.data = this.initialState.data;
+            }
+        }
+    }
+
+    //////////////////////////////
+    // End state stuff
+    //////////////////////////////
+
     onDocumentClick = () => {
         this.topFontSizePanelVisible = false;
         this.botFontSizePanelVisible = false;
@@ -608,6 +644,8 @@ export class KupDataTable {
 
     // lifecycle
     componentWillLoad() {
+        this.initWithState();
+
         this.rowsPerPageHandler(this.rowsPerPage);
         this.initRows();
 

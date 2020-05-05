@@ -153,3 +153,9 @@ export enum GroupLabelDisplayMode {
     LABEL = 'label',
     VALUE = 'value',
 }
+
+export interface KupDataTableState {
+    filters?: GenericMap;
+    groups?: Array<GroupObject>;
+    data?: TableData;
+}

@@ -25,6 +25,7 @@ import {
   GroupObject,
   KupDataTableCellButtonClick,
   KupDataTableSortedColumnIndexes,
+  KupDataTableState,
   LoadMoreMode,
   PaginatorPos,
   Row,
@@ -499,6 +500,7 @@ export namespace Components {
     * Forces cells with long text and a fixed column size to have an ellipsis set on their text. The reflect attribute is mandatory to allow styling.
     */
     'forceOneLine': boolean;
+    'getState': () => Promise<KupDataTableState>;
     /**
     * When set to true it activates the global filter.
     */
@@ -519,6 +521,7 @@ export namespace Components {
     * When set to true the header will stick on top of the table when scrolling.
     */
     'headerIsPersistent': boolean;
+    'initialState': KupDataTableState;
     /**
     * Sets a maximum limit of new records which can be required by the load more functionality.
     */
@@ -2104,6 +2107,7 @@ declare namespace LocalJSX {
     * When set to true the header will stick on top of the table when scrolling.
     */
     'headerIsPersistent'?: boolean;
+    'initialState'?: KupDataTableState;
     /**
     * Sets a maximum limit of new records which can be required by the load more functionality.
     */
