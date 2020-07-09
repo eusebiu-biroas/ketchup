@@ -14,11 +14,11 @@ import {
     isConfigurator,
     isMultipleConfigurator,
     isInputText,
-} from './cell-utils';
+} from './cells';
 import {
     isProgressBar as isProgressBarObj,
     isImage as isImageObj,
-} from './object-utils';
+} from './object';
 
 // ------------------------------------------------------------------------------------------------
 // Form cells utils functions -> TODO: refactor -> uniform Box, Datatable and Form structures ->

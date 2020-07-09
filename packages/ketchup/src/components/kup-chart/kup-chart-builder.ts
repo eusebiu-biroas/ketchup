@@ -4,7 +4,7 @@ import {
     DataTable,
 } from '../kup-data-table/kup-data-table-declarations';
 
-import { isDate, isNumber } from '../../utils/object-utils';
+import { isDate, isNumber } from '../../utils/object';
 
 import { formatToNumber, formatToMomentDate } from '../../utils/cell-formatter';
 

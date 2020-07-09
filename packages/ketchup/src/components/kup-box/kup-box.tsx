@@ -35,7 +35,7 @@ import {
     isIcon,
     isChart,
     isCheckbox,
-} from '../../utils/object-utils';
+} from '../../utils/object';
 
 import {
     isEditor,
@@ -46,9 +46,9 @@ import {
     buildProgressBarConfig,
     buildIconConfig,
     getShape,
-} from '../../utils/cell-utils';
+} from '../../utils/cells';
 
-import { buildButtonConfig } from '../../utils/widget-utils';
+import { buildButtonConfig } from '../../utils/widget';
 
 import {
     filterRows,

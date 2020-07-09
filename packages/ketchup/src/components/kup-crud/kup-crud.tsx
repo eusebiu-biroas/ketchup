@@ -21,11 +21,7 @@ import {
     FormFieldEventDetail,
 } from '../kup-form/kup-form-declarations';
 
-import {
-    getFields,
-    getVisibleFields,
-    outputValue,
-} from '../../utils/widget-utils';
+import { getFields, getVisibleFields, outputValue } from '../../utils/widget';
 
 import {
     CrudRecord,

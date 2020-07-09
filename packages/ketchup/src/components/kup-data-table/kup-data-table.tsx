@@ -11,7 +11,6 @@ import {
     Watch,
 } from '@stencil/core';
 
-import numeral from 'numeral';
 import { scrollOnHover } from '../../utils/scroll-on-hover';
 import { positionRecalc } from '../../utils/recalc-position';
 
@@ -47,7 +46,6 @@ import {
     paginateRows,
     sortRows,
     styleHasBorderRadius,
-    styleHasWritingMode,
     setTextFieldFilterValue,
     addCheckBoxFilterValue,
     removeCheckBoxFilterValue,
@@ -57,31 +55,14 @@ import {
 } from './kup-data-table-helper';
 
 import {
-    buildProgressBarConfig,
-    buildIconConfig,
-} from '../../utils/cell-utils';
-
-import { buildButtonConfig } from '../../utils/widget-utils';
-
-import {
     isBar,
-    isChart,
-    isButton,
-    isIcon,
-    isImage,
-    isLink,
     isNumber,
-    isProgressBar,
-    isRadio,
-    isVoCodver,
     isStringObject,
     isCheckbox,
-    hasTooltip,
     isDate,
-} from '../../utils/object-utils';
+} from '../../utils/object';
 import { GenericObject } from '../../types/GenericTypes';
 
-import { getBoolean } from '../../utils/utils';
 import { ComponentChipElement } from '../kup-chip/kup-chip-declarations';
 
 import {
@@ -89,7 +70,14 @@ import {
     ItemsDisplayMode,
 } from '../kup-list/kup-list-declarations';
 import { errorLogging } from '../../utils/error-logging';
-import { unformatDate } from '../../utils/cell-formatter';
+import {
+    unformatDate,
+    stringToNumber,
+    numberToString,
+    formattedStringToUnformattedStringNumber,
+    unformattedStringToFormattedStringNumber,
+} from '../../utils/cell-formatter';
+import { renderCell } from '../../utils/tsx/cells';
 
 @Component({
     tag: 'kup-data-table',
@@ -829,6 +817,7 @@ export class KupDataTable {
         tmpFilters[column] = null;
 
         let visibleColumns = this.getVisibleColumns();
+        let columnObject = getColumnByName(visibleColumns, column);
 
         let tmpRows = filterRows(
             this.getRows(),
@@ -842,23 +831,15 @@ export class KupDataTable {
             this.addColumnValueFromRow(values, column, row)
         );
 
-        let c: Column = null;
-        for (let i = 0; i < visibleColumns.length; i++) {
-            if (visibleColumns[i].name == column) {
-                c = visibleColumns[i];
-                break;
-            }
-        }
-
-        if (c != null) {
+        if (columnObject != null) {
             values = values.sort((n1: string, n2: string) => {
                 let obj1: any = n1;
                 let obj2: any = n2;
 
-                if (isNumber(c.obj)) {
-                    obj1 = Number(n1);
-                    obj2 = Number(n2);
-                } else if (isDate(c.obj)) {
+                if (isNumber(columnObject.obj)) {
+                    obj1 = stringToNumber(n1);
+                    obj2 = stringToNumber(n2);
+                } else if (isDate(columnObject.obj)) {
                     obj1 = unformatDate(n1);
                     obj2 = unformatDate(n2);
                 }
@@ -1175,25 +1156,29 @@ export class KupDataTable {
         this.filters = newFilters;
     }
 
-    private onFilterChange({ detail }, column: string) {
+    private onFilterChange({ detail }, column: Column) {
         // resetting current page
         this.currentPage = 1;
 
+        let newFilter = detail.value.trim();
+        if (newFilter != '' && isNumber(column.obj)) {
+            newFilter = formattedStringToUnformattedStringNumber(newFilter);
+        }
         const newFilters: GenericFilter = { ...this.filters };
-        setTextFieldFilterValue(newFilters, column, detail.value);
+        setTextFieldFilterValue(newFilters, column.name, newFilter);
         this.filters = newFilters;
     }
 
-    private onFilterChange2({ detail }, column: string, filterValue: string) {
+    private onFilterChange2({ detail }, column: Column, filterValue: string) {
         // resetting current page
         this.currentPage = 1;
 
         const newFilters = { ...this.filters };
 
         if (detail.checked == true || filterValue == null) {
-            addCheckBoxFilterValue(newFilters, column, filterValue);
+            addCheckBoxFilterValue(newFilters, column.name, filterValue);
         } else {
-            removeCheckBoxFilterValue(newFilters, column, filterValue);
+            removeCheckBoxFilterValue(newFilters, column.name, filterValue);
         }
 
         this.filters = newFilters;
@@ -1436,7 +1421,9 @@ export class KupDataTable {
     //    });
     //}
 
-    private onJ4btnClicked(row, column, cell) {
+    onJ4btnClicked(row, column, cell) {
+        this.log('onJ4btnClicked', 'data-table');
+        /*
         // Since this function is called with bind, the event from the kup-button gets passed into the arguments array
         const buttonEvent = arguments[3] as UIEvent;
         if (buttonEvent) {
@@ -1445,6 +1432,7 @@ export class KupDataTable {
         } else {
             throw 'kup-data-table error: missing event';
         }
+        */
         this.kupCellButtonClicked.emit({
             cell,
             column,
@@ -1907,17 +1895,24 @@ export class KupDataTable {
                     );
 
                     if (this.showFilters && isStringObject(column.obj)) {
+                        let filterInitialValue = this.getTextFieldFilterValue(
+                            column.name
+                        );
+                        if (filterInitialValue != '' && isNumber(column.obj)) {
+                            filterInitialValue = unformattedStringToFormattedStringNumber(
+                                filterInitialValue,
+                                column.decimals
+                            );
+                        }
                         columnMenuItems.push(
                             <li role="menuitem" class="textfield-row">
                                 <kup-text-field
                                     full-width
                                     label="Filter column..."
                                     outlined={false}
-                                    initialValue={this.getTextFieldFilterValue(
-                                        column.name
-                                    )}
+                                    initialValue={filterInitialValue}
                                     onKupTextFieldSubmit={(e) => {
-                                        this.onFilterChange(e, column.name);
+                                        this.onFilterChange(e, column);
                                         this.closeMenu();
                                     }}
                                 ></kup-text-field>
@@ -1951,11 +1946,7 @@ export class KupDataTable {
                                     label={'(*All)'}
                                     checked={checkBoxesFilter.length == 0}
                                     onKupCheckboxChange={(e) => {
-                                        this.onFilterChange2(
-                                            e,
-                                            column.name,
-                                            null
-                                        );
+                                        this.onFilterChange2(e, column, null);
                                     }}
                                 ></kup-checkbox>
                             );
@@ -1968,6 +1959,11 @@ export class KupDataTable {
                                 } else {
                                     label = '(*unchecked)';
                                 }
+                            } else if (v != '' && isNumber(column.obj)) {
+                                label = unformattedStringToFormattedStringNumber(
+                                    v,
+                                    column.decimals
+                                );
                             }
 
                             checkboxItems.push(
@@ -1975,7 +1971,7 @@ export class KupDataTable {
                                     label={label}
                                     checked={checkBoxesFilter.includes(v)}
                                     onKupCheckboxChange={(e) => {
-                                        this.onFilterChange2(e, column.name, v);
+                                        this.onFilterChange2(e, column, v);
                                     }}
                                 ></kup-checkbox>
                             );
@@ -2236,8 +2232,8 @@ export class KupDataTable {
             return null;
         }
 
-        const footerCells = this.getVisibleColumns().map(({ name }) => (
-            <td>{this.footer[name]}</td>
+        const footerCells = this.getVisibleColumns().map((column: Column) => (
+            <td>{numberToString(this.footer[column.name], column.decimals)}</td>
         ));
 
         let selectRowCell = null;
@@ -2325,7 +2321,12 @@ export class KupDataTable {
                 // adding 'totals grouping' cells
                 for (let column of visibleColumns) {
                     cells.push(
-                        <td class="total">{row.group.totals[column.name]}</td>
+                        <td class="total">
+                            {numberToString(
+                                row.group.totals[column.name],
+                                column.decimals
+                            )}
+                        </td>
                     );
                 }
 
@@ -2617,15 +2618,6 @@ export class KupDataTable {
         });
     }
 
-    /**
-     * FActory function for cells.
-     * @param cell - cell object
-     * @param column - the cell's column name
-     * @param previousRowCellValue - An optional value of the previous cell on the same column. If set and equal to the value of the current cell, makes the value of the current cell go blank.
-     * @param cellData - Additional data for the current cell.
-     * @param cellData.column - The column object to which the cell belongs.
-     * @param cellData.row - The row object to which the cell belongs.
-     */
     private renderCell(
         indend: any,
         cell: Cell,
@@ -2633,236 +2625,25 @@ export class KupDataTable {
         column: Column,
         previousRowCellValue?: string
     ) {
-        const classObj: Record<string, boolean> = {
-            'cell-content': true,
-            clickable: !!column.clickable,
+        let readOnlyInputFields: boolean =
+            row.readOnly !== undefined ? row.readOnly : true;
+        let onCellContentClick = function (comp: KupDataTable) {
+            comp.onJ4btnClicked(row, column, cell);
         };
-
-        // When the previous row value is different from the current value, we can show the current value.
-        const valueToDisplay =
-            previousRowCellValue !== cell.value ? cell.value : '';
-
-        // Sets the default value
-        let content: any = valueToDisplay;
-
-        if (isIcon(cell.obj) || isVoCodver(cell.obj)) {
-            let iconStyle = {};
-            if (cell.config) {
-                if (cell.config.sizeX) {
-                    iconStyle = { ...iconStyle, width: cell.config.sizeX };
-                }
-                if (cell.config.sizeY) {
-                    iconStyle = { ...iconStyle, height: cell.config.sizeY };
-                }
-            }
-            content = (
-                <span class="icon-container" style={iconStyle}>
-                    <kup-image {...buildIconConfig(cell, valueToDisplay)} />
-                </span>
-            );
-        } else if (isNumber(cell.obj)) {
-            content = valueToDisplay;
-
-            if (content) {
-                const cellValue = numeral(cell.obj.k).value();
-
-                if (cellValue < 0) {
-                    classObj['negative-number'] = true;
-                }
-            }
-        } else if (isImage(cell.obj)) {
-            // If we have a not duplicated image to render
-            if (valueToDisplay) {
-                // Checks if there are badges to set
-                content = (
-                    <kup-image
-                        class="cell-image"
-                        badgeData={cell.config ? cell.config.badges : undefined}
-                        sizeX="auto"
-                        sizeY="var(--dtt_cell-image_max-height)"
-                        resource={valueToDisplay}
-                    />
-                );
-            } else {
-                content = null;
-            }
-        } else if (isLink(cell.obj)) {
-            content = (
-                <a href={valueToDisplay} target="_blank">
-                    {valueToDisplay}
-                </a>
-            );
-        } else if (isCheckbox(cell.obj)) {
-            let checked = cell.obj.k == '1';
-            content = (
-                <kup-checkbox
-                    checked={checked}
-                    // TODO: update as `row.readOnly ?? true` when dependencies are updated
-                    disabled={row.readOnly !== undefined ? row.readOnly : true}
-                />
-            );
-        } else if (isButton(cell.obj)) {
-            /**
-             * Here either using .bind() or () => {} function would bring more or less the same result.
-             * Both those syntax would create at run time a new function for each cell on which they're rendered.
-             * (See references below.)
-             *
-             * Another solution would be to simply bind an event handler like this:
-             * onKupButtonClicked={this.onJ4btnClicked}
-             *
-             * The problem here is that, by using that syntax:
-             * 1 - Each time a cell is rendered with an object item, either the cell or button must have a data-row,
-             *      data-column and data-cell-name attributes which stores the index of cell's and the name of the clicked cell;
-             * 2 - each time a click event is triggered, the handler reads the row and column index set on the element;
-             * 3 - searches those column and row inside the current data for the table;
-             * 4 - once the data is found, creates the custom event with the data to be sent.
-             *
-             * Currently there is no reason to perform such a search, but it may arise if on large data tables
-             * there is a significant performance loss.
-             * @see https://reactjs.org/docs/handling-events.html
-             */
-            content = (
-                <kup-button
-                    {...buildButtonConfig(cell.value, cell.config)}
-                    onKupButtonClick={this.onJ4btnClicked.bind(
-                        this,
-                        row,
-                        column,
-                        cell
-                    )}
-                />
-            );
-        } else if (isBar(cell.obj)) {
-            if (cell.config) {
-                let barData = cell.config.data;
-                let barHeight = '26px';
-                if (this.density === 'medium') {
-                    barHeight = '36px';
-                }
-                if (this.density === 'big') {
-                    barHeight = '50px';
-                }
-
-                if (barData) {
-                    const props: {
-                        data: any;
-                        sizeY: string;
-                    } = {
-                        data: barData,
-                        sizeY: barHeight,
-                    };
-
-                    content =
-                        !column.hideValuesRepetitions || valueToDisplay ? (
-                            <kup-image {...props} />
-                        ) : null;
-                }
-            } else if (cell.value) {
-                const props: {
-                    resource: string;
-                    sizeY: string;
-                    isCanvas: boolean;
-                } = {
-                    resource: cell.value,
-                    sizeY: '35px',
-                    isCanvas: true,
-                };
-
-                content =
-                    !column.hideValuesRepetitions || valueToDisplay ? (
-                        <kup-image {...props} />
-                    ) : null;
-            }
-        } else if (isChart(cell.obj)) {
-            let columnWidth;
-            if (this.sizedColumns) {
-                columnWidth = this.sizedColumns.find(
-                    ({ name: columnName }) => columnName === column.name
-                );
-            }
-
-            const props: {
-                cellConfig: any;
-                value: string;
-                width?: number;
-            } = {
-                cellConfig: cell.config,
-                value: cell.value,
-                width: columnWidth !== undefined ? columnWidth.size : undefined,
-            };
-
-            content = <kup-chart-cell {...props} />;
-        } else if (isProgressBar(cell.obj)) {
-            if (!column.hideValuesRepetitions || valueToDisplay) {
-                content = (
-                    <kup-progress-bar
-                        {...buildProgressBarConfig(
-                            cell,
-                            null,
-                            true,
-                            valueToDisplay
-                        )}
-                    />
-                );
-            } else {
-                content = null;
-            }
-        } else if (isRadio(cell.obj)) {
-            if (!column.hideValuesRepetitions || valueToDisplay) {
-                let radioProp = {
-                    data: [
-                        {
-                            label: '',
-                            value: cell.value,
-                            checked: getBoolean(cell.obj.k),
-                        },
-                    ],
-                    // TODO: update as `row.readOnly ?? true` when dependencies are updated
-                    disabled: row.readOnly !== undefined ? row.readOnly : true,
-                };
-                content = <kup-radio {...radioProp} />;
-            } else {
-                content = null;
-            }
-        }
-
-        // if cell.style has border, apply style to cellcontent
-        let style = null;
-        if (styleHasBorderRadius(cell) || styleHasWritingMode(cell)) {
-            style = cell.style;
-        }
-
-        /**
-         * Controls if current cell needs a tooltip and eventually adds it.
-         * @todo When the option forceOneLine is active, there is a problem with the current implementation of the tooltip. See documentation in the mauer wiki for better understanding.
-         */
-        if (hasTooltip(cell.obj)) {
-            content = (
-                <kup-tooltip
-                    class="datatable-tooltip"
-                    onKupTooltipLoadData={(ev) =>
-                        this.kupLoadRequest.emit({
-                            cell,
-                            tooltip: ev.srcElement,
-                        })
-                    }
-                    onKupTooltipLoadDetail={(ev) =>
-                        this.kupDetailRequest.emit({
-                            cell,
-                            tooltip: ev.srcElement,
-                        })
-                    }
-                >
-                    {content}
-                </kup-tooltip>
-            );
-        }
-
-        return (
-            <span class={classObj} style={style}>
-                {indend}
-                {content}
-            </span>
+        return renderCell(
+            this,
+            indend,
+            cell,
+            onCellContentClick,
+            column,
+            false,
+            null,
+            readOnlyInputFields,
+            this.density,
+            this.kupLoadRequest,
+            this.kupDetailRequest,
+            previousRowCellValue,
+            this.sizedColumns
         );
     }
 

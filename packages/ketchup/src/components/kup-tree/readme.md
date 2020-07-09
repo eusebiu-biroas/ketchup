@@ -96,34 +96,34 @@ Ideally it can be achieved by using `tabindex` for navigation and a check on the
 
 ### Depends on
 
-- [kup-button](../kup-button)
 - [kup-image](../kup-image)
+- [kup-text-field](../kup-text-field)
 - [kup-checkbox](../kup-checkbox)
+- [kup-button](../kup-button)
 - [kup-chart-cell](../kup-chart-cell)
 - [kup-progress-bar](../kup-progress-bar)
 - [kup-radio](../kup-radio)
 - [kup-tooltip](../kup-tooltip)
-- [kup-text-field](../kup-text-field)
 
 ### Graph
 ```mermaid
 graph TD;
-  kup-tree --> kup-button
   kup-tree --> kup-image
+  kup-tree --> kup-text-field
   kup-tree --> kup-checkbox
+  kup-tree --> kup-button
   kup-tree --> kup-chart-cell
   kup-tree --> kup-progress-bar
   kup-tree --> kup-radio
   kup-tree --> kup-tooltip
-  kup-tree --> kup-text-field
-  kup-button --> kup-image
   kup-image --> kup-spinner
   kup-image --> kup-badge
   kup-badge --> kup-image
+  kup-text-field --> kup-image
+  kup-button --> kup-image
   kup-progress-bar --> kup-image
   kup-tooltip --> kup-button
   kup-tooltip --> kup-image
-  kup-text-field --> kup-image
   style kup-tree fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -43,7 +43,7 @@ import {
     getVisibleFields,
     zipRecords,
     unzipRecords,
-} from '../../utils/widget-utils';
+} from '../../utils/widget';
 
 import {
     getFromConfigInForm,
@@ -57,7 +57,7 @@ import {
     isSearchInForm,
     isConfiguratorInForm,
     isMultipleConfiguratorInForm,
-} from '../../utils/form-cell-utils';
+} from '../../utils/form-cell';
 
 @Component({
     tag: 'kup-form',

@@ -20,21 +20,6 @@ import {
 } from './kup-tree-declarations';
 
 import {
-    isBar,
-    isCheckbox,
-    isIcon,
-    isImage,
-    isLink,
-    isVoCodver,
-    isButton,
-    isChart,
-    isProgressBar,
-    isRadio,
-    isNumber,
-    hasTooltip,
-} from '../../utils/object-utils';
-
-import {
     styleHasBorderRadius,
     styleHasWritingMode,
 } from './../kup-data-table/kup-data-table-helper';
@@ -43,14 +28,8 @@ import { scrollOnHover } from '../../utils/scroll-on-hover';
 import { MDCRipple } from '@material/ripple';
 import { errorLogging } from '../../utils/error-logging';
 import { isFilterCompliantForValue } from '../../utils/filters';
-import {
-    buildIconConfig,
-    buildProgressBarConfig,
-} from '../../utils/cell-utils';
-import { buildButtonConfig } from '../../utils/widget-utils';
-import { getBoolean } from '../../utils/utils';
-import numeral from 'numeral';
 import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
+import { renderCell, renderOptionElement } from '../../utils/tsx/cells';
 
 @Component({
     tag: 'kup-tree',
@@ -436,12 +415,23 @@ export class KupTree {
         this.stateSwitcher = !this.stateSwitcher;
     }
 
-    private onJ4btnClicked(
+    onJ4btnClicked(
         treeNodeData: TreeNode,
         treeNodePath: string,
         column: Column,
         auto: boolean
     ) {
+        this.log('onJ4btnClicked', 'tree');
+        /*
+        // Since this function is called with bind, the event from the kup-button gets passed into the arguments array
+        const buttonEvent = arguments[3] as UIEvent;
+        if (buttonEvent) {
+            // Prevents double events to be fired.
+            buttonEvent.stopPropagation();
+        } else {
+            throw 'kup-tree error: missing event';
+        }
+        */
         this.kupTreeNodeButtonClicked.emit({
             treeNodePath: treeNodePath
                 .split(',')
@@ -569,14 +559,8 @@ export class KupTree {
     }
 
     // Handler for clicking onto the cells option object
-    hdlOptionClicked(
-        e: CustomEvent,
-        cell: Cell,
-        column: Column,
-        treeNode: TreeNode
-    ) {
-        // We block propagation of this event to prevent tree node from being expanded or close.
-        e.stopPropagation();
+    hdlOptionClicked(cell: Cell, column: Column, treeNode: TreeNode) {
+        this.log('hdlOptionClicked', 'tree');
         // Emits custom event
         this.kupOptionClicked.emit({
             cell,
@@ -656,30 +640,7 @@ export class KupTree {
     }
 
     //-------- Rendering --------
-    renderOptionElement(cell: Cell, column: Column, treeNode: TreeNode) {
-        return (
-            <kup-button
-                class="options"
-                custom-style=":host{transform:scale(0.75)}#kup-component .mdc-icon-button{--mdc-ripple-fg-opacity:0!important; height:1.25rem; width:1.25rem; padding:0}#kup-component .mdc-icon-button:before{display:none}.mdc-button__ripple{display:none}"
-                icon="settings"
-                tooltip="Options"
-                onKupButtonClick={(e: CustomEvent) =>
-                    this.hdlOptionClicked(e, cell, column, treeNode)
-                }
-                onClick={(e: MouseEvent) => e.stopPropagation()}
-            />
-        );
-    }
 
-    /**
-     * Factory function for cells.
-     * @param cell - cell object
-     * @param previousRowCellValue - An optional value of the previous cell on the same column. If set and equal to the value of the current cell, makes the value of the current cell go blank.
-     * @param cellData - Additional data for the current cell.
-     * @param cellData.column - The column object to which the cell belongs.
-     * @param cellData.treeNode - The treeNode object to which the cell belongs.
-     * @param cellData.treeNodePath - The treeNodePath to which the cell belongs.
-     */
     renderCell(
         cell: Cell,
         cellData: {
@@ -693,200 +654,45 @@ export class KupTree {
             !cellData.treeNode.disabled &&
             cell.options &&
             this.showObjectNavigation;
+        let readOnlyInputFields: boolean = cellData.treeNode.hasOwnProperty(
+            'readOnly'
+        )
+            ? cellData.treeNode.readOnly
+            : true;
 
-        const classObj: Record<string, boolean> = {
-            'cell-content': true,
-            'has-options': showOptions,
-            clickable: !!cellData.column.clickable,
+        let onCellContentClick = function (comp: KupTree) {
+            comp.onJ4btnClicked(
+                cellData.treeNode,
+                cellData.treeNodePath,
+                cellData.column,
+                false
+            );
         };
-
-        // When the previous row value is different from the current value, we can show the current value.
-        const valueToDisplay =
-            previousRowCellValue !== cell.value ? cell.value : '';
-
-        // Sets the default value
-        let content: any = valueToDisplay;
-
-        if (valueToDisplay) {
-            if (isIcon(cell.obj) || isVoCodver(cell.obj)) {
-                content = (
-                    <kup-image
-                        {...buildIconConfig(cell, valueToDisplay)}
-                        onKupImageClick={(e: Event) => {
-                            e.stopPropagation();
-                            this.onJ4btnClicked(
-                                cellData.treeNode,
-                                cellData.treeNodePath,
-                                cellData.column,
-                                false
-                            );
-                        }}
-                        onClick={(e: MouseEvent) => e.stopPropagation()}
-                    />
-                );
-            } else if (isNumber(cell.obj)) {
-                const cellValue = numeral(cell.obj.k).value();
-
-                if (cellValue < 0) {
-                    classObj['negative-number'] = true;
-                }
-            } else if (isImage(cell.obj)) {
-                content = (
-                    <kup-image
-                        class="cell-image"
-                        badgeData={cell.config ? cell.config.badges : undefined}
-                        sizeX="auto"
-                        sizeY="var(--dtt_cell-image_max-height)"
-                        resource={valueToDisplay}
-                    />
-                );
-            } else if (isLink(cell.obj)) {
-                content = (
-                    <a href={valueToDisplay} target="_blank">
-                        {valueToDisplay}
-                    </a>
-                );
-            } else if (isCheckbox(cell.obj)) {
-                let checked = cell.obj.k == '1';
-                // A tree currently is not editable. Checkbox are always disabled.
-                content = (
-                    <kup-checkbox
-                        checked={checked}
-                        disabled={
-                            cellData.treeNode.hasOwnProperty('readOnly')
-                                ? cellData.treeNode.readOnly
-                                : true
-                        }
-                    />
-                );
-            } else if (isButton(cell.obj)) {
-                content = (
-                    <kup-button
-                        {...buildButtonConfig(cell.value, cell.config)}
-                        onKupButtonClick={(e: Event) => {
-                            e.stopPropagation();
-                            this.onJ4btnClicked(
-                                cellData.treeNode,
-                                cellData.treeNodePath,
-                                cellData.column,
-                                false
-                            );
-                        }}
-                        onClick={(e: MouseEvent) => e.stopPropagation()}
-                    />
-                );
-            } else if (isBar(cell.obj)) {
-                const props: {
-                    data: any;
-                    sizeY: string;
-                } = {
-                    data: cell.value,
-                    sizeY: '35px',
-                };
-
-                content = valueToDisplay ? <kup-image {...props} /> : null;
-            } else if (isChart(cell.obj)) {
-                const props: {
-                    cellConfig: any;
-                    value: string;
-                    width?: number;
-                } = {
-                    cellConfig: cell.config,
-                    value: cell.value,
-                };
-
-                content = <kup-chart-cell {...props} />;
-            } else if (isProgressBar(cell.obj)) {
-                content = (
-                    <kup-progress-bar
-                        {...buildProgressBarConfig(
-                            cell,
-                            null,
-                            true,
-                            valueToDisplay
-                        )}
-                    />
-                );
-            } else if (isRadio(cell.obj)) {
-                let radioProp = {
-                    data: [
-                        {
-                            label: '',
-                            value: cell.value,
-                            checked: getBoolean(cell.obj.k),
-                        },
-                    ],
-                    disabled: cellData.treeNode.hasOwnProperty('readOnly')
-                        ? cellData.treeNode.readOnly
-                        : true,
-                };
-
-                content = <kup-radio {...radioProp} />;
-            }
-        } else {
-            content = null;
-        }
+        let onOptionClick = function (comp: KupTree) {
+            comp.hdlOptionClicked(cell, cellData.column, cellData.treeNode);
+        };
+        let cellElements = renderCell(
+            this,
+            '',
+            cell,
+            onCellContentClick,
+            cellData.column,
+            showOptions,
+            onOptionClick,
+            readOnlyInputFields,
+            this.density,
+            this.kupLoadRequest,
+            this.kupDetailRequest,
+            previousRowCellValue,
+            null
+        );
 
         // if cell.style has border, apply style to cellcontent
         let style = null;
         if (styleHasBorderRadius(cell) || styleHasWritingMode(cell)) {
             style = cell.style;
         }
-        /**
-         * Controls if current cell needs a tooltip and eventually adds it.
-         * @todo When the option forceOneLine is active, there is a problem with the current implementation of the tooltip. See documentation in the mauer wiki for better understanding.
-         */
-        if (hasTooltip(cell.obj)) {
-            content = (
-                <kup-tooltip
-                    class="datatable-tooltip"
-                    onKupTooltipLoadData={(ev) =>
-                        this.kupLoadRequest.emit({
-                            cell,
-                            tooltip: ev.srcElement,
-                        })
-                    }
-                    onKupTooltipLoadDetail={(ev) =>
-                        this.kupDetailRequest.emit({
-                            cell,
-                            tooltip: ev.srcElement,
-                        })
-                    }
-                >
-                    {content}
-                </kup-tooltip>
-            );
-        }
 
-        // Elements of the cell
-        let cellElements = [];
-
-        cellElements.push(
-            <span class={classObj} style={style}>
-                {content}
-            </span>
-        );
-
-        /**
-         * Renders option object if necessary.
-         *
-         * Currently to align it on the right side of the cell, it uses the CSS float property.
-         * This can lead to some rendering errors.
-         * See [this page]{@link https://www.w3schools.com/cssref/pr_class_float.asp} for more details.
-         * If this case happens, then the solution is to wrap the content returned by this function into an element with
-         * display flex, to use its content property.
-         *
-         * @namespace KupTree.renderCellOption
-         */
-        if (showOptions) {
-            cellElements.push(
-                this.renderOptionElement(
-                    cell,
-                    cellData.column,
-                    cellData.treeNode
-                )
-            );
-        }
         return (
             <td
                 onClick={() => (this.selectedColumn = cellData.column.name)}
@@ -1023,18 +829,20 @@ export class KupTree {
 
             // Controls if there is the necessity to print out options also for the TreeNodeCell
             if (treeNodeData.options && this.showObjectNavigation) {
-                treeNodeOptionIcon = this.renderOptionElement(
-                    {
-                        obj: treeNodeData.obj,
-                        value: treeNodeData.value,
-                    },
-                    // TODO for now creates a fictitious column standard for all TreeNodeCell
-                    {
-                        name: 'TreeNodeCell',
-                        title: 'TreeNodeCell',
-                    },
-                    treeNodeData
-                );
+                let cell: Cell = {
+                    obj: treeNodeData.obj,
+                    value: treeNodeData.value,
+                };
+                // TODO for now creates a fictitious column standard for all TreeNodeCell
+                let column: Column = {
+                    name: 'TreeNodeCell',
+                    title: 'TreeNodeCell',
+                };
+                let onOptionClick = function (comp: KupTree) {
+                    comp.hdlOptionClicked(cell, column, treeNodeData);
+                };
+
+                treeNodeOptionIcon = renderOptionElement(this, onOptionClick);
             }
         }
 

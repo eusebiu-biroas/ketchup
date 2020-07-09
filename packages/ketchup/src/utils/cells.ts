@@ -3,9 +3,9 @@
 import get from 'lodash/get';
 import { Cell } from '../components/kup-data-table/kup-data-table-declarations';
 import { BoxObject } from '../components/kup-box/kup-box-declarations';
-import { isProgressBar as isProgressBarObj } from './object-utils';
+import { isProgressBar as isProgressBarObj } from './object';
 
-import { isImage as isImageObj } from './object-utils';
+import { isImage as isImageObj } from './object';
 import numeral from 'numeral';
 import { toKebabCase } from './utils';
 
