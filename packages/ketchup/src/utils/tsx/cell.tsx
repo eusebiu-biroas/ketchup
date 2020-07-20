@@ -16,9 +16,13 @@ import {
     isVoCodver,
     isCheckbox,
     hasTooltip,
-} from '../../utils/object';
-import { buildIconConfig, buildProgressBarConfig } from '../cells';
-import { stringToNumber, numberToString } from '../cell-formatter';
+} from '../object';
+import {
+    buildIconConfig,
+    buildProgressBarConfig,
+    stringToNumber,
+    numberToString,
+} from '../cell';
 import { buildButtonConfig } from '../widget';
 import { getBoolean } from '../utils';
 import {

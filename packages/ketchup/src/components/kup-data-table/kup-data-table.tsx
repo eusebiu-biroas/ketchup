@@ -76,8 +76,8 @@ import {
     numberToString,
     formattedStringToUnformattedStringNumber,
     unformattedStringToFormattedStringNumber,
-} from '../../utils/cell-formatter';
-import { renderCell } from '../../utils/tsx/cells';
+} from '../../utils/cell';
+import { renderCell } from '../../utils/tsx/cell';
 
 @Component({
     tag: 'kup-data-table',

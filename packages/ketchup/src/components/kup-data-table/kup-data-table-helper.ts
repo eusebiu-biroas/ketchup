@@ -21,7 +21,7 @@ import {
     isFilterCompliantForValue,
     filterIsNegative,
 } from '../../utils/filters';
-import { stringToNumber } from '../../utils/cell-formatter';
+import { stringToNumber } from '../../utils/cell';
 
 export function sortRows(
     rows: Array<Row> = [],

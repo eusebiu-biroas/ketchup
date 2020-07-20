@@ -6,7 +6,7 @@ import {
 
 import { isDate, isNumber } from '../../utils/object';
 
-import { formatToNumber, formatToMomentDate } from '../../utils/cell-formatter';
+import { formatToNumber, formatToMomentDate } from '../../utils/cell';
 
 // TODO this should be in a "data-table" utility file
 function getColumnByName(name: string, columns: Column[]): Column | null {

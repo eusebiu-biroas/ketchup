@@ -8,7 +8,7 @@ import {
     Row,
     Column,
 } from '../kup-data-table/kup-data-table-declarations';
-import { formatToMomentDate } from '../../utils/cell-formatter';
+import { formatToMomentDate } from '../../utils/cell';
 import { getColumnByName } from '../kup-data-table/kup-data-table-helper';
 import moment from 'moment';
 

@@ -46,7 +46,7 @@ import {
     buildProgressBarConfig,
     buildIconConfig,
     getShape,
-} from '../../utils/cells';
+} from '../../utils/cell';
 
 import { buildButtonConfig } from '../../utils/widget';
 

@@ -29,7 +29,7 @@ import { MDCRipple } from '@material/ripple';
 import { errorLogging } from '../../utils/error-logging';
 import { isFilterCompliantForValue } from '../../utils/filters';
 import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
-import { renderCell, renderOptionElement } from '../../utils/tsx/cells';
+import { renderCell, renderOptionElement } from '../../utils/tsx/cell';
 
 @Component({
     tag: 'kup-tree',

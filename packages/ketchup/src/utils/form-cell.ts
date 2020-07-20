@@ -14,7 +14,7 @@ import {
     isConfigurator,
     isMultipleConfigurator,
     isInputText,
-} from './cells';
+} from './cell';
 import {
     isProgressBar as isProgressBarObj,
     isImage as isImageObj,
