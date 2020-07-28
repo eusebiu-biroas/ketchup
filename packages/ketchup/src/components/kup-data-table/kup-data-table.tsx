@@ -2774,22 +2774,7 @@ export class KupDataTable {
                     ) : null;
             }
         } else if (isChart(cell.obj)) {
-            let columnWidth;
-            if (this.sizedColumns) {
-                columnWidth = this.sizedColumns.find(
-                    ({ name: columnName }) => columnName === column.name
-                );
-            }
-
-            const props = {
-                id: cell.config.cellId,
-                offlineMode: {
-                    value: cell.value,
-                    shape: cell.config.type,
-                },
-                width: columnWidth !== undefined ? columnWidth.size : undefined,
-            };
-
+            let props: any = cell.config;
             content = <kup-chart {...props} />;
         } else if (isProgressBar(cell.obj)) {
             if (!column.hideValuesRepetitions || valueToDisplay) {

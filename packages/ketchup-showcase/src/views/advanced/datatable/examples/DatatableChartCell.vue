@@ -4,7 +4,7 @@
 
     <kup-data-table :data.prop="gcData"></kup-data-table>
   </div>
-</template>
+</template> 
 
 <script>
 export default {
@@ -13,29 +13,42 @@ export default {
       gcData: {
         columns: [
           {
-            name: 'FLD1',
-            title: 'Value',
-            size: '',
+            name: 'DES',
+            title: 'Descrizione',
+            size: 10,
           },
           {
-            name: 'FLD2',
-            title: 'Chart cell',
-            size: 100,
+            name: 'RAW',
+            title: 'Valore raw',
+            size: 10,
+          },
+          {
+            name: 'CHART',
+            title: 'Grafico',
+            size: 10,
           },
         ],
         rows: [
           {
             cells: {
-              FLD1: {
+              DES: {
+                obj: {
+                  k: 'Grafico sparkline PIE',
+                  p: '',
+                  t: '',
+                },
+                options: false,
+                value: 'Grafico sparkline PIE',
+              },
+              RAW: {
                 obj: {
                   t: '',
                   p: '',
-                  k: '',
+                  k: 'J4;GRA_PIE;1;2;1',
                 },
                 value: 'J4;GRA_PIE;1;2;1',
-                options: true,
               },
-              FLD2: {
+              CHART: {
                 obj: {
                   t: 'J4',
                   p: 'GRA_PIE',
@@ -43,50 +56,77 @@ export default {
                 },
                 value: '1;2;1',
                 config: {
-                  cellId: 'pie_example',
-                  //width: 100,
-                  //height: 100,
-                  type: 'pie',
+                  colors: ['red', 'blue', 'purple'],
+                  id: 'pie_example',
+                  sizeX: '100px',
+                  sizeY: '100px',
+                  offlineMode: {
+                    value: '1;2;3',
+                    shape: 'pie',
+                  },
                 },
-                options: true,
               },
             },
           },
           {
             cells: {
-              FLD1: {
+              DES: {
+                obj: {
+                  k: 'Grafico sparkline BAR',
+                  p: '',
+                  t: '',
+                },
+                options: false,
+                value: 'Grafico sparkline BAR',
+              },
+              RAW: {
                 obj: {
                   t: '',
                   p: '',
-                  k: '',
+                  k: 'J4;GRA_BAR;1;7;-5;6;10;-5;3;4',
                 },
                 value: 'J4;GRA_BAR;1;7;-5;6;10;-5;3;4',
-                options: true,
               },
-              FLD2: {
+              CHART: {
                 obj: {
                   t: 'J4',
                   p: 'GRA_BAR',
                   k: '1;7;-5;6;10;-5;3;4',
                 },
                 value: '1;7;-5;6;10;-5;3;4',
-                config: { cellId: 'bar_example', type: 'bar' },
-                options: true,
+                config: {
+                  colors: ['red', 'blue', 'purple'],
+                  id: 'bar_example',
+                  sizeX: '100px',
+                  sizeY: '100px',
+                  offlineMode: {
+                    value: '1;2;3',
+                    shape: 'bar',
+                  },
+                },
               },
             },
           },
           {
             cells: {
-              FLD1: {
+              DES: {
+                obj: {
+                  k: 'Grafico sparkline LIN',
+                  p: '',
+                  t: '',
+                },
+                options: false,
+                value: 'Grafico sparkline LIN',
+              },
+              RAW: {
                 obj: {
                   t: '',
                   p: '',
-                  k: '',
+                  k: 'J4;GRA_LIN;1;7;-5;6;10;-5;3;4',
                 },
                 value: 'J4;GRA_LIN;1;7;-5;6;10;-5;3;4',
-                options: true,
               },
-              FLD2: {
+              CHART: {
                 obj: {
                   t: 'J4',
                   p: 'GRA_LIN',
@@ -94,27 +134,38 @@ export default {
                 },
                 value: '1;7;-5;6;10;-5;3;4',
                 config: {
-                  cellId: 'lin_example',
-                  //width: '80',
-                  //color: 'R255G000B000',
-                  type: 'lin',
+                  colors: ['red', 'blue', 'purple'],
+                  id: 'lin_example',
+                  sizeX: '100px',
+                  sizeY: '100px',
+                  offlineMode: {
+                    value: '1;2;3',
+                    shape: 'lin',
+                  },
                 },
-                options: true,
               },
             },
           },
           {
             cells: {
-              FLD1: {
+              DES: {
+                obj: {
+                  k: 'Grafico sparkline DIS',
+                  p: '',
+                  t: '',
+                },
+                options: false,
+                value: 'Grafico sparkline DIS',
+              },
+              RAW: {
                 obj: {
                   t: '',
                   p: '',
-                  k: '',
+                  k: 'J4;GRA_DIS;1;7;-5;6;10;-5;3;4',
                 },
                 value: 'J4;GRA_DIS;1;7;-5;6;10;-5;3;4',
-                options: true,
               },
-              FLD2: {
+              CHART: {
                 obj: {
                   t: 'J4',
                   p: 'GRA_DIS',
@@ -122,28 +173,38 @@ export default {
                 },
                 value: '1;7;-5;6;10;-5;3;4',
                 config: {
-                  cellId: 'dis_example',
-                  //width: '100',
-                  //color: 'R000G255B000',
-                  type: 'dis',
+                  colors: ['red', 'blue', 'purple'],
+                  id: 'dis_example',
+                  sizeX: '100px',
+                  sizeY: '100px',
+                  offlineMode: {
+                    value: '1;2;3',
+                    shape: 'dis',
+                  },
                 },
-                options: true,
               },
             },
           },
           {
             cells: {
-              FLD1: {
+              DES: {
+                obj: {
+                  k: 'Grafico sparkline BUL',
+                  p: '',
+                  t: '',
+                },
+                options: false,
+                value: 'Grafico sparkline BUL',
+              },
+              RAW: {
                 obj: {
                   t: '',
                   p: '',
-                  k: '',
+                  k: 'J4;GRA_BUL;10;12;12;9;7',
                 },
-                value:
-                  'J4;GRA_BUL;10;12;12;9;7 (target; performance; range1; range2; rarange3... )',
-                options: true,
+                value: 'J4;GRA_BUL;10;12;12;9;7',
               },
-              FLD2: {
+              CHART: {
                 obj: {
                   t: 'J4',
                   p: 'GRA_BUL',
@@ -151,63 +212,94 @@ export default {
                 },
                 value: '10;12;12;9;7',
                 config: {
-                  cellId: 'bul_example',
-                  //width: '80',
-                  type: 'bul',
+                  colors: ['rgba(23,44,151,0.1)', 'blue', 'purple'],
+                  id: 'bul_example',
+                  sizeX: '100px',
+                  sizeY: '100px',
+                  offlineMode: {
+                    value: '1;2;3',
+                    shape: 'bul',
+                  },
                 },
-                options: true,
               },
             },
           },
           {
             cells: {
-              FLD1: {
+              DES: {
+                obj: {
+                  k: 'Grafico sparkline BOX',
+                  p: '',
+                  t: '',
+                },
+                options: false,
+                value: 'Grafico sparkline BOX',
+              },
+              RAW: {
                 obj: {
                   t: '',
                   p: '',
-                  k: '',
+                  k: 'J4;GRA_BOX;4;27;34;52;54;59;61;68;78;82;85;87;91;93;100',
                 },
                 value:
                   'J4;GRA_BOX;4;27;34;52;54;59;61;68;78;82;85;87;91;93;100',
-                options: true,
               },
-              FLD2: {
+              CHART: {
                 obj: {
                   t: 'J4',
                   p: 'GRA_BOX',
                   k: '4;27;34;52;54;59;61;68;78;82;85;87;91;93;100',
                 },
                 value: '4;27;34;52;54;59;61;68;78;82;85;87;91;93;100',
-                config: { cellId: 'box_example', type: 'box' },
-                options: true,
+                config: {
+                  colors: ['rgba(21,24,55,0.25)', 'transparent', 'purple'],
+                  id: 'box_example',
+                  sizeX: '100px',
+                  sizeY: '100px',
+                  offlineMode: {
+                    value: '1;2;3',
+                    shape: 'box',
+                  },
+                },
               },
             },
           },
           {
             cells: {
-              FLD1: {
+              DES: {
+                obj: {
+                  k: 'Grafico sparkline TRI',
+                  p: '',
+                  t: '',
+                },
+                options: false,
+                value: 'Grafico sparkline TRI',
+              },
+              RAW: {
                 obj: {
                   t: '',
                   p: '',
-                  k: '',
+                  k: 'J4;GRA_TRI;1;1;-1;1;0;0;-1',
                 },
                 value: 'J4;GRA_TRI;1;1;-1;1;0;0;-1',
-                options: true,
               },
-              FLD2: {
+              CHART: {
                 obj: {
                   t: 'J4',
                   p: 'GRA_TRI',
-                  k: '1;1;-1;1;0;0;-10',
+                  k: '1;1;-1;1;0;0;-1',
                 },
                 value: '1;1;-1;1;0;0;-1',
                 config: {
-                  cellId: 'tristate_example',
-                  //width: 100,
-                  //height: 100,
-                  type: 'tri',
+                  colors: ['green', 'red', 'purple'],
+                  id: 'tri_example',
+                  sizeX: '100px',
+                  sizeY: '100px',
+                  offlineMode: {
+                    value: '1;2;3',
+                    shape: 'tri',
+                  },
                 },
-                options: true,
               },
             },
           },
