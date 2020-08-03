@@ -39,7 +39,7 @@ export namespace Components {
         el: EventTarget;
     }) => Promise<any[]> | undefined;
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle": string;
         /**
@@ -50,6 +50,7 @@ export namespace Components {
           * The minimum number of chars to trigger the autocomplete
          */
         "minimumChars": number;
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
         /**
           * Sets how the return the selected item value
          */
@@ -65,7 +66,7 @@ export namespace Components {
     }
     interface KupBadge {
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle": string;
         /**
@@ -76,6 +77,7 @@ export namespace Components {
           * The position of the badge relative to its parent. Supported values: "TL" (top left), "TR" (top right), "BL" (bottom left), "BR" (bottom left).
          */
         "position": BadgePosition;
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
         /**
           * The text displayed inside the badge.
          */
@@ -95,7 +97,7 @@ export namespace Components {
          */
         "contentAlign": string;
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle": string;
         /**
@@ -147,6 +149,7 @@ export namespace Components {
           * Enables pagination
          */
         "pagination": boolean;
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
         /**
           * Automatically selects the box at the specified index
          */
@@ -174,7 +177,7 @@ export namespace Components {
          */
         "checked": boolean;
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle": string;
         /**
@@ -213,6 +216,7 @@ export namespace Components {
           * Defaults at false. When set to true, the button will be rendered with a colored outline.
          */
         "outlined": boolean;
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
         /**
           * Defaults at false. When set to true, the button will be rendered with rounded edges.
          */
@@ -245,7 +249,7 @@ export namespace Components {
     }
     interface KupCard {
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization.
          */
         "customStyle": string;
         /**
@@ -268,6 +272,7 @@ export namespace Components {
           * Sets the status of the menu, when false it's hidden otherwise it's visible.
          */
         "menuVisible": boolean;
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
         /**
           * The width of the card, defaults to 100%. Accepts any valid CSS format (px, %, vw, etc.).
          */
@@ -281,6 +286,10 @@ export namespace Components {
         "asp": ChartAspect;
         "axis": string;
         "colors": string[];
+        /**
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization.
+         */
+        "customStyle": string;
         "data": DataTable;
         "graphTitle": string;
         "graphTitleColor": string;
@@ -288,6 +297,7 @@ export namespace Components {
         "hAxis": ChartAxis;
         "legend": boolean;
         "offlineMode": ChartOfflineMode;
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
         "series": string[];
         "showMarks": boolean;
         "sizeX": string;
@@ -306,7 +316,7 @@ export namespace Components {
          */
         "checked": boolean;
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle": string;
         /**
@@ -325,6 +335,7 @@ export namespace Components {
           * Defaults at false. When set to true, the label will be on the left of the component.
          */
         "leadingLabel": boolean;
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
     }
     interface KupCheckboxMenu {
         /**
@@ -358,13 +369,14 @@ export namespace Components {
     }
     interface KupChip {
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle": string;
         /**
           * List of elements.
          */
         "data": ComponentChipElement[];
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
         /**
           * The type of chip. Available types: input, filter, choice or empty for default.
          */
@@ -372,7 +384,7 @@ export namespace Components {
     }
     interface KupCombobox {
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle": string;
         /**
@@ -383,6 +395,7 @@ export namespace Components {
           * Props of the list.
          */
         "listData": Object;
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
         /**
           * Sets how the return the elected item value. Suported values: "code", "description", "both".
          */
@@ -571,6 +584,14 @@ export namespace Components {
          */
         "tableWidth": string;
         /**
+          * Defines the timout for tooltip detail
+         */
+        "tooltipDetailTimeout": number;
+        /**
+          * Defines the timout for tooltip load
+         */
+        "tooltipLoadTimeout": number;
+        /**
           * Defines the current totals options.
          */
         "totals": TotalsMap;
@@ -583,7 +604,7 @@ export namespace Components {
     }
     interface KupField {
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle": string;
         /**
@@ -604,6 +625,7 @@ export namespace Components {
           * Sets the label's position, left right or top.
          */
         "labelPos": string;
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
         /**
           * Sets whether the submit button must be displayed or not.
          */
@@ -731,7 +753,7 @@ export namespace Components {
          */
         "columns": number;
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle": string;
         /**
@@ -742,6 +764,7 @@ export namespace Components {
           * When set to true, forces the width to 100% for the single line layout.
          */
         "fullWidth": boolean;
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
         /**
           * When set to true, forces the content on a single line.
          */
@@ -771,7 +794,7 @@ export namespace Components {
          */
         "color": string;
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle": string;
         /**
@@ -786,6 +809,7 @@ export namespace Components {
           * The image component will create a canvas element on which it's possible to draw. It's a temporary feature that will be fully replaced by CSS drawing in the future.
          */
         "isCanvas": boolean;
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
         /**
           * The resource used to fetch the image.
          */
@@ -835,6 +859,25 @@ export namespace Components {
          */
         "horizontal": boolean;
     }
+    interface KupLazy {
+        /**
+          * Sets the tag name of the component to be lazy loaded.
+         */
+        "componentName": string;
+        /**
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
+         */
+        "customStyle": string;
+        /**
+          * Sets the data of the component to be lazy loaded.
+         */
+        "data": {};
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
+        /**
+          * Displays an animated SVG placeholder until the component is loaded.
+         */
+        "showPlaceholder": boolean;
+    }
     interface KupList {
         /**
           * Used to navigate the list when it's bound to a text field, i.e.: autocomplete.
@@ -842,7 +885,7 @@ export namespace Components {
         "arrowDown": boolean;
         "arrowUp": boolean;
         /**
-          * Sets a custom style for the component by feeding this string into a <style> tag.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle": string;
         /**
@@ -869,6 +912,7 @@ export namespace Components {
           * Sets the status of the menu, when false it's hidden otherwise it's visible.
          */
         "menuVisible": boolean;
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
         "resetFilter": (newFilter: string) => Promise<void>;
         /**
           * Defines the type of selection. Values accepted: listbox, radiogroup or group.
@@ -921,7 +965,7 @@ export namespace Components {
     }
     interface KupNavBar {
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle": string;
         /**
@@ -932,6 +976,7 @@ export namespace Components {
           * Defines how the bar will be displayed.
          */
         "mode": ComponentNavBarMode;
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
     }
     interface KupPaginator {
         "currentPage": number;
@@ -946,7 +991,7 @@ export namespace Components {
          */
         "centeredLabel": boolean;
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle": string;
         /**
@@ -981,6 +1026,7 @@ export namespace Components {
           * Specifies a text for the bar's label.
          */
         "label": string;
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
         /**
           * The current value the progress bar must display.
          */
@@ -1022,7 +1068,7 @@ export namespace Components {
     }
     interface KupRadio {
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle": string;
         /**
@@ -1041,6 +1087,7 @@ export namespace Components {
           * Defaults at null. It's the name that binds the radio buttons together.
          */
         "name": string;
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
     }
     interface KupSearch {
         "data": TableData;
@@ -1072,7 +1119,7 @@ export namespace Components {
          */
         "barVariant": boolean;
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle": string;
         /**
@@ -1099,6 +1146,7 @@ export namespace Components {
           * Sets the layout of the spinner.
          */
         "layout": number;
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
     }
     interface KupSwitch {
         /**
@@ -1106,7 +1154,7 @@ export namespace Components {
          */
         "checked": boolean;
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle": string;
         /**
@@ -1121,16 +1169,18 @@ export namespace Components {
           * Defaults at false. When set to true, the label will be on the left of the component.
          */
         "leadingLabel": boolean;
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
     }
     interface KupTabBar {
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle": string;
         /**
           * List of elements.
          */
         "data": ComponentTabBarElement[];
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
     }
     interface KupTextField {
         /**
@@ -1141,7 +1191,7 @@ export namespace Components {
          */
         "changeValue": (newValue: string, emitEvent?: boolean) => Promise<boolean>;
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle": string;
         /**
@@ -1208,6 +1258,7 @@ export namespace Components {
           * Sets the component to read only state, making it not editable, but interactable. Used in combobox component when it behaves as a select.
          */
         "readOnly": boolean;
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
         /**
           * Defaults at false. When set to true, the button will be rendered with shaped edges.
          */
@@ -1237,11 +1288,15 @@ export namespace Components {
         /**
           * Timeout for loadDetail
          */
-        "detailDataTimeout": number;
+        "detailTimeout": number;
         /**
           * Layout used to display the items
          */
         "layout": string;
+        /**
+          * Timeout for tooltip
+         */
+        "loadTimeout": number;
     }
     interface KupTree {
         /**
@@ -1253,7 +1308,7 @@ export namespace Components {
          */
         "columns"?: Column[];
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle": string;
         /**
@@ -1284,6 +1339,7 @@ export namespace Components {
           * Activates the scroll on hover function
          */
         "hoverScroll": boolean;
+        "refreshCustomStyle": (customStyleTheme: string) => Promise<void>;
         /**
           * An array of integers containing the path to a selected child.\ Groups up the properties SelFirst, SelItem, SelName.
          */
@@ -1470,6 +1526,12 @@ declare global {
         prototype: HTMLKupLayoutElement;
         new (): HTMLKupLayoutElement;
     };
+    interface HTMLKupLazyElement extends Components.KupLazy, HTMLStencilElement {
+    }
+    var HTMLKupLazyElement: {
+        prototype: HTMLKupLazyElement;
+        new (): HTMLKupLazyElement;
+    };
     interface HTMLKupListElement extends Components.KupList, HTMLStencilElement {
     }
     var HTMLKupListElement: {
@@ -1592,6 +1654,7 @@ declare global {
         "kup-image": HTMLKupImageElement;
         "kup-image-button": HTMLKupImageButtonElement;
         "kup-layout": HTMLKupLayoutElement;
+        "kup-lazy": HTMLKupLazyElement;
         "kup-list": HTMLKupListElement;
         "kup-menu": HTMLKupMenuElement;
         "kup-modal": HTMLKupModalElement;
@@ -1621,7 +1684,7 @@ declare namespace LocalJSX {
         el: EventTarget;
     }) => Promise<any[]> | undefined;
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle"?: string;
         /**
@@ -1675,7 +1738,7 @@ declare namespace LocalJSX {
     }
     interface KupBadge {
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle"?: string;
         /**
@@ -1708,7 +1771,7 @@ declare namespace LocalJSX {
          */
         "contentAlign"?: string;
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle"?: string;
         /**
@@ -1849,7 +1912,7 @@ declare namespace LocalJSX {
          */
         "checked"?: boolean;
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle"?: string;
         /**
@@ -1960,7 +2023,7 @@ declare namespace LocalJSX {
     }
     interface KupCard {
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization.
          */
         "customStyle"?: string;
         /**
@@ -2004,6 +2067,10 @@ declare namespace LocalJSX {
         "asp"?: ChartAspect;
         "axis"?: string;
         "colors"?: string[];
+        /**
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization.
+         */
+        "customStyle"?: string;
         "data"?: DataTable;
         "graphTitle"?: string;
         "graphTitleColor"?: string;
@@ -2033,7 +2100,7 @@ declare namespace LocalJSX {
          */
         "checked"?: boolean;
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle"?: string;
         /**
@@ -2109,7 +2176,7 @@ declare namespace LocalJSX {
     }
     interface KupChip {
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle"?: string;
         /**
@@ -2143,7 +2210,7 @@ declare namespace LocalJSX {
     }
     interface KupCombobox {
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle"?: string;
         /**
@@ -2429,6 +2496,14 @@ declare namespace LocalJSX {
          */
         "tableWidth"?: string;
         /**
+          * Defines the timout for tooltip detail
+         */
+        "tooltipDetailTimeout"?: number;
+        /**
+          * Defines the timout for tooltip load
+         */
+        "tooltipLoadTimeout"?: number;
+        /**
           * Defines the current totals options.
          */
         "totals"?: TotalsMap;
@@ -2441,7 +2516,7 @@ declare namespace LocalJSX {
     }
     interface KupField {
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle"?: string;
         /**
@@ -2593,7 +2668,7 @@ declare namespace LocalJSX {
          */
         "columns"?: number;
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle"?: string;
         /**
@@ -2635,7 +2710,7 @@ declare namespace LocalJSX {
          */
         "color"?: string;
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle"?: string;
         /**
@@ -2708,6 +2783,24 @@ declare namespace LocalJSX {
          */
         "horizontal"?: boolean;
     }
+    interface KupLazy {
+        /**
+          * Sets the tag name of the component to be lazy loaded.
+         */
+        "componentName"?: string;
+        /**
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
+         */
+        "customStyle"?: string;
+        /**
+          * Sets the data of the component to be lazy loaded.
+         */
+        "data"?: {};
+        /**
+          * Displays an animated SVG placeholder until the component is loaded.
+         */
+        "showPlaceholder"?: boolean;
+    }
     interface KupList {
         /**
           * Used to navigate the list when it's bound to a text field, i.e.: autocomplete.
@@ -2715,7 +2808,7 @@ declare namespace LocalJSX {
         "arrowDown"?: boolean;
         "arrowUp"?: boolean;
         /**
-          * Sets a custom style for the component by feeding this string into a <style> tag.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle"?: string;
         /**
@@ -2821,7 +2914,7 @@ declare namespace LocalJSX {
     }
     interface KupNavBar {
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle"?: string;
         /**
@@ -2860,7 +2953,7 @@ declare namespace LocalJSX {
          */
         "centeredLabel"?: boolean;
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle"?: string;
         /**
@@ -2936,7 +3029,7 @@ declare namespace LocalJSX {
     }
     interface KupRadio {
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle"?: string;
         /**
@@ -3011,7 +3104,7 @@ declare namespace LocalJSX {
          */
         "barVariant"?: boolean;
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle"?: string;
         /**
@@ -3045,7 +3138,7 @@ declare namespace LocalJSX {
          */
         "checked"?: boolean;
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle"?: string;
         /**
@@ -3078,7 +3171,7 @@ declare namespace LocalJSX {
     }
     interface KupTabBar {
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle"?: string;
         /**
@@ -3100,7 +3193,7 @@ declare namespace LocalJSX {
     }
     interface KupTextField {
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle"?: string;
         /**
@@ -3230,11 +3323,15 @@ declare namespace LocalJSX {
         /**
           * Timeout for loadDetail
          */
-        "detailDataTimeout"?: number;
+        "detailTimeout"?: number;
         /**
           * Layout used to display the items
          */
         "layout"?: string;
+        /**
+          * Timeout for tooltip
+         */
+        "loadTimeout"?: number;
         "onKupActionCommandClicked"?: (event: CustomEvent<{
         actionCommand: TooltipAction;
     }>) => void;
@@ -3257,7 +3354,7 @@ declare namespace LocalJSX {
          */
         "columns"?: Column[];
         /**
-          * Custom style to be passed to the component.
+          * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
          */
         "customStyle"?: string;
         /**
@@ -3416,6 +3513,7 @@ declare namespace LocalJSX {
         "kup-image": KupImage;
         "kup-image-button": KupImageButton;
         "kup-layout": KupLayout;
+        "kup-lazy": KupLazy;
         "kup-list": KupList;
         "kup-menu": KupMenu;
         "kup-modal": KupModal;
@@ -3463,6 +3561,7 @@ declare module "@stencil/core" {
             "kup-image": LocalJSX.KupImage & JSXBase.HTMLAttributes<HTMLKupImageElement>;
             "kup-image-button": LocalJSX.KupImageButton & JSXBase.HTMLAttributes<HTMLKupImageButtonElement>;
             "kup-layout": LocalJSX.KupLayout & JSXBase.HTMLAttributes<HTMLKupLayoutElement>;
+            "kup-lazy": LocalJSX.KupLazy & JSXBase.HTMLAttributes<HTMLKupLazyElement>;
             "kup-list": LocalJSX.KupList & JSXBase.HTMLAttributes<HTMLKupListElement>;
             "kup-menu": LocalJSX.KupMenu & JSXBase.HTMLAttributes<HTMLKupMenuElement>;
             "kup-modal": LocalJSX.KupModal & JSXBase.HTMLAttributes<HTMLKupModalElement>;

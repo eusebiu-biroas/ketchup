@@ -7,6 +7,7 @@ import {
     EventEmitter,
     State,
     h,
+    Method,
 } from '@stencil/core';
 import { ResizeObserver } from 'resize-observer';
 import * as collapsibleLayouts from './collapsible/kup-card-collapsible';
@@ -16,7 +17,7 @@ import { MDCRipple } from '@material/ripple';
 import { ComponentCardElement } from './kup-card-declarations';
 import { errorLogging } from '../../utils/error-logging';
 import {
-    fetchThemeCustomStyle,
+    setThemeCustomStyle,
     setCustomStyle,
     colorContrast,
 } from '../../utils/theming';
@@ -28,10 +29,10 @@ import {
 })
 export class KupCard {
     @Element() rootElement: HTMLElement;
-    @State() refresh: boolean = false;
+    @State() customStyleTheme: string = undefined;
 
     /**
-     * Custom style to be passed to the component.
+     * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization.
      */
     @Prop({ reflect: true }) customStyle: string = undefined;
     /**
@@ -66,6 +67,7 @@ export class KupCard {
     private elStyle = undefined;
     private oldSizeY = undefined;
     private scalingActive = false;
+    private observer: ResizeObserver = undefined;
 
     @Event({
         eventName: 'kupCardClick',
@@ -90,6 +92,11 @@ export class KupCard {
     }>;
 
     //---- Methods ----
+
+    @Method()
+    async refreshCustomStyle(customStyleTheme: string) {
+        this.customStyleTheme = customStyleTheme;
+    }
 
     onKupClick() {
         this.kupClick.emit({
@@ -286,7 +293,7 @@ export class KupCard {
     //---- Lifecycle hooks ----
 
     componentWillLoad() {
-        fetchThemeCustomStyle(this, false);
+        setThemeCustomStyle(this);
 
         const root = this.rootElement.shadowRoot;
 
@@ -294,10 +301,14 @@ export class KupCard {
         this.listenChipEvents(root);
         this.listenImageEvents(root);
 
-        const observer = new ResizeObserver(() => {
+        this.observer = new ResizeObserver(() => {
             this.layoutManager();
         });
-        observer.observe(this.rootElement);
+        this.observer.observe(this.rootElement);
+    }
+
+    disconnectedCallBack() {
+        this.observer.unobserve(this.rootElement);
     }
 
     componentDidRender() {
@@ -336,7 +347,7 @@ export class KupCard {
         let card = this.getLayout();
 
         return (
-            <Host style={this.elStyle}>
+            <Host class="handles-custom-style" style={this.elStyle}>
                 <style>{setCustomStyle(this)}</style>
                 <div
                     id="kup-component"

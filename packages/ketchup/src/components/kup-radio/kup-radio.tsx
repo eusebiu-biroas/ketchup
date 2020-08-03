@@ -7,11 +7,12 @@ import {
     EventEmitter,
     State,
     h,
+    Method,
 } from '@stencil/core';
 import { MDCRadio } from '@material/radio';
 import { MDCFormField } from '@material/form-field';
 import { ComponentRadioElement } from './kup-radio-declarations';
-import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
+import { setThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 
 @Component({
     tag: 'kup-radio',
@@ -20,10 +21,10 @@ import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 })
 export class KupRadio {
     @Element() rootElement: HTMLElement;
-    @State() refresh: boolean = false;
+    @State() customStyleTheme: string = undefined;
 
     /**
-     * Custom style to be passed to the component.
+     * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
      */
     @Prop({ reflect: true }) customStyle: string = undefined;
     /**
@@ -100,6 +101,11 @@ export class KupRadio {
 
     //---- Methods ----
 
+    @Method()
+    async refreshCustomStyle(customStyleTheme: string) {
+        this.customStyleTheme = customStyleTheme;
+    }
+
     onKupBlur(event: UIEvent & { target: HTMLInputElement }) {
         const { target } = event;
         this.kupBlur.emit({
@@ -143,7 +149,7 @@ export class KupRadio {
     //---- Lifecycle hooks ----
 
     componentWillLoad() {
-        fetchThemeCustomStyle(this, false);
+        setThemeCustomStyle(this);
     }
 
     componentDidRender() {
@@ -213,7 +219,7 @@ export class KupRadio {
         }
 
         return (
-            <Host>
+            <Host class="handles-custom-style">
                 <style>{setCustomStyle(this)}</style>
                 <div id="kup-component">{radioList}</div>
             </Host>

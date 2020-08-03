@@ -7,11 +7,12 @@ import {
     EventEmitter,
     State,
     h,
+    Method,
 } from '@stencil/core';
 
 import { MDCTabBar } from '@material/tab-bar';
 import { ComponentTabBarElement } from './kup-tab-bar-declarations';
-import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
+import { setThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 
 @Component({
     tag: 'kup-tab-bar',
@@ -20,10 +21,10 @@ import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 })
 export class KupTabBar {
     @Element() rootElement: HTMLElement;
-    @State() refresh: boolean = false;
+    @State() customStyleTheme: string = undefined;
 
     /**
-     * Custom style to be passed to the component.
+     * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
      */
     @Prop({ reflect: true }) customStyle: string = undefined;
     /**
@@ -66,6 +67,11 @@ export class KupTabBar {
 
     //---- Methods ----
 
+    @Method()
+    async refreshCustomStyle(customStyleTheme: string) {
+        this.customStyleTheme = customStyleTheme;
+    }
+
     onKupBlur(i: number, e: Event) {
         this.kupBlur.emit({
             index: i,
@@ -90,7 +96,7 @@ export class KupTabBar {
     //---- Lifecycle hooks ----
 
     componentWillLoad() {
-        fetchThemeCustomStyle(this, false);
+        setThemeCustomStyle(this);
     }
 
     componentDidRender() {
@@ -154,7 +160,7 @@ export class KupTabBar {
         }
 
         return (
-            <Host>
+            <Host class="handles-custom-style">
                 <style>{setCustomStyle(this)}</style>
                 <div id="kup-component">
                     <div class={componentClass} role="tablist">

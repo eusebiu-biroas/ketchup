@@ -7,10 +7,11 @@ import {
     EventEmitter,
     State,
     h,
+    Method,
 } from '@stencil/core';
 import { MDCSwitch } from '@material/switch';
 import { MDCFormField } from '@material/form-field';
-import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
+import { setThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 
 @Component({
     tag: 'kup-switch',
@@ -20,14 +21,14 @@ import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 export class KupSwitch {
     @Element() rootElement: HTMLElement;
     @State() value: string = '';
-    @State() refresh: boolean = false;
+    @State() customStyleTheme: string = undefined;
 
     /**
      * Defaults at false. When set to true, the component will be set to 'checked'.
      */
     @Prop({ reflect: true }) checked: boolean = false;
     /**
-     * Custom style to be passed to the component.
+     * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
      */
     @Prop({ reflect: true }) customStyle: string = undefined;
     /**
@@ -95,6 +96,11 @@ export class KupSwitch {
 
     //---- Methods ----
 
+    @Method()
+    async refreshCustomStyle(customStyleTheme: string) {
+        this.customStyleTheme = customStyleTheme;
+    }
+
     onKupBlur() {
         this.kupBlur.emit({
             value: this.value,
@@ -135,7 +141,7 @@ export class KupSwitch {
     //---- Lifecycle hooks ----
 
     componentWillLoad() {
-        fetchThemeCustomStyle(this, false);
+        setThemeCustomStyle(this);
     }
 
     componentWillRender() {
@@ -177,7 +183,7 @@ export class KupSwitch {
         }
 
         return (
-            <Host>
+            <Host class="handles-custom-style">
                 <style>{setCustomStyle(this)}</style>
                 <div id="kup-component">
                     <div class={formClass}>

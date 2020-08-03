@@ -5,7 +5,9 @@ import {
     Host,
     Event,
     EventEmitter,
+    State,
     h,
+    Method,
 } from '@stencil/core';
 
 import {
@@ -26,6 +28,7 @@ import { DataTable } from '../kup-data-table/kup-data-table-declarations';
 import { getColumnByName } from '../kup-data-table/kup-data-table-helper';
 
 import { errorLogging } from '../../utils/error-logging';
+import { setThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 
 declare const google: any;
 declare const $: any;
@@ -37,6 +40,10 @@ declare const $: any;
 })
 export class KupChart {
     @Element() rootElement: HTMLElement;
+    @State() customStyleTheme: string = undefined;
+    @State() themeColors: string[] = undefined;
+    @State() themeText: string = undefined;
+
     @Prop() data: DataTable;
 
     @Prop()
@@ -47,6 +54,10 @@ export class KupChart {
 
     @Prop()
     colors: string[] = [];
+    /**
+     * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization.
+     */
+    @Prop({ reflect: true }) customStyle: string = undefined;
 
     @Prop({ reflect: true })
     graphTitle: string;
@@ -109,11 +120,17 @@ export class KupChart {
     private gChart: any;
 
     private gChartDataTable: any;
-
     private gChartView: any;
     private elStyle = undefined;
+    private observer: ResizeObserver = undefined;
 
     //---- Methods ----
+
+    @Method()
+    async refreshCustomStyle(customStyleTheme: string) {
+        this.customStyleTheme = customStyleTheme;
+        this.fetchThemeColors();
+    }
 
     private loadGoogleChart() {
         google.charts.setOnLoadCallback(this.createChart.bind(this));
@@ -194,16 +211,24 @@ export class KupChart {
 
     private createGoogleChartOptions() {
         const opts: ChartOptions = {
+            backgroundColor: 'transparent',
             is3D: ChartAspect.D3 === this.asp,
         };
 
         if (this.colors && this.colors.length > 0) {
             opts.colors = this.colors;
+        } else {
+            opts.colors = this.themeColors;
         }
 
         if (!this.legend) {
             opts.legend = {
                 position: 'none',
+            };
+        } else {
+            opts.legend = {
+                position: 'right',
+                textStyle: { color: this.themeText },
             };
         }
 
@@ -249,10 +274,16 @@ export class KupChart {
 
         if (this.vAxis) {
             opts.vAxis = this.vAxis;
+            opts.vAxis['textStyle'] = { color: this.themeText };
+        } else {
+            opts.vAxis = { textStyle: { color: this.themeText } };
         }
 
         if (this.hAxis) {
             opts.hAxis = this.hAxis;
+            opts.hAxis['textStyle'] = { color: this.themeText };
+        } else {
+            opts.hAxis = { textStyle: { color: this.themeText } };
         }
 
         return opts;
@@ -380,59 +411,60 @@ export class KupChart {
         }
 
         let valueAsArray: string[] = this.offlineMode.value.split(';');
+        let colors: string[] = undefined;
 
         var options = {
             height: this.rootElement.clientHeight,
             width: this.rootElement.clientWidth,
         };
 
+        if (this.colors && this.colors.length > 0) {
+            colors = this.colors;
+        } else {
+            colors = this.themeColors;
+        }
+
         switch (this.offlineMode.shape) {
             case 'box':
                 options['type'] = 'box';
-                options['boxLineColor'] = this.colors[0];
-                options['boxFillColor'] = this.colors[1];
                 break;
 
             case 'bul':
             case 'bullet':
                 options['type'] = 'bullet';
-                options['rangeColors'] = this.colors;
                 options['targetWidth'] = this.rootElement.clientWidth / 20;
                 break;
 
             case 'dis':
             case 'discrete':
                 options['type'] = 'discrete';
-                options['lineColor'] = this.colors[0];
+                options['lineColor'] = colors[0];
                 break;
 
             case 'lin':
             case 'line':
                 options['type'] = 'line';
-                options['lineColor'] = this.colors[0];
-                options['fillColor'] = this.colors[1];
+                options['lineColor'] = colors[0];
+                options['fillColor'] = colors[1];
                 break;
 
             case 'pie':
                 options['type'] = 'pie';
-                options['sliceColors'] = this.colors;
+                options['sliceColors'] = colors;
                 break;
 
             case 'tri':
             case 'tristate':
                 options['type'] = 'tristate';
-                options['posBarColor'] = this.colors[0];
-                options['negBarColor'] = this.colors[1];
-                options['zeroBarColor'] = this.colors[2];
                 options['barWidth'] =
                     this.rootElement.clientWidth / valueAsArray.length;
                 break;
 
             default:
                 options['type'] = 'bar';
-                options['barColor'] = this.colors[0];
-                options['negBarColor'] = this.colors[1];
-                options['zeroBarColor'] = this.colors[2];
+                options['barColor'] = colors[0];
+                options['negBarColor'] = colors[1];
+                options['zeroBarColor'] = colors[2];
                 options['barWidth'] =
                     this.rootElement.clientWidth / valueAsArray.length;
         }
@@ -457,18 +489,48 @@ export class KupChart {
         return ints;
     }
 
+    private fetchThemeColors() {
+        let color1 = document.documentElement.style.getPropertyValue(
+            '--kup-chart-color-1'
+        );
+        let color2 = document.documentElement.style.getPropertyValue(
+            '--kup-chart-color-2'
+        );
+        let color3 = document.documentElement.style.getPropertyValue(
+            '--kup-chart-color-3'
+        );
+        let color4 = document.documentElement.style.getPropertyValue(
+            '--kup-chart-color-4'
+        );
+        this.themeText = document.documentElement.style.getPropertyValue(
+            '--kup-text-color'
+        );
+        this.themeColors = [color1, color2, color3, color4];
+    }
+
     //---- Lifecycle hooks ----
 
+    componentWillLoad() {
+        setThemeCustomStyle(this);
+        this.fetchThemeColors();
+    }
+
+    disconnectedCallBack() {
+        this.observer.unobserve(this.rootElement);
+    }
+
     componentDidLoad() {
-        const observer = new ResizeObserver(() => {
+        this.observer = new ResizeObserver(() => {
             if (!this.offlineMode) {
                 const options = this.createGoogleChartOptions();
-                this.gChart.draw(this.gChartView, options);
+                try {
+                    this.gChart.draw(this.gChartView, options);
+                } catch (error) {}
             } else {
                 this.loadOfflineChart();
             }
         });
-        observer.observe(this.rootElement);
+        this.observer.observe(this.rootElement);
 
         if (!this.offlineMode && (!this.axis || !this.series)) {
             return;
@@ -523,7 +585,8 @@ export class KupChart {
         };
 
         return (
-            <Host style={this.elStyle}>
+            <Host class="handles-custom-style" style={this.elStyle}>
+                <style>{setCustomStyle(this)}</style>
                 <div
                     id="kup-component"
                     ref={(chartContainer) =>

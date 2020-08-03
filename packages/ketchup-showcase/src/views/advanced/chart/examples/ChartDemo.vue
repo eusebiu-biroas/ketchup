@@ -1,12 +1,6 @@
 <template>
   <div>
-    <demo
-      :demoTabs="demoTabs"
-      :demoComp="demoComp"
-      :demoProps="demoProps"
-      :demoEvents="demoEvents"
-      :demoData="demoData"
-    ></demo>
+    <demo :demoComp="demoComp" :demoEvents="demoEvents" :demoProps="demoProps" :demoTabs="demoTabs"></demo>
   </div>
 </template>
 
@@ -21,29 +15,13 @@ export default {
   name: 'ChartDemo',
   data() {
     return {
-      demoTabs: [
+      demoComp: createComp(),
+      demoEvents: [
         {
-          text: 'Props',
-          icon: '',
-          active: true,
-        },
-        {
-          text: 'Events',
-          icon: '',
-          active: false,
-        },
-        {
-          text: 'HTML',
-          icon: '',
-          active: false,
-        },
-        {
-          text: 'JSON',
-          icon: '',
-          active: false,
+          name: 'kupChartClicked',
+          type: 'click',
         },
       ],
-      demoComp: '<kup-chart legend id="demo-component"></kup-chart>',
       demoProps: [
         {
           prop: 'asp',
@@ -66,6 +44,14 @@ export default {
           type: 'string[]',
           default: '[]',
           try: 'array',
+        },
+        {
+          prop: 'customStyle',
+          description:
+            'Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization.',
+          type: 'string',
+          default: 'undefined',
+          try: 'css',
         },
         {
           prop: 'data',
@@ -179,21 +165,41 @@ export default {
           try: 'field',
         },
       ],
-      demoEvents: [
+      demoTabs: [
         {
-          name: 'kupChartClicked',
-          type: 'click',
+          text: 'Props',
+          icon: '',
+          active: true,
+        },
+        {
+          text: 'Events',
+          icon: '',
+          active: false,
+        },
+        {
+          text: 'HTML',
+          icon: '',
+          active: false,
+        },
+        {
+          text: 'JSON',
+          icon: '',
+          active: false,
         },
       ],
-      demoData: {
-        asp: '2D',
-        axis: 'Col1',
-        colors: ['#fc8e1c', 'Black', '#45c4ea'],
-        data: baseData,
-        series: ['Col2', 'Col3', 'Col4'],
-        types: ['Hbar'],
-      },
     };
   },
 };
+
+function createComp() {
+  let comp = document.createElement('kup-chart');
+  comp.asp = '2D';
+  comp.axis = 'Col1';
+  comp.data = baseData;
+  comp.id = 'demo-component';
+  comp.legend = true;
+  comp.series = ['Col2', 'Col3', 'Col4'];
+  comp.type = ['Hbar'];
+  return comp;
+}
 </script>

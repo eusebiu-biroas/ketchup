@@ -15,7 +15,7 @@ import { MDCFormField } from '@material/form-field';
 import { MDCTextFieldHelperText } from '@material/textfield/helper-text';
 import { MDCTextFieldCharacterCounter } from '@material/textfield/character-counter';
 import { MDCTextFieldIcon } from '@material/textfield/icon';
-import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
+import { setThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 
 @Component({
     tag: 'kup-text-field',
@@ -25,10 +25,10 @@ import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 export class KupTextField {
     @Element() rootElement: HTMLElement;
     @State() value: string = '';
-    @State() refresh: boolean = false;
+    @State() customStyleTheme: string = undefined;
 
     /**
-     * Custom style to be passed to the component.
+     * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
      */
     @Prop({ reflect: true }) customStyle: string = undefined;
     /**
@@ -227,6 +227,11 @@ export class KupTextField {
 
     //---- Methods ----
 
+    @Method()
+    async refreshCustomStyle(customStyleTheme: string) {
+        this.customStyleTheme = customStyleTheme;
+    }
+
     onKupBlur(event: UIEvent & { target: HTMLInputElement }) {
         const { target } = event;
         this.kupBlur.emit({
@@ -322,7 +327,7 @@ export class KupTextField {
     //---- Lifecycle hooks ----
 
     componentWillLoad() {
-        fetchThemeCustomStyle(this, false);
+        setThemeCustomStyle(this);
         this.watchInitialValue();
     }
 
@@ -672,7 +677,7 @@ export class KupTextField {
         }
 
         return (
-            <Host style={elStyle}>
+            <Host class="handles-custom-style" style={elStyle}>
                 <style>{setCustomStyle(this)}</style>
                 <div id="kup-component" class={wrapperClass} style={elStyle}>
                     {widgetEl}

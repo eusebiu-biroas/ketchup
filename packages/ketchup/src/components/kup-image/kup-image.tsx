@@ -9,11 +9,12 @@ import {
     EventEmitter,
     State,
     h,
+    Method,
 } from '@stencil/core';
 import { Badge, CssDraw } from './kup-image-declarations';
 import { errorLogging } from '../../utils/error-logging';
 import { imageCanvas } from './canvas/kup-image-canvas';
-import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
+import { setThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 
 @Component({
     tag: 'kup-image',
@@ -23,7 +24,7 @@ import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 })
 export class KupImage {
     @Element() rootElement: HTMLElement;
-    @State() refresh: boolean = false;
+    @State() customStyleTheme: string = undefined;
 
     /**
      * Sets the data of badges.
@@ -34,7 +35,7 @@ export class KupImage {
      */
     @Prop({ reflect: true }) color: string = 'var(--kup-icon-color)';
     /**
-     * Custom style to be passed to the component.
+     * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
      */
     @Prop({ reflect: true }) customStyle: string = undefined;
     /**
@@ -89,6 +90,11 @@ export class KupImage {
 
     //---- Methods ----
 
+    @Method()
+    async refreshCustomStyle(customStyleTheme: string) {
+        this.customStyleTheme = customStyleTheme;
+    }
+
     onKupClick(e: Event) {
         this.kupClick.emit({
             el: e.target,
@@ -110,8 +116,9 @@ export class KupImage {
     }
 
     //---- Lifecycle hooks ----
+
     componentWillLoad() {
-        fetchThemeCustomStyle(this, false);
+        setThemeCustomStyle(this);
 
         if (this.isCanvas) {
             this.imageCanvas = new imageCanvas();
@@ -287,7 +294,7 @@ export class KupImage {
         }
 
         return (
-            <Host style={this.elStyle}>
+            <Host class="handles-custom-style" style={this.elStyle}>
                 <style>{setCustomStyle(this)}</style>
                 {feedback}
                 {el}

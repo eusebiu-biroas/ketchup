@@ -239,7 +239,6 @@
           },
           "value": "4;27;34;52;54;59;61;68;78;82;85;87;91;93;100",
           "config": {
-            "colors": ["rgba(21,24,55,0.25)", "transparent", "purple"],
             "id": "box_example",
             "sizeX": "100px",
             "sizeY": "100px",
@@ -278,7 +277,6 @@
           },
           "value": "1;1;-1;1;0;0;-1",
           "config": {
-            "colors": ["green", "red", "purple"],
             "id": "tri_example",
             "sizeX": "100px",
             "sizeY": "100px",

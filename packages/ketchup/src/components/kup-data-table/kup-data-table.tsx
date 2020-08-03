@@ -278,6 +278,16 @@ export class KupDataTable {
      */
     @Prop() lineBreakCharacter: string = '|';
 
+    /**
+     * Defines the timout for tooltip load  
+     */
+    @Prop() tooltipLoadTimeout: number;
+
+    /**
+     * Defines the timout for tooltip detail  
+     */
+    @Prop() tooltipDetailTimeout: number;
+
     //-------- State --------
 
     @State()
@@ -2824,6 +2834,8 @@ export class KupDataTable {
             content = (
                 <kup-tooltip
                     class="datatable-tooltip"
+                    loadTimeout={this.tooltipLoadTimeout}
+                    detailTimeout={this.tooltipDetailTimeout}
                     onKupTooltipLoadData={(ev) =>
                         this.kupLoadRequest.emit({
                             cell,

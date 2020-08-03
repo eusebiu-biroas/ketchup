@@ -13,7 +13,7 @@ import {
 import { KupFldChangeEvent, KupFldSubmitEvent } from './kup-field-declarations';
 
 import { errorLogging } from '../../utils/error-logging';
-import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
+import { setThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 
 @Component({
     tag: 'kup-field',
@@ -22,10 +22,10 @@ import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 })
 export class KupField {
     @Element() rootElement: HTMLElement;
-    @State() refresh: boolean = false;
+    @State() customStyleTheme: string = undefined;
 
     /**
-     * Custom style to be passed to the component.
+     * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
      */
     @Prop({ reflect: true }) customStyle: string = undefined;
 
@@ -98,6 +98,11 @@ export class KupField {
 
     //---- Methods ----
 
+    @Method()
+    async refreshCustomStyle(customStyleTheme: string) {
+        this.customStyleTheme = customStyleTheme;
+    }
+
     // When a change or update event must be launched as if it's coming from the FLD itself
     onChange(event: CustomEvent) {
         const { value, info } = event.detail;
@@ -141,7 +146,7 @@ export class KupField {
     //---- Lifecycle hooks ----
 
     componentWillLoad() {
-        fetchThemeCustomStyle(this, false);
+        setThemeCustomStyle(this);
     }
 
     render() {
@@ -252,7 +257,7 @@ export class KupField {
         }
 
         return (
-            <Host>
+            <Host class="handles-custom-style">
                 <style>{setCustomStyle(this)}</style>
                 <div id="kup-component" class={wrapperClass}>
                     {toRender}

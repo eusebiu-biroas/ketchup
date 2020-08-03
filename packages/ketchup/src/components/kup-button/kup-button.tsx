@@ -7,10 +7,11 @@ import {
     EventEmitter,
     State,
     h,
+    Method,
 } from '@stencil/core';
 import { MDCRipple } from '@material/ripple';
 import { MDCIconButtonToggle } from '@material/icon-button';
-import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
+import { setThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 
 @Component({
     tag: 'kup-button',
@@ -20,14 +21,14 @@ import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 export class KupButton {
     @Element() rootElement: HTMLElement;
     @State() value: string = '';
-    @State() refresh: boolean = false;
+    @State() customStyleTheme: string = undefined;
 
     /**
      * Defaults at false. When set to true, the icon button state will be on.
      */
     @Prop({ reflect: true }) checked: boolean = false;
     /**
-     * Custom style to be passed to the component.
+     * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
      */
     @Prop({ reflect: true }) customStyle: string = undefined;
     /**
@@ -118,6 +119,11 @@ export class KupButton {
 
     //---- Methods ----
 
+    @Method()
+    async refreshCustomStyle(customStyleTheme: string) {
+        this.customStyleTheme = customStyleTheme;
+    }
+
     onKupBlur() {
         this.kupBlur.emit({
             id: this.rootElement.id,
@@ -153,7 +159,7 @@ export class KupButton {
     //---- Lifecycle hooks ----
 
     componentWillLoad() {
-        fetchThemeCustomStyle(this, false);
+        setThemeCustomStyle(this);
     }
 
     componentWillRender() {
@@ -258,7 +264,7 @@ export class KupButton {
                 trailingEl = labelEl;
             }
             return (
-                <Host style={elStyle}>
+                <Host class="handles-custom-style" style={elStyle}>
                     <style>{setCustomStyle(this)}</style>
                     <div id="kup-component" style={elStyle}>
                         <button
@@ -324,7 +330,7 @@ export class KupButton {
                 );
             }
             return (
-                <Host>
+                <Host class="handles-custom-style">
                     <style>{setCustomStyle(this)}</style>
                     <div id="kup-component">
                         {/* 

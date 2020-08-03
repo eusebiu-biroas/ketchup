@@ -1,7 +1,16 @@
-import { Component, Prop, Element, Host, State, h, JSX } from '@stencil/core';
+import {
+    Component,
+    Prop,
+    Element,
+    Host,
+    State,
+    h,
+    JSX,
+    Method,
+} from '@stencil/core';
 import { ComponentGridElement } from './kup-grid-declarations';
 import { errorLogging } from '../../utils/error-logging';
-import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
+import { setThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 
 @Component({
     tag: 'kup-grid',
@@ -10,14 +19,14 @@ import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 })
 export class KupGrid {
     @Element() rootElement: HTMLElement;
-    @State() refresh: boolean = false;
+    @State() customStyleTheme: string = undefined;
 
     /**
      * The number of columns displayed by the grid, the default behavior is 12.
      */
     @Prop({ reflect: true }) columns: number = 12;
     /**
-     * Custom style to be passed to the component.
+     * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
      */
     @Prop({ reflect: true }) customStyle: string = undefined;
     /**
@@ -35,10 +44,17 @@ export class KupGrid {
 
     private elStyle = undefined;
 
+    //---- Methods ----
+
+    @Method()
+    async refreshCustomStyle(customStyleTheme: string) {
+        this.customStyleTheme = customStyleTheme;
+    }
+
     //---- Lifecycle hooks ----
 
     componentWillLoad() {
-        fetchThemeCustomStyle(this, false);
+        setThemeCustomStyle(this);
     }
 
     render() {
@@ -100,7 +116,7 @@ export class KupGrid {
         }
 
         return (
-            <Host style={this.elStyle}>
+            <Host class="handles-custom-style" style={this.elStyle}>
                 <style>{setCustomStyle(this)}</style>
                 <div id="kup-component">
                     <div class={componentClass}>

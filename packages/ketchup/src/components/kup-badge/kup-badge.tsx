@@ -5,11 +5,13 @@ import {
     Event,
     EventEmitter,
     h,
+    State,
     Host,
+    Method,
 } from '@stencil/core';
 import { BadgePosition } from './kup-badge-declarations';
 import { errorLogging } from '../../utils/error-logging';
-import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
+import { setThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 
 @Component({
     tag: 'kup-badge',
@@ -18,9 +20,10 @@ import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 })
 export class KupBadge {
     @Element() rootElement: HTMLElement;
+    @State() customStyleTheme: string = undefined;
 
     /**
-     * Custom style to be passed to the component.
+     * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
      */
     @Prop({ reflect: true }) customStyle: string = undefined;
     /**
@@ -48,6 +51,11 @@ export class KupBadge {
 
     //---- Methods ----
 
+    @Method()
+    async refreshCustomStyle(customStyleTheme: string) {
+        this.customStyleTheme = customStyleTheme;
+    }
+
     onKupClick(e: Event) {
         this.kupClick.emit({
             el: e.target,
@@ -57,7 +65,7 @@ export class KupBadge {
     //---- Lifecycle hooks ----
 
     componentWillLoad() {
-        fetchThemeCustomStyle(this, false);
+        setThemeCustomStyle(this);
     }
 
     render() {
@@ -78,6 +86,7 @@ export class KupBadge {
             'top-right': isTopRight,
             'bottom-right': isBottomRight,
             'bottom-left': isBottomLeft,
+            'handles-custom-style': true,
         };
 
         if (this.text === undefined && this.imageData !== undefined) {

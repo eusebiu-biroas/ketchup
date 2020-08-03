@@ -8,6 +8,7 @@ import {
     State,
     h,
     Listen,
+    Method,
 } from '@stencil/core';
 import {
     ComponentNavBarData,
@@ -19,7 +20,7 @@ import { MDCTopAppBar } from '@material/top-app-bar';
 import { ComponentListElement } from '../kup-list/kup-list-declarations';
 import { positionRecalc } from '../../utils/recalc-position';
 import {
-    fetchThemeCustomStyle,
+    setThemeCustomStyle,
     setCustomStyle,
     dynColorContrast,
 } from '../../utils/theming';
@@ -31,10 +32,10 @@ import {
 })
 export class KupNavBar {
     @Element() rootElement: HTMLElement;
-    @State() refresh: boolean = false;
+    @State() customStyleTheme: string = undefined;
 
     /**
-     * Custom style to be passed to the component.
+     * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
      */
     @Prop({ reflect: true }) customStyle: string = undefined;
     /**
@@ -97,7 +98,13 @@ export class KupNavBar {
     kupNavbarOptionItemClick: EventEmitter<{
         value: any;
     }>;
+
     //---- Methods ----
+
+    @Method()
+    async refreshCustomStyle(customStyleTheme: string) {
+        this.customStyleTheme = customStyleTheme;
+    }
 
     onKupNavbarMenuItemClick(e: CustomEvent) {
         let selectedValue: string = e.detail.selected.value;
@@ -192,7 +199,7 @@ export class KupNavBar {
     //---- Lifecycle hooks ----
 
     componentWillLoad() {
-        fetchThemeCustomStyle(this, false);
+        setThemeCustomStyle(this);
     }
 
     componentDidRender() {
@@ -341,7 +348,7 @@ export class KupNavBar {
             'mdc-top-app-bar ' + getClassNameByComponentMode(this.mode);
         let titleStyle = { color: this.dynColor };
         return (
-            <Host>
+            <Host class="handles-custom-style">
                 <style>{setCustomStyle(this)}</style>
                 <div id="kup-component" class={wrapperClass}>
                     <header class={headerClassName}>

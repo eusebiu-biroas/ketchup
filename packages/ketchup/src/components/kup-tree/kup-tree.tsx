@@ -9,6 +9,7 @@ import {
     h,
     Watch,
     JSX,
+    Method,
 } from '@stencil/core';
 
 import { Cell, Column } from './../kup-data-table/kup-data-table-declarations';
@@ -50,7 +51,7 @@ import {
 import { buildButtonConfig } from '../../utils/widget-utils';
 import { getBoolean } from '../../utils/utils';
 import numeral from 'numeral';
-import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
+import { setThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 
 @Component({
     tag: 'kup-tree',
@@ -59,7 +60,7 @@ import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 })
 export class KupTree {
     @Element() rootElement: HTMLElement;
-    @State() refresh: boolean = false;
+    @State() customStyleTheme: string = undefined;
 
     /**
      * Auto select programmatic selectic node
@@ -70,7 +71,7 @@ export class KupTree {
      */
     @Prop() columns?: Column[];
     /**
-     * Custom style to be passed to the component.
+     * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
      */
     @Prop({ reflect: true }) customStyle: string = undefined;
     /**
@@ -283,9 +284,16 @@ export class KupTree {
         tooltip: EventTarget;
     }>;
 
+    //---- Methods ----
+
+    @Method()
+    async refreshCustomStyle(customStyleTheme: string) {
+        this.customStyleTheme = customStyleTheme;
+    }
+
     //-------- Lifecycle hooks --------
     componentWillLoad() {
-        fetchThemeCustomStyle(this, false);
+        setThemeCustomStyle(this);
 
         if (this.data) {
             // When the nodes must be expanded upon loading and the tree is not using a dynamicExpansion (and the current TreeNode is not disabled)
@@ -1184,7 +1192,7 @@ export class KupTree {
             );
         }
         return (
-            <Host>
+            <Host class="handles-custom-style">
                 <style>{setCustomStyle(this)}</style>
                 <div id="kup-component" class={wrapperClass}>
                     <div

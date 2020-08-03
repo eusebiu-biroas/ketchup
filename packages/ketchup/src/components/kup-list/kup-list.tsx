@@ -19,7 +19,7 @@ import { KupCheckbox } from '../kup-checkbox/kup-checkbox';
 import { ItemsDisplayMode } from './kup-list-declarations';
 import { getValueOfItemByDisplayMode } from './kup-list-declarations';
 import { KupImage } from '../kup-image/kup-image';
-import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
+import { setThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 
 @Component({
     tag: 'kup-list',
@@ -28,7 +28,7 @@ import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 })
 export class KupList {
     @Element() rootElement: HTMLElement;
-    @State() refresh: boolean = false;
+    @State() customStyleTheme: string = undefined;
 
     /**
      * Used to navigate the list when it's bound to a text field, i.e.: autocomplete.
@@ -36,7 +36,7 @@ export class KupList {
     @Prop({ mutable: true, reflect: true }) arrowDown: boolean = false;
     @Prop({ mutable: true, reflect: true }) arrowUp: boolean = false;
     /**
-     * Sets a custom style for the component by feeding this string into a <style> tag.
+     * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
      */
     @Prop({ reflect: true }) customStyle: string = undefined;
     /**
@@ -196,9 +196,12 @@ export class KupList {
         }
     }
 
-    /**
-     * --- Methods ----
-     */
+    //---- Methods ----
+
+    @Method()
+    async refreshCustomStyle(customStyleTheme: string) {
+        this.customStyleTheme = customStyleTheme;
+    }
 
     onKupBlur(e: CustomEvent, item: ComponentListElement) {
         this.kupBlur.emit({
@@ -491,7 +494,7 @@ export class KupList {
     //---- Lifecycle hooks ----
 
     componentWillLoad() {
-        fetchThemeCustomStyle(this, false);
+        setThemeCustomStyle(this);
     }
 
     componentDidLoad() {
@@ -576,7 +579,7 @@ export class KupList {
         let index = 0;
 
         return (
-            <Host>
+            <Host class="handles-custom-style">
                 <style>{setCustomStyle(this)}</style>
                 <div id="kup-component" class={wrapperClass}>
                     <ul

@@ -8,6 +8,7 @@ import {
     State,
     h,
     Listen,
+    Method,
 } from '@stencil/core';
 
 import { positionRecalc } from '../../utils/recalc-position';
@@ -15,7 +16,7 @@ import {
     ItemsDisplayMode,
     consistencyCheck,
 } from '../kup-list/kup-list-declarations';
-import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
+import { setThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 
 @Component({
     tag: 'kup-combobox',
@@ -24,10 +25,10 @@ import { fetchThemeCustomStyle, setCustomStyle } from '../../utils/theming';
 })
 export class KupCombobox {
     @Element() rootElement: HTMLElement;
-    @State() refresh: boolean = false;
+    @State() customStyleTheme: string = undefined;
 
     /**
-     * Custom style to be passed to the component.
+     * Custom style of the component. For more information: https://ketchup.smeup.com/ketchup-showcase/#/customization
      */
     @Prop({ reflect: true }) customStyle: string = undefined;
     /**
@@ -154,9 +155,13 @@ export class KupCombobox {
             }
         }
     }
-    /**
-     * --- Methods ----
-     */
+
+    //---- Methods ----
+
+    @Method()
+    async refreshCustomStyle(customStyleTheme: string) {
+        this.customStyleTheme = customStyleTheme;
+    }
 
     onKupBlur(e: UIEvent & { target: HTMLInputElement }) {
         this.closeList();
@@ -273,39 +278,6 @@ export class KupCombobox {
             this.textfieldEl,
             this.selectMode
         );
-        /*
-        var firstSelectedFound = false;
-
-        if (this.listData['data']) {
-            for (let i = 0; i < this.listData['data'].length; i++) {
-                if (this.listData['data'][i].selected && firstSelectedFound) {
-                    this.listData['data'][i].selected = false;
-                    let message =
-                        'Found occurence of data(' +
-                        i +
-                        ") to be set on 'selected' when another one was found before! Overriding to false because only 1 'selected' is allowed in this menu.";
-
-                    errorLogging(this.rootElement.tagName, message);
-                }
-                if (this.listData['data'][i].selected && !firstSelectedFound) {
-                    firstSelectedFound = true;
-                    this.value = getValueOfItemByDisplayMode(
-                        this.listData['data'][i],
-                        this.selectMode,
-                        ' - '
-                    );
-                    if (this.textfieldEl) {
-                        if (this.textfieldEl.initialValue === this.value) {
-                            this.textfieldEl.initialValue = '';
-                            this.textfieldEl.initialValue = this.value;
-                        } else {
-                            this.textfieldEl.initialValue = this.value;
-                        }
-                    }
-                }
-            }
-        }
-        */
     }
 
     prepTextfield() {
@@ -365,7 +337,7 @@ export class KupCombobox {
     //---- Lifecycle hooks ----
 
     componentWillLoad() {
-        fetchThemeCustomStyle(this, false);
+        setThemeCustomStyle(this);
     }
 
     componentDidRender() {
@@ -378,7 +350,11 @@ export class KupCombobox {
         let listEl = this.prepList();
 
         return (
-            <Host onBlur={(e: any) => this.onKupBlur(e)} style={this.elStyle}>
+            <Host
+                class="handles-custom-style"
+                onBlur={(e: any) => this.onKupBlur(e)}
+                style={this.elStyle}
+            >
                 <style>{setCustomStyle(this)}</style>
                 <div id="kup-component" style={this.elStyle}>
                     {textfieldEl}
