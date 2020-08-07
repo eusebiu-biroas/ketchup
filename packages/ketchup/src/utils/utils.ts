@@ -1,5 +1,8 @@
 import get from 'lodash/get';
 import numeral from 'numeral';
+//import moment from 'moment-with-locales-es6';
+import moment from '../../node_modules/moment/min/moment-with-locales';
+//import moment from 'moment/min/moment-with-locales';
 
 export function format(first: string, middle: string, last: string): string {
     return (
@@ -208,4 +211,60 @@ export function _numberToString(
               }
             : {};
     return n.toLocaleString(locale, f);
+}
+
+/**
+ * input formatted YYYYMMGG
+ * output Date
+ **/
+export function unformatDate(value: string): Date {
+    let format = 'YYYYMMDD';
+    return moment(value, format).toDate();
+}
+
+/**
+ * input formatted by actual browser locale
+ * output formatted YYYYMMGG
+ **/
+export function formattedStringToUnformattedStringDate(value: string): string {
+    var localeData = moment.localeData();
+    var format = localeData.longDateFormat('L');
+    return moment(value, format).format('YYYYMMDD');
+}
+
+/**
+ * input formatted YYYYMMGG
+ * output formatted by actual browser locale
+ **/
+export function unformattedStringToFormattedStringDate(
+    input: string,
+    customedFormat: string
+): string {
+    var m = moment(input, 'YYYYMMDD');
+    console.log(
+        'unformattedStringToFormattedStringDate 1 m.locale()=' + m.locale()
+    );
+
+    m = m.locale(navigator.language);
+    console.log(
+        'unformattedStringToFormattedStringDate 2 m.locale()=' +
+            m.locale() +
+            ' navigator.language=' +
+            navigator.language +
+            " m.localeData().longDateFormat('L')=" +
+            m.localeData().longDateFormat('L')
+    );
+    var localeData = m.localeData();
+    var format = localeData.longDateFormat('L');
+    console.log(
+        'unformattedStringToFormattedStringDate customedFormat=' +
+            customedFormat
+    );
+    console.log(
+        'unformattedStringToFormattedStringDate input=' +
+            input +
+            ' format=' +
+            format
+    );
+    return m.format(format);
 }

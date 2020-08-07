@@ -78,6 +78,9 @@ import {
     numberToString,
     formattedStringToUnformattedStringNumber,
     unformattedStringToFormattedStringNumber,
+    unformatDate,
+    formattedStringToUnformattedStringDate,
+    unformattedStringToFormattedStringDate,
 } from '../../utils/utils';
 import { ComponentChipElement } from '../kup-chip/kup-chip-declarations';
 
@@ -86,7 +89,6 @@ import {
     ItemsDisplayMode,
 } from '../kup-list/kup-list-declarations';
 import { errorLogging } from '../../utils/error-logging';
-import { unformatDate } from '../../utils/cell-formatter';
 
 @Component({
     tag: 'kup-data-table',
@@ -1183,6 +1185,9 @@ export class KupDataTable {
         if (newFilter != '' && isNumber(column.obj)) {
             newFilter = formattedStringToUnformattedStringNumber(newFilter);
         }
+        if (newFilter != '' && isDate(column.obj)) {
+            newFilter = formattedStringToUnformattedStringDate(newFilter);
+        }
 
         const newFilters: GenericFilter = { ...this.filters };
         setTextFieldFilterValue(newFilters, column.name, newFilter);
@@ -1934,6 +1939,12 @@ export class KupDataTable {
                                 column.decimals
                             );
                         }
+                        if (filterInitialValue != '' && isDate(column.obj)) {
+                            filterInitialValue = unformattedStringToFormattedStringDate(
+                                filterInitialValue,
+                                column.obj.p
+                            );
+                        }
                         columnMenuItems.push(
                             <li role="menuitem" class="textfield-row">
                                 <kup-text-field
@@ -1993,6 +2004,11 @@ export class KupDataTable {
                                 label = unformattedStringToFormattedStringNumber(
                                     v,
                                     column.decimals
+                                );
+                            } else if (v != '' && isDate(column.obj)) {
+                                label = unformattedStringToFormattedStringDate(
+                                    v,
+                                    column.obj.p
                                 );
                             }
 
@@ -2794,6 +2810,7 @@ export class KupDataTable {
                 </a>
             );
         } else if (isNumber(cell.obj)) {
+            //pascar add isDate(...)
             content = valueToDisplay;
 
             if (content && content != '') {
