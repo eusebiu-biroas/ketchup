@@ -15,7 +15,7 @@ import {
 } from './kup-data-table-declarations';
 
 import { isNumber, isDate } from '../../utils/object-utils';
-import { isEmpty, stringToNumber } from '../../utils/utils';
+import { isEmpty, stringToNumber, unformatDate } from '../../utils/utils';
 import { errorLogging } from '../../utils/error-logging';
 import {
     isFilterCompliantForValue,
@@ -804,9 +804,10 @@ function compareCell(cell1: Cell, cell2: Cell, sortMode: SortMode): number {
 
     // date
     if (isDate(obj1)) {
-        let m1: moment.Moment;
-        let m2: moment.Moment;
+        let m1: moment.Moment = moment(unformatDate(cell1.value));
+        let m2: moment.Moment = moment(unformatDate(cell2.value));
 
+        /*
         if (obj1.p === '*YYMD') {
             m1 = moment(obj1.k, 'YYYYMMDD');
             m2 = moment(obj2.k, 'YYYYMMDD');
@@ -816,7 +817,7 @@ function compareCell(cell1: Cell, cell2: Cell, sortMode: SortMode): number {
         } else {
             // no valid format -> check via k
             return sm * localCompareAsInJava(obj1.k, obj2.k);
-        }
+        } */
 
         if (m1.isSame(m2)) {
             return 0;

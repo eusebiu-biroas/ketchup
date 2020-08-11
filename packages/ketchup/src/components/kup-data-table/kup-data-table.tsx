@@ -2810,7 +2810,6 @@ export class KupDataTable {
                 </a>
             );
         } else if (isNumber(cell.obj)) {
-            //pascar add isDate(...)
             content = valueToDisplay;
 
             if (content && content != '') {
@@ -2823,6 +2822,16 @@ export class KupDataTable {
                 if (cellValueNumber < 0) {
                     classObj['negative-number'] = true;
                 }
+            }
+        } else if (isDate(cell.obj)) {
+            content = valueToDisplay;
+
+            if (content && content != '') {
+                const cellValue = unformattedStringToFormattedStringDate(
+                    cell.value,
+                    column.obj.p
+                );
+                content = cellValue;
             }
         } else if (isProgressBar(cell.obj)) {
             if (props) {
