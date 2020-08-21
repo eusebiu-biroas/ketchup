@@ -105,6 +105,16 @@ export class KupNavBar {
         value: any;
     }>;
 
+    @Event({
+        eventName: 'kupNavbarMenuClick',
+        composed: true,
+        cancelable: false,
+        bubbles: true,
+    })
+    kupNavbarMenuClick: EventEmitter<{
+        value: any;
+    }>;
+
     //---- Methods ----
 
     @Method()
@@ -136,6 +146,10 @@ export class KupNavBar {
         this.kupNavbarOptionItemClick.emit({
             value: selectedValue,
         });
+    }
+
+    onKupNavbarMenuClick() {
+        this.kupNavbarMenuClick.emit();
     }
 
     onKupOptionButtonClick(value: string) {
@@ -369,9 +383,11 @@ export class KupNavBar {
                     customStyle={`:host{ --kup-main-color: ${this.textColor}; }`}
                     icon="menu"
                     iconColor={this.textColor}
-                    tooltip="Open navigation menu"
-                    disabled={menuButtons.length == 0}
-                    onKupButtonClick={() => this.openList(this.menuListEl)}
+                    tooltip="Open Navigation Menu"
+                    onKupButtonClick={() => {
+                        this.openList(this.menuListEl);
+                        this.onKupNavbarMenuClick();
+                    }}
                     onClick={(e) => e.stopPropagation()}
                     ref={(el) => (this.menuButtonEl = el as any)}
                 ></kup-button>
