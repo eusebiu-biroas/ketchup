@@ -1,9 +1,7 @@
 import get from 'lodash/get';
 import numeral from 'numeral';
-//import moment from 'moment-with-locales-es6';
-import moment from '../../node_modules/moment/min/moment-with-locales';
-//import moment from 'moment/min/moment-with-locales';
-//import moment from 'moment';
+//import moment from '../../node_modules/moment/min/moment-with-locales';
+import moment from 'moment/min/moment-with-locales';
 
 export function format(first: string, middle: string, last: string): string {
     return (
@@ -215,7 +213,7 @@ export function _numberToString(
 }
 
 /**
- * input formatted YYYYMMGG
+ * input formatted YYYYMMDD
  * output Date
  **/
 export function unformatDate(value: string): Date {
@@ -225,7 +223,7 @@ export function unformatDate(value: string): Date {
 
 /**
  * input formatted by actual browser locale
- * output formatted YYYYMMGG
+ * output formatted YYYYMMDD
  **/
 export function formattedStringToUnformattedStringDate(value: string): string {
     var m = moment();
@@ -235,8 +233,8 @@ export function formattedStringToUnformattedStringDate(value: string): string {
 }
 
 /**
- * input formatted YYYYMMGG
- * customedFormat date frmat from smeupObject (TODO: must me managed)
+ * input formatted YYYYMMDD
+ * customedFormat date format from smeupObject (TODO: must me managed)
  * output formatted by actual browser locale
  **/
 export function unformattedStringToFormattedStringDate(
@@ -261,7 +259,7 @@ export function unformattedStringToFormattedStringDate(
     console.log(
         'unformattedStringToFormattedStringDate input=' +
             input +
-            'customedFormat=' +
+            ' customedFormat=' +
             customedFormat
     );
     return m.format(format);
