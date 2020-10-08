@@ -1687,7 +1687,7 @@ export class KupBox {
                         label="Search..."
                         icon="magnify"
                         initialValue={this.globalFilterValueState}
-                        onKupTextFieldSubmit={(event) =>
+                        onKupTextFieldInput={(event) =>
                             this.onGlobalFilterChange(event)
                         }
                         onKupTextFieldClearIconClick={(event) =>
