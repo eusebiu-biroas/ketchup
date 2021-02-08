@@ -21,6 +21,11 @@ export function isButton(smeupObj: Object): boolean {
     return 'J4' === smeupObj.t && 'BTN' === smeupObj.p;
 }
 
+export function isTextField(smeupObj: Object): boolean {
+  if (smeupObj == null) return false;
+  return 'J4' === smeupObj.t && 'TEXTFIELD' === smeupObj.p;
+}
+
 export function isRadio(smeupObj: Object): boolean {
     if (smeupObj == null) return false;
     return 'V2' === smeupObj.t && 'RADIO' === smeupObj.p;
